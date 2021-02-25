@@ -1,0 +1,4 @@
+﻿{
+  "prefix":  "-",
+  "mongo": "mongodb://SPC0:token9tails69@spc-shard-00-00.hrjpa.mongodb.net:27017,spc-shard-00-01.hrjpa.mongodb.net:27017,spc-shard-00-02.hrjpa.mongodb.net:27017/Account?ssl=true&replicaSet=atlas-rtbmug-shard-0&authSource=admin&retryWrites=true&w=majority"
+}
