@@ -6,11 +6,12 @@ const Gamedata = require('./data/hh3data.json');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const jstring = require('./bot.json');
-client.login(process.env.token);
 mongoose.connect(jstring.mongo,{
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
+//client.login(process.env.token);
+client.login(process.env.tokena);
 const prefix = jstring.prefix;
 const commandfiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for (const file of commandfiles) {
@@ -98,7 +99,7 @@ client.on('message', message => {
                 profiledata[index]= Number(rawprofiledata[index])
             }
             if(User.accountver==undefined)User.accountver =Gamedata.accountupdate;
-            if(User.multi==undefined|| User.id==207279179241226244&profiledata[16]==0.01||User.name=="Lite of the Moon"&profiledata[16]==10){
+            if(User.multi==undefined|| User.id=="207279179241226244"&profiledata[16]==0.01||User.name=="Lite of the Moon"&profiledata[16]==10){
                 User.multi=false;
                 var profilenames = User.Ary_HH3ProfileNames.split("<:>");
                 var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
@@ -344,6 +345,9 @@ client.on('message', message => {
                     case "disband":
                     client.commands.get('disband').run(message, arg, User);
                     break;
+                    case "spc":
+                        client.commands.get('spc').run(message, arg, User,client);
+                        break;
                     
             }
             var oldlv = User.level-1;
