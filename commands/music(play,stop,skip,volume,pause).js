@@ -1,5 +1,5 @@
 ﻿const Discord = require('discord.js');
-const ytdl = require('discord-ytdl-core');
+const ytdl = require('ytdl-core');
 const ytsh = require('youtube-sr');
 const queue = new Map();
 module.exports.run = async (message, arg, commandname ,User,client) => {
@@ -36,7 +36,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
             for(var result=0;video[result]!=undefined&result<video.length;result++){if(result>9){result=-1; break}}}
             if (result==-1||!video[result]) return message.channel.send(playerembed);
             newarg ="https://www.youtube.com/watch?v="+video[result].id;}
-            const thesong = await ytdl.getInfo(newarg,{filter: "audioonly",opusEncoded: true,fmt: "mp3",encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200']});
+            const thesong = await ytdl.getInfo(newarg);
             var pic = thesong.videoDetails.thumbnails[3].url;
             var upload = thesong.videoDetails.publishDate;
             var getpic = await ytsh.search(thesong.videoDetails.title);
@@ -193,7 +193,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
             queue.delete(guild.id);
             return 
         }
-        const dispatcher = serverqueue.connection.play(ytdl(song.url),{type:"opus"})
+        const dispatcher = serverqueue.connection.play(ytdl(song.url))
             .on('finish', () => {
                 if(serverqueue.songs[0]){
                if(serverqueue.songs[0].loop==false)serverqueue.songs.shift();

@@ -6,7 +6,8 @@ module.exports.run = async (message, arg, User) => {
     function IgnoringCase(text, other) {
         return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
     }
-    var itemnames = User.Shop_itemsnames.split("<:>");
+    if(User.Shop_itemsnames)var itemnames = User.Shop_itemsnames.split("<:>");
+    else return message.channel.send(buyembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var itembagnames = User.Ary_itembagnames.split("<:>");
     var equipnames = User.Ary_Equipmentnames.split("<:>");
     var rawequipmentdata = User.Ary_Equipmentdata.split("<:>");var equipmentdata = [];
@@ -105,7 +106,7 @@ var theitem = arg.split("x");
                                     }
                            }
                                 else if(mtl!=-1){
-                                    mtl+=10;
+                                    mtl+=12;
                                      if(itembagnames[mtl]==""){
                                          itembagnames[mtl] = namecheck;
                                      }
@@ -144,7 +145,7 @@ var theitem = arg.split("x");
                             }
                         }
                            else if(mtl!=-1){
-                               mtl+=10
+                               mtl+=12
                                 if(itembagnames[mtl]==""){
                                     itembagnames[mtl] = namecheck;
                                 }

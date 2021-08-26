@@ -1,8 +1,28 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
 module.exports.run = async (message, arg, User) => {
-    // temnum : [11] heroatkper [12] speed increase by [13] monster status effect [14] blank [15] speed decrease by [16] hero def decrease by
-    // [17] defper [18] critical timer [19] defense timer [20] speed timer [21] hero's acy decreased by [22] critical rate increase by [23] boss cheat check
+const heroembed = new Discord.MessageEmbed();
+const monstercheatembed = new Discord.MessageEmbed();
+const monstereffectembed = new Discord.MessageEmbed();
+const heroeffectembed = new Discord.MessageEmbed();
+const warnembed = new Discord.MessageEmbed();
+const warnembed2 = new Discord.MessageEmbed();
+const extraembed = new Discord.MessageEmbed();
+const herodefeatembed = new Discord.MessageEmbed();
+const monsterdefeatembed = new Discord.MessageEmbed();
+heroembed.setColor(User.colortheme);
+herodefeatembed.setColor(User.colortheme);
+monstercheatembed.setColor("#FF0000");
+monsterdefeatembed.setColor("#FF0000");
+warnembed.setColor("#FFFE00");
+warnembed2.setColor("#FFFE00")
+if(User.CombatMode>0){
+    // temnum : [11] monster def decrease [12] attack increase [13] monster status effect [14] hero sp increase [15] speed decrease by [16] hero def decrease by
+    // [17] defper [18] critical timer [19] defense timer [20] speed timer [21] hero's acy decreased by [22] critical rate increase by [23] temp ver saves
+    // [24] hero atk debuff  [25] perm skill effect(only one,gets replaced) [26] monster effect timer [27] skill effect monster [28] effect timer 
+    // [29] summon hp [30] summon atk pow [31] summon acy [46] party leader [47] who is first [48] (blank) herotwo status [49] herotwo sp pot
+    // [50] monster turn [51] monsterII turn [52] monster turn check [53] monstertwo turn check [54] hero turn check [55] hero spd [56] herotwo spd
+    // [57] hero revive timer [58] herotwo revive timer
     function RandomMinMax(min,max) {
         return Math.floor(Math.random() * (max+1 - min)) + min;
       }
@@ -19,6 +39,11 @@ return arr.filter(function(ele){return ele != value;});
     var equipnames = User.Ary_Equipmentnames.split("<:>");
     var itembagnames = User.Ary_itembagnames.split("<:>");
     var Imgset = User.Ary_Imgset.split("<:>");
+    var skillset = User.Ary_skills.split("<:>");
+    var skillslearned = User.skillslearned.split("<:>");
+    var rawskillsetdata = User.Ary_skillsdata.split("<:>");var skillsetdata = [];
+    for(var index=0; index<rawskillsetdata.length;index++){
+        skillsetdata[index]= Number(rawskillsetdata[index])};
     var rawtemdatanumbers= User.TemdataNumbers.split("<:>");
       var temdatanumbers = [];
       for(var index=0; index<rawtemdatanumbers.length;index++){
@@ -26,43 +51,28 @@ return arr.filter(function(ele){return ele != value;});
       }
       var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
     for(var index=0; index<rawprofiledata.length;index++){
-        profiledata[index]= Number(rawprofiledata[index])
+        profiledata[index]= Number(rawprofiledata[index]);
     }
     var rawequipmentdata = User.Ary_Equipmentdata.split("<:>");var equipmentdata = [];
     for(var index=0; index<rawequipmentdata.length;index++){
-        equipmentdata[index]= Number(rawequipmentdata[index])
+        equipmentdata[index]= Number(rawequipmentdata[index]);
     }
     var rawitembagdata = User.Ary_itembagdata.split("<:>");var itembagdata = [];
     for(var index=0; index<rawitembagdata.length;index++){
-        itembagdata[index]= Number(rawitembagdata[index])
+        itembagdata[index]= Number(rawitembagdata[index]);
     }
     var rawhh3funset1 = User.Ary_HH3FunctionSet1.split("<:>");
       var hh3funset1 = [];
       for(var index=0; index<rawhh3funset1.length;index++){
-          hh3funset1[index]= Number(rawhh3funset1[index])
+          hh3funset1[index]= Number(rawhh3funset1[index]);
       }
       var rawdata = User.Metadata.split("<:>");var mdata = [];
     for(var index=0; index<rawdata.length;index++){
-        mdata[index]= Number(rawdata[index])
+        mdata[index]= Number(rawdata[index]);
     }
     function RandomMax(max) {
         return Math.floor(Math.random() * Math.floor(max));
       }
-    const heroembed = new Discord.MessageEmbed();
-    const monstercheatembed = new Discord.MessageEmbed();
-    const monstereffectembed = new Discord.MessageEmbed();
-    const heroeffectembed = new Discord.MessageEmbed();
-    const warnembed = new Discord.MessageEmbed();
-    const warnembed2 = new Discord.MessageEmbed();
-    const extraembed = new Discord.MessageEmbed();
-    const herodefeatembed = new Discord.MessageEmbed();
-    const monsterdefeatembed = new Discord.MessageEmbed();
-    heroembed.setColor(User.colortheme);
-    herodefeatembed.setColor(User.colortheme);
-    monstercheatembed.setColor("#FF0000");
-    monsterdefeatembed.setColor("#FF0000");
-    warnembed.setColor("#FFFE00");
-    warnembed2.setColor("#FFFE00")
     arg = arg.toLowerCase();
     var herospd=profiledata[12];
     var foespd=temdatanumbers[6];
@@ -79,7 +89,7 @@ return arr.filter(function(ele){return ele != value;});
     var attack=0;
     var herotxt;
     var herotxteft="";
-    var foetxt;
+    var foetxt="";
     var foeattack;
     var defendload=0;
     var potioneffect=0;
@@ -91,35 +101,41 @@ return arr.filter(function(ele){return ele != value;});
     var defeffected=0;;
     var newfix = temdatanumbers[1]*0.50;
     var temkey =0;
-    var skillnums=0;
     var skillname="";
-    var skillcost =0;
     var skillkey = false;
-    var displayper;
+    var skillspecial = false;
+    var foeskillspecial = false;
     var foeatkey = true;
     var heroeftkey = false;
+    var foeatk = true;
     var itemdropnames = [];
     var itemdropnums = [];
     var exp;
     var currency;
     var effects = "";
-    if(User.CombatMode>0){
+    var skilldmg = false;
+    var foemaxdmg=0;
+    var displayskill=false;
+    var foeskillkey=true;
+    var alla = false;
+    var mdefeated = false;
+    var defeatxt="";
+    extraembedkey=false;
+    var foeskillef=0;
+    if(profiledata[32]>0)alla=true
         if(User.HP>0){
     if(User.CombatMode==1){
-        var extraembedkey=false;
         if(temdatanumbers[10]>0.0){
             // add monster effect
-            var intstring = temdatanumbers[10].toString();
-            var monstercheatype = intstring.charAt(0);
-            var monstereffectype = intstring.charAt(2);
-            monstercheatype = Number(monstercheatype);
-            monstereffectype = Number(monstereffectype);
+            var monstercheatype = Number(temdatanumbers[10].toString().substring(2));
+            var monstereffectype = Number(temdatanumbers[10].toString().charAt(0));
                 if(profiledata[15]==-1){
                 herospd-=0.20;
                 profiledata[15]=0;
                 }
         }
         //Hero or Foe turn
+        if(hh3funset1[11]!=2){
         if(temdatanumbers[20]>0){
             temdatanumbers[20]--;
             herospd+= Gamedata.sys_potion_effect[2];
@@ -129,7 +145,7 @@ return arr.filter(function(ele){return ele != value;});
                 extraembedkey=true;
             }
         }
-        herospd+=temdatanumbers[12];
+        herospd+=temdatanumbers[14];
         herospd-=temdatanumbers[15];
         if(monstercheatype==1&profiledata[15]==5){
             herospd-=0.10
@@ -162,9 +178,17 @@ return arr.filter(function(ele){return ele != value;});
             var picked = RandomMinMax(1,2);
             if(picked==1){herospkey++}
            else if(picked==2){foespdkey++};
-        }
+        }}
         //Monster AI
+        
         if(Math.random()<temdatanumbers[8]){
+        if(temdatanames[6]){
+            var skillindex = Gamedata.sys_heronoskills.indexOf(temdatanames[6])*5;
+            var foeskillvalue =Gamedata.sys_heroskill_numbers[skillindex+4];
+           if(temdatanumbers[23]) skilldmg=true;
+            displayskill=true; foeskillspecial=true;
+        }
+        if(foeatk==true){
         if(Math.random()<temdatanumbers[7]){
             // critical attack
             var critper = temdatanumbers[2]*Gamedata.sys_combat_rates[0];
@@ -181,54 +205,74 @@ return arr.filter(function(ele){return ele != value;});
         var addmgper = temdatanumbers[3]*foephyatk;
         var addmg = foephyatk+=addmgper;
         foephyatk = Math.round(addmg);
+        foemaxdmg = foephyatk;
         var o = foephyatk/2;
         var oa = 52 - o; o = oa/100;
         oa = o * foephyatk; o = foephyatk-oa;
         var tem = Math.round(o);
-        foephyatk = RandomMinMax(tem,foephyatk);}
+        foephyatk = RandomMinMax(tem,foephyatk);
+        if(skilldmg==true){
+            var newdmge = Math.round((foephyatk*1.5)+(foeskillvalue/5));
+            var newdmgemax = newdmge+foemaxdmg;
+            foephyatk = RandomMinMax(newdmge,newdmgemax);
+        }
+    }}
         else{
             foeatkcrit=0;
             foephyatk=0;
         }
-    }
-    else if(User.CombatMode==2){
-        //player 2 status update
-    }
+        if(hh3funset1[11]==2&temdatanumbers[52]==1)foeskillkey=false;
+        if(temdatanumbers[27]>0)foeskillkey=false;
+        if(temdatanumbers[9]>19&foeskillkey==true){
+            var skillrate=0;
+            var setr = Number(temdatanumbers[9].toString().charAt(2))
+            if(temdatanumbers[9]>29)skillrate= Gamedata.sys_monsterbosskill_rate[setr];
+            if(Math.random()<skillrate){
+                var getskill = [];
+                var theskill="";
+                for(var skillsetm=0;skillsetm<4;skillsetm++){
+                    var set=skillsetm+1;
+                    if(temdatanames[set]!=""){
+                        getskill[skillsetm]= temdatanames[set];
+                    }else break;
+                }
+                theskill= getskill[RandomMax(getskill.length)]; 
+                var skillindex = Gamedata.sys_heronoskills.indexOf(theskill)*5;skillindex = Gamedata.sys_heroskill_numbers[skillindex];
+                if(skillindex==1){
+            effects= "[Warning] "+temdatanames[0]+" is preparing to use "+theskill+"\nuse defend or quickly avoid it!";}
+            temdatanames[6] = theskill; temdatanumbers[23]=skillindex;
+        }
+        }
+}
     if( temdatanumbers[18]>0){
         temdatanumbers[18]--;
     }
     if(profiledata[15]!=2){
-        if(arg.includes("skill")&!arg.includes("potion")&arg!="skill"){
-        // use skills
-        var type = arg.split("skill");
-        type[1] = type[1].trimStart().trimEnd();
-        var skillname = Gamedata.sys_skill_names.find(a=>IgnoringCase(a,type[1]))
-        var skildex = Gamedata.sys_skill_names.indexOf(skillname);
-        var getweptype = profiledata[3]-1;
-        var sktype = 3*getweptype;
-        var skilcompare= [];
-        skilcompare[0] = sktype;
-        skilcompare[1] = 1+sktype;
-        skilcompare[2] = 2+sktype;
-        skillnums = Gamedata.sys_skill_data[skildex];
-        skillcost = Gamedata.sys_skill_data1[skildex];
-        if(skilcompare.some(a=>a==skildex)&!profilenames[1].includes("Stick")){
-            if(User.Skillenergy>=skillcost){
-            skillkey = true;
-            if(skillcost==1){
-                 displayper = skillnums*100;
-                 displayper = Math.round(displayper);
-                herotxt= User.name+" uses "+skillname+"\n";
-            }}
-            else{
-                herotxt = ":x: You do not have SkillEnergy to use this skill";
-            }
+        if(arg.includes("skill")||skillset.some(a=>IgnoringCase(a,arg))&!arg.includes("potion")){
+            if(arg.includes("skill")){var setcheck =arg.split("skill");var num6 =Number(setcheck[1])-1;
+            if(skillset[num6]=="empty"||num6>3||num6<0) return message.channel.send(warnembed.setDescription(":x: This skill slot is empty or does not exist."));
+            if(isNaN(num6)){var skillnameindex = skillset.find(a=>IgnoringCase(a,num6));num6 = skillset.indexOf(skillnameindex);}
         }
-        else{
-            herotxt = ":x: You do not have the weapon requird to use this";
+            else if(skillset.some(a=>IgnoringCase(a,arg))){
+                var skillnameindex = skillset.find(a=>IgnoringCase(a,arg))
+                var num6 = skillset.indexOf(skillnameindex);}
+            else return message.channel.send(warnembed.setDescription(":x: This skill slot is empty or does not exist."));
+            var dtable1 = 5*num6;
+                var dtable2 = dtable1+1;
+                var dtable3 = dtable1+2;
+                var dtable4 = dtable1+3;
+                var dtable5 = dtable1+4;
+                if(User.Skillenergy<skillsetdata[dtable3])return message.channel.send(warnembed.setDescription(":x: Not enough skill energy."));
+                var wepcheck = false; if(profiledata[3]==1||profiledata[3]==3)wepcheck=true;
+                if(profiledata[3]==skillsetdata[dtable2]||skillsetdata[dtable2]==0||skillsetdata[dtable2]==4&wepcheck==true){
+                    if(skillsetdata[dtable1]==1){ skillkey=true;skillspecial = true;}
+                   else if(skillsetdata[dtable1]!=1) skillspecial = true;
+                    skillname = skillset[num6];
+                }
+                else return message.channel.send(warnembed.setDescription(":x: You do not have the weapon requird to use this"));
+                herotxt="";
         }
-        }
-    if(arg=="attack"&!arg.includes("potion")||skillkey==true&!arg.includes("potion")&skillcost>1){
+    if(arg=="attack"&!arg.includes("potion")||skillkey==true&!arg.includes("potion")&skillsetdata[dtable1]==1){
         //attack the monster
         if(profiledata[3]==1){
         herocritrate= Gamedata.sys_combat_rates[1]+temdatanumbers[22]+profiledata[18];
@@ -244,7 +288,7 @@ return arr.filter(function(ele){return ele != value;});
              herocritrate= Gamedata.sys_combat_rates[3]+temdatanumbers[22]+profiledata[18];
              heroacy = Gamedata.sys_combat_rates[6]+profiledata[13];
              atkloop=1;
-             if(arg.includes("attack")){
+             if(arg.includes("attack")||skillname==Gamedata.sys_heronoskills[26]){
                 var addmoreatk = profiledata[12]*0.20;
                 addmoreatk= profiledata[12]- addmoreatk;
                 if(Math.random()<addmoreatk){
@@ -254,11 +298,11 @@ return arr.filter(function(ele){return ele != value;});
                    atkloop++
                }
             }
-            else if(arg.includes("all")&skillkey==true){atkloop=3};
+            else if(skillname==Gamedata.sys_heronoskills[9]&skillkey==true){atkloop=3};
             }else{
                 herocritrate=Gamedata.sys_combat_rates[7]+temdatanumbers[22]+profiledata[18];
                 heroacy = Gamedata.sys_combat_rates[8];
-                hand = 3;
+                hand = Gamedata.sys_hero_hand;
                 atkloop=1;
             }
             if(temdatanumbers[18]>0){
@@ -269,6 +313,8 @@ return arr.filter(function(ele){return ele != value;});
                     extraembedkey=true;
                 }
             }
+            if(profilenames[5]==Gamedata.sys_chest_mysterychest[5])herocritrate+=0.60;
+            else if(profilenames[5]==Gamedata.sys_chest_mysterychest[9])herocritrate-=0.50;
             heroacy-=temdatanumbers[21];
             for(var a=0;a<atkloop;a++){
                 if(Math.random()>heroacy){
@@ -297,19 +343,18 @@ return arr.filter(function(ele){return ele != value;});
                         heroatk[a] = hand;
                         heroatkcrit[a]=1;
                     }
-                }
-                var addmg = profiledata[5]*heroatk[a];
-                addmg = heroatk[a]+addmg;
-                addmg = Math.round(addmg);
-                addmg2 = temdatanumbers[16]*addmg;
-                addmg = addmg+addmg2+profiledata[16];
-                heroatk[a] = Math.round(addmg);
+                }if(profilenames[5]==Gamedata.sys_chest_mysterychest[4]){heroatk[a]+= Math.round(heroatk[a]*0.25);}
+                else if(profilenames[5]==Gamedata.sys_chest_mysterychest[8]){heroatk[a]-= Math.round(heroatk[a]*0.10);}
+                var addmg = heroatk[a]*profiledata[5];
+                var addmg2 = heroatk[a]*profiledata[19];
+               var addmg3 =  heroatk[a]*temdatanumbers[12];
+                heroatk[a] = Math.round(heroatk[a]+addmg+addmg2+addmg3)+profiledata[16];
                 var o = heroatk[a]/2;
                 var oa = 52 - o; o = oa/100;
                 oa = o * heroatk[a]; o = heroatk[a]-oa;
                 var tem = Math.round(o);
                 if(skillkey==true&heroatkcrit[a]>0){
-                var rawdmg = tem+skillnums;
+                var rawdmg = tem+skillsetdata[dtable4];
                 tem = rawdmg/5;
                 tem = Math.round(tem);
                 heroatk[a] += tem;
@@ -320,73 +365,19 @@ return arr.filter(function(ele){return ele != value;});
     }
     else if(arg=="defend"&!arg.includes("potion")){
         //defend from the monster
-        if(profiledata[3]==1){
+        var typedef = profiledata[3]-1;
+        if(typedef==-1)typedef=2;
             if(herospkey>foespdkey){
-            temdatanumbers[17] = Gamedata.sys_combat_def[0];
+            temdatanumbers[17] = Gamedata.sys_combat_def[typedef];
             var tem = temdatanumbers[17]*100;
             tem= Math.round(tem);
             }
             else{
-                defendload = Gamedata.sys_combat_def[0];
+                defendload = Gamedata.sys_combat_def[typedef];
                 var tem = defendload*100;
                 tem= Math.round(tem);
             }
             herotxt = User.name+" has defend\n:shield: "+tem+"%";
-        }
-        else if(profiledata[3]==2){
-           if(temdatanumbers[17]<=0.6){
-               if(temdatanumbers[17]>0.3){
-               if(Skillenergy>0){
-            if(herospkey>foespdkey){
-                User.Skillenergy--;
-                temdatanumbers[17] = Gamedata.sys_combat_def[1];
-                var tem = temdatanumbers[17]*100;
-                tem= Math.round(tem);
-                }
-                else{
-                    User.Skillenergy--;
-                    defendload = Gamedata.sys_combat_def[1];
-                    var tem = defendload*100;
-                    tem= Math.round(tem);
-                }
-                herotxt = User.name+" has defend\n+:shield: "+tem+"%";
-            }
-            else{
-                herotxt = ":x: You need skill energy to strengthen defense further";
-            }
-            }
-            else{
-                if(herospkey>foespdkey){
-                    temdatanumbers[17] = Gamedata.sys_combat_def[1];
-                    var tem = temdatanumbers[17]*100;
-                    tem= Math.round(tem);
-                    }
-                    else{
-                        defendload = Gamedata.sys_combat_def[1];
-                        var tem = defendload*100;
-                        tem= Math.round(tem);
-                    }
-                    herotxt = User.name+" has defend\n+:shield: "+tem+"%";
-                }
-            }
-            else{
-                herotxt = ":shield: Your defense has reached max";
-            }
-            }
-           else{
-                if(herospkey>foespdkey){
-                temdatanumbers[17] = Gamedata.sys_combat_def[2];
-                var tem = temdatanumbers[17]*100;
-                tem= Math.round(tem);
-                }
-                else{
-                    defendload = Gamedata.sys_combat_def[2];
-                    var tem = defendload*100;
-                    tem= Math.round(tem);
-                }
-                herotxt = User.name+" has defend\n:shield: "+tem+"%";
-            }
-            
         }
         else if(arg.includes("potion")){
             // potion
@@ -478,33 +469,50 @@ return arr.filter(function(ele){return ele != value;});
             else{
                 herotxt = User.name+" **cannot escape**";
             }
+        }
+        else if(arg=="avoid"&!arg.includes("potion")){
+            if(User.Skillenergy>0){
+                User.Skillenergy--;
+                if(User.Skillenergy>User.Maxskillenergy) User.Skillenergy=User.Maxskillenergy;
+                if(herospkey>foespdkey){
+                foeatkey = false;
+                herotxt="You avoid the attack";
+                }
+                else{
+                    herotxt="Fail to avoid";
+                }
+            }
+            else{
+                herotxt=":x: You need more skill energy"
+            }
         }}
-        else{temkey = profiledata[15];profiledata[15]=0;herotxt=":zap: You are stunned\ntry act command again."}
+        else {temkey = profiledata[15];profiledata[15]=0;herotxt=":zap: You are stunned\ntry act command again."}
         if(arg!=""&herotxt!=undefined){
             if(User.HP>0&temkey!=2){
-                if(arg.includes("attack")||skillkey==true&skillcost>1){
+                if(arg.includes("attack")||skillkey==true){
                     for(var atkdex =0; atkdex<heroatk.length;atkdex++){
                         if(temdatanumbers[13]==3){
                             defeffected = temdatanumbers[5]*.50;
                             temdatanumbers[5]-=defeffected
                         }
                         var newatk = temdatanumbers[5]*heroatk[atkdex];
-                        newatk = heroatk[atkdex]-=newatk;
+                        newatk = heroatk[atkdex]-newatk;
                         newatk = Math.round(newatk);
+                        if(temdatanumbers[24]>0){
+                       var newatkbuff = temdatanumbers[24]*newatk
+                        newatk = newatk-=newatkbuff;
+                        newatk = Math.round(newatk);}
+                        newatk= newatk-=temdatanumbers[4];
                         if(temdatanumbers[11]<0){
                             var newatk3 = temdatanumbers[11]*newatk;
                             newatk = newatk-=newatk3;
                             newatk = Math.round(newatk);
                         }
-                        else if(temdatanumbers[11]>0){
-                            var newatk3 = temdatanumbers[11]*newatk;
-                            newatk = newatk+=newatk3;
-                            newatk = Math.round(newatk);
-                        }
-                        newatk= newatk-=temdatanumbers[4];
                         if(newatk<0)newatk=0;
-                        if(monstercheatype==9&&herospkey<foespdkey&Math.random()<0.20){ effects=":warning: Your Attack has fallen into the void\n";newatk=0;}
+                        if(monstercheatype==9&&herospkey<foespdkey&Math.random()<0.20){ effects="[Warning] Your Attack has fallen into the void\n";newatk=0;}
+                        if(monstercheatype==11&&heroatkcrit[atkdex]==2){newatk=0;heroatkcrit[atkdex]=0}
                         newatk= Math.round(newatk);
+                        if(alla==true) newatk= Math.round(newatk/2);
                         attack+=newatk
                         if(attack<0)attack=0;
                         if(heroatkcrit[atkdex]==2){
@@ -514,46 +522,42 @@ return arr.filter(function(ele){return ele != value;});
                             herotxteft +="\n**"+newatk+"** dmg";
                         }
                         else if(heroatkcrit[atkdex]==0){
-                            herotxteft +="\n**Missed**";
+                            herotxteft +="\n but **Missed**";
                         }
-            
                     }
-                    if(arg.includes("attack")&herotxteft.includes(":boom:")){
-                        herotxt = User.name+" attack with a critical!"+herotxteft
+                    if(arg.includes("attack")&herotxteft.includes(":boom:")&skillkey==false){
+                        herotxt = User.name+" attack > Critical! >"+herotxteft
                     }
-                    else if(arg.includes("attack")){
+                    else if(arg.includes("attack")&skillkey==false){
                         herotxt= User.name+" attack"+herotxteft
                     }
+                   else if(skillkey==true&herotxteft.includes(":boom:")&skillkey==false){
+                        herotxt = User.name+" uses "+skillname+" > Critical! >"+herotxteft
+                    }
                     else if(skillkey==true){
-                        if(skillcost>1&herotxteft.includes(":boom:")){
-                        herotxt = User.name+" uses "+skillname+herotxteft;
-                    }
-                    else if(skillcost>1){
-                        herotxt = User.name+" uses "+skillname+herotxteft;
-                    }
-                    else{
-                        herotxt = User.name+" uses "+skillname+"\nyour has increased"+skillnums+"%";
-                    }
+                        herotxt= User.name+" uses "+skillname+herotxteft
                     }
                 }
             }
             if(User.CombatMode==1& temdatanumbers[0]>0){
+                var profiledef = profiledata[9];
+                var lowdef = profiledef*temdatanumbers[16];
+                profiledef = Math.round(profiledef-lowdef);
                 if(monstercheatype==7){
                     defeffected= profiledata[9]*.30;
                     profiledef = profiledef-= defeffected;
                  }
-                var profiledef = profiledata[9];
                 if(profiledata[15]==3){
                    defeffected= profiledata[9]*.50;
                    profiledef = profiledef-= defeffected;
                 }
+                if(profiledef<0)profiledef*-1;
                 var netatk = foephyatk*temdatanumbers[17];
                 netatk = foephyatk-=netatk;
                 netatk= Math.round(netatk);
                var netatk2 = profiledef*netatk;
                netatk = netatk-=netatk2;
-               netatk=Math.round(netatk-profiledata[8]);
-               if(foeattack<0)foeattack=0;
+               netatk=Math.round(netatk-(profiledata[8]+profiledata[17]));
                foeattack = netatk;
                if(foeattack<0)foeattack=0;
                if(temdatanumbers[19]>0){
@@ -569,146 +573,163 @@ return arr.filter(function(ele){return ele != value;});
                     extraembedkey=true;
                 }
                }
-               if(foeatkcrit==2){
-               foetxt= temdatanames[0]+" attack with critical!\n**"+foeattack+"**:boom: dmg";}
-               else if(foeatkcrit==1){
-                foetxt= temdatanames[0]+" attack\n**"+foeattack+"** dmg";
+               if(Gamedata.sys_monsternames_normal.some(a=>a==temdatanames[5])&temdatanumbers[29]>0)foeattack = Math.round(foeattack/2);
+               var atktype=" attack";
+               if(foeatkey==false) foeatkcrit=0;
+               if(displayskill==true)atktype=" Uses "+temdatanames[6];
+               if(foeatkcrit==2&foeatkey==true){
+               foetxt= temdatanames[0]+atktype+" > Critical! >\n**"+foeattack+"**:boom: dmg";}
+               else if(foeatkcrit==1&foeatkey==true){
+                foetxt= temdatanames[0]+atktype+"\n**"+foeattack+"** dmg";
                }
                else if(foeatkcrit==0){
-                foetxt= temdatanames[0]+" attack\nbut **Missed**";
+                foetxt= temdatanames[0]+atktype+"\nbut **Missed**";
                }
+            }
+            if(skillspecial||foeskillspecial){
+                if(skillspecial&skillkey==false)herotxt +=User.name+" uses "+skillname;
+                module.exports.skillspecial = skillspecial;
+                module.exports.foeskillspecial = foeskillspecial;
+                module.exports.skillsetdata = skillsetdata;
+                module.exports.HeroHP = User.HP;
+                module.exports.HeroMaxHP = User.MaxHP;
+                module.exports.username= User.name;
+                module.exports.heroatkcrit=heroatkcrit;
+                module.exports.foeatkcrit = foeatkcrit;
+                module.exports.herotxt = herotxt;
+                module.exports.heroatk = heroatk;
+                module.exports.foetxt= foetxt;
+                module.exports.foeatk = foeatk;
+                module.exports.attack = attack;
+                module.exports.foeattack = foeattack;
+                module.exports.profilenames= profilenames;
+                module.exports.profiledata = profiledata;
+                module.exports.hh3funset1 = hh3funset1;
+                module.exports.profiledata3 = profiledata[3];
+                module.exports.temdatanames = temdatanames;
+                module.exports.temdatanumbers=temdatanumbers;
+                module.exports.skillset=skillset;
+                module.exports.skillsetdata=skillsetdata;
+                module.exports.foeatkey = foeatkey;
+                module.exports.herospkey = herospkey;
+                module.exports.foespdkey = foespdkey;
+                module.exports.skillname = skillname;
+                module.exports.skilldmg = skilldmg;
+                module.exports.skillspecial = skillspecial;
+                module.exports.foeatkcrit = foeatkcrit;
+            }
+            if(skillspecial||foeskillspecial){
+                var skillpath =Gamedata.sys_skill_path+skillname;
+                var foeskillpath =Gamedata.sys_skill_path+temdatanames[6];
+                if(skillspecial) var skilleffects = require(skillpath);
+               if(foeskillspecial) var skilleffects = require(foeskillpath);
+                if(skilleffects.skillsetdata4){skillsetdata[dtable4] = skilleffects.skillsetdata4;User.Ary_skillsdata = skillsetdata.join("<:>")};
+                if(skilleffects.skillsetdata5){skillsetdata[dtable5] = skilleffects.skillsetdata5;User.Ary_skillsdata = skillsetdata.join("<:>")};
+                if(skilleffects.foetxt) foetxt = skilleffects.foetxt;
+                if(skilleffects.foeatkey) foeatkey = skilleffects.foeatkey;
+                if(skilleffects.temdatanames) temdatanames = skilleffects.temdatanames;
+                if(skilleffects.temdatanumbers) temdatanumbers = skilleffects.temdatanumbers;
+                if(skilleffects.herotxt) herotxt = skilleffects.herotxt;
+                if(skilleffects.foeatkcrit) foeatkcrit = skilleffects.foeatkcrit;
+                if(skilleffects.foeattack) foeattack = skilleffects.foeattack;
+                if(skilleffects.attack) attack = skilleffects.attack;
+                if(skilleffects.herospkey) herospkey = skilleffects.herospkey;
+                if(skilleffects.foespkey) foespdkey = skilleffects.foespkey;
+                if(skilleffects.HeroHP) User.HP = skilleffects.HeroHP;
+                if(skilleffects.healback) healback = skilleffects.healback;
+                if(skilleffects.hh3funset1) hh3funset1 = skilleffects.hh3funset1;
+                if(skilleffects.summonpic) Imgset[3]=skilleffects.summonpic; 
             }
                 if(herospkey>foespdkey){
                     // hero turn
-                    if(profiledata[3]==1){
-                        if(defendload==0){
-                        temdatanumbers[17]==0;}
-                        else{
-                            temdatanumbers[17]=defendload;
-                        }
-                    }
-                    if(profiledata[3]==3){
-                        if(defendload==0){
-                            temdatanumbers[17]==0;}
-                            else{
-                                temdatanumbers[17]=defendload;
-                            }
-                    }
-                    if(arg.includes("skill")&skillkey==true){
-                        if(User.CombatMode==1){
-                            if(skillcost>1){
+                    if(temdatanumbers[17]>0)temdatanumbers[17]=0;
+                    if(skillkey==true&skillname||skillname){
+                        if(temdatanumbers[28]>0){temdatanumbers[28]--;attack=0;}
+                            User.Skillenergy -= skillsetdata[dtable3];
+                            if(User.Skillenergy<0)User.Skillenergy=0;
                             temdatanumbers[0]-= attack;
+                            if(alla==true&temdatanumbers[33]!=0)temdatanumbers[32]-= attack;
                             if(mdata[6]<attack){
                                 mdata[6]=attack;
                                 User.Metadata = mdata.join("<:>");
                             }
-                            User.Skillenergy -= skillcost;
-                            for(var skilcount = 0;skilcount<heroatkcrit.length;skilcount++){
-                            if(heroatkcrit[skilcount]>0){
-                                if(skillname==Gamedata.sys_skill_names[0]&temdatanumbers[13]==0){
-                                    if(Math.random()<Gamedata.sys_skill_data2[0]){
-                                        //monster defense decreases
-                                        temdatanumbers[13]=3;
-                                        heroeffectembed.setColor("#FFFE00");
-                                        heroeffectembed.setDescription(":shield: "+temdatanames[0]+" defense has defeased!");
-                                        heroeftkey = true;
+                            if(skilleffects.trueffect){
+                                for(var skilcount = 0;skilcount<heroatkcrit.length;skilcount++){
+                                    if(heroatkcrit[skilcount]>0){
+                                        if(skilleffects.trueffect==3&temdatanumbers[13]==0){
+                                            if(Math.random()<Gamedata.sys_skill_data2[0]){
+                                                //monster defense decreases
+                                                temdatanumbers[13]=3;
+                                                heroeffectembed.setColor("#FFFE00");
+                                                heroeffectembed.setDescription(":shield: "+temdatanames[0]+" defense has decrease!");
+                                                heroeftkey = true;
+                                            }
+                                        }
+                                        else if(skilleffects.trueffect==2&temdatanumbers[13]==0){
+                                            if(Math.random()<Gamedata.sys_skill_data2[1]){
+                                               // stun
+                                               temdatanumbers[13] = 2;
+                                               heroeffectembed.setColor("#FFFE00");
+                                                heroeffectembed.setDescription(":zap: "+temdatanames[0]+" has been stunned!");
+                                                heroeftkey = true;
+                                            }
+                                        }
+                                        else if(skilleffects.trueffect==4&temdatanumbers[13]==0){
+                                            if(Math.random()<Gamedata.sys_skill_data2[3]){
+                                                // curruption
+                                                temdatanumbers[13] = 4;
+                                                temdatanumbers[11]-= 0.05;
+                                                heroeffectembed.setColor("#0F0F0F");
+                                                heroeffectembed.setDescription(":broken_heart: "+temdatanames[0]+" has been corrupted!");
+                                                heroeftkey = true;
+                                            }
+                                        }
+                                        else if(skilleffects.trueffect==1&temdatanumbers[13]==0){
+                                            if(Math.random()<Gamedata.sys_skill_data2[4]){
+                                                // poison
+                                                temdatanumbers[13] = 1;
+                                                heroeffectembed.setColor("#01FF00");
+                                                heroeffectembed.setDescription(":green_heart: "+temdatanames[0]+" has been poisoned!");
+                                                heroeftkey = true;
+                                            }
+                                        }
+                                        else if(skillname==Gamedata.sys_heronoskills[14]&profiledata[15]!=0){
+                                            //reflection
+                                            temdatanumbers[13]=profiledata[15];
+                                            if(profiledata[15]==1){heroeffectembed.setColor("#01FF00");
+                                            heroeffectembed.setDescription(":green_heart: "+temdatanames[0]+" has been poisoned!");}
+                                            else if(profiledata[15]==3){heroeffectembed.setColor("#FFFE00");
+                                            heroeffectembed.setDescription(":shield: "+temdatanames[0]+" defense has decreased!");}
+                                            else if(profiledata[15]==4){heroeffectembed.setColor("#0F0F0F");temdatanumbers[11]+= 0.05;
+                                            heroeffectembed.setDescription(":broken_heart: "+temdatanames[0]+" has been corrupted!");}
+                                        }
                                     }
-                                }
-                                else if(skillname==Gamedata.sys_skill_names[2]&temdatanumbers[13]==0){
-                                    if(Math.random()<Gamedata.sys_skill_data2[1]){
-                                       // stun
-                                       temdatanumbers[13] = 2;
-                                       User.Skillenergy++;
-                                       if(User.Skillenergy>User.Maxskillenergy) User.Skillenergy=User.Maxskillenergy;
-                                       heroeffectembed.setColor("#FFFE00");
-                                        heroeffectembed.setDescription(":zap: "+temdatanames[0]+" has been stunned!");
-                                        heroeftkey = true;
-                                    }
-                                }
-                                else if(skillname==Gamedata.sys_skill_names[3]&temdatanumbers[13]==0){
-                                    if(Math.random()<Gamedata.sys_skill_data2[2]){
-                                         //monster defense decreases
-                                         temdatanumbers[13]=3;
-                                        heroeffectembed.setColor("#FFFE00");
-                                        heroeffectembed.setDescription(":shield: "+temdatanames[0]+" defense has defeased!");
-                                        heroeftkey = true;
-                                    }
-                                }
-                                else if(skillname==Gamedata.sys_skill_names[5]&temdatanumbers[13]==0){
-                                    if(Math.random()<Gamedata.sys_skill_data2[3]){
-                                        // curruption
-                                        temdatanumbers[13] = 4;
-                                        temdatanumbers[11]-= 0.05;
-                                        heroeffectembed.setColor("#0F0F0F");
-                                        heroeffectembed.setDescription(":broken_heart: "+temdatanames[0]+" has been corrupted!");
-                                        heroeftkey = true;
-                                    }
-                                }
-                                else if(skillname==Gamedata.sys_skill_names[6]&temdatanumbers[13]==0){
-                                    if(Math.random()<Gamedata.sys_skill_data2[4]){
-                                        // poison
-                                        temdatanumbers[13] = 1;
-                                        heroeffectembed.setColor("#01FF00");
-                                        heroeffectembed.setDescription(":green_heart: "+temdatanames[0]+" has been poisoned!");
-                                        heroeftkey = true;
-                                    }
-                                }
-                                else if(skillname==Gamedata.sys_skill_names[8]&temdatanumbers[13]==0){
-                                    if(Math.random()<Gamedata.sys_skill_data2[5]){
-                                        // stun
-                                        temdatanumbers[13] = 2;
-                                        heroeffectembed.setColor("#FFFE00");
-                                        heroeffectembed.setDescription(":zap: "+temdatanames[0]+" has been stunned!");
-                                        heroeftkey = true;
-                                    }
-                                }
-                            }}
-                        }
-                        else{
-                            if(skillname==Gamedata.sys_skill_names[1]){
-                                if(temdatanumbers[11]<0.25){
-                                temdatanumbers[11]+=skillnums;
-                                herotxt = herotxt+"AddAtk has increased +"+displayper+"%";
-                                User.Skillenergy -= skillcost;}
-                                else{
-                                    herotxt= herotxt+"AddAtk has maxed out";
                                 }
                             }
-                           else if(skillname==Gamedata.sys_skill_names[4]){
-                            if(temdatanumbers[22]<0.25){
-                                temdatanumbers[22]+=skillnums;
-                                herotxt = herotxt+"CriticalRate has increased +"+displayper+"%";
-                                User.Skillenergy -= skillcost;}
-                                else{
-                                    herotxt= herotxt+"CriticalRate has maxed out";
-                                }
-                            }
-                            else if(skillname==Gamedata.sys_skill_names[7]){
-                                if(temdatanumbers[12]<0.25){
-                                temdatanumbers[12]+=skillnums;
-                                herotxt = herotxt+"Speed has increased +"+displayper+"%";
-                                User.Skillenergy -= skillcost;}
-                                else{
-                                    herotxt= herotxt+"Speed has maxed out";
-                                }
-                            }
-                        }
-                        }
+                        var rpath = require.resolve(skillpath);delete require.cache[rpath];
                     }
                    else if(arg=="attack"){
                         if(User.CombatMode==1){
                             temdatanumbers[0]-= attack;
+                            if(skillsetdata[4]==1||skillsetdata[9]==1||skillsetdata[14]==1||skillsetdata[19]==1)
+                            {var healback =Math.round(attack*0.35);User.HP+=healback;herotxt+="\n:heart: You heal back +"+healback;};
+                            if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
+                            if(alla==true)temdatanumbers[32]-= attack;
                         }
                         User.Skillenergy++;
                         if(User.Skillenergy>User.Maxskillenergy){
                             User.Skillenergy=User.Maxskillenergy;
                         }
                     }
-                    else if(arg=="defend"&profiledata[3]!=2){
-                        User.Skillenergy++;
+                    else if(arg=="defend"){
+                        if(defendload>0){
+                            temdatanumbers[17]= defendload;
+                        }
+                        if(foeatkcrit>0){
+                            User.Skillenergy++;
                         if(User.Skillenergy>User.Maxskillenergy){
                             User.Skillenergy=User.Maxskillenergy;
-                        }
+                        }}
                     }
                     else if(arg.includes("potion")&potioneffect!=0){
                         if(herotxt.includes("HP")||herotxt.includes("Fairy")){
@@ -739,6 +760,7 @@ return arr.filter(function(ele){return ele != value;});
                             }
                             Imgset[1] = "";
                         User.Ary_Imgset = Imgset.join("<:>");
+                        if(hh3funset1[16]>0){hh3funset1[16]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");};
                         User.TemdataNames="";
                         User.TemdataNumbers="";
                         User.CombatMode=0;
@@ -759,6 +781,33 @@ return arr.filter(function(ele){return ele != value;});
                         heroembed.setColor("#0F0F0F");
                         effects="You are corrupted \n"+poisoneffect+" dmg";
                     }
+                    if(Gamedata.sys_monsternames_normal.some(a=>a==temdatanames[5])&temdatanumbers[29]>0){
+                        if(Math.random()<temdatanumbers[31]){
+                        var om = temdatanumbers[30]/2;
+                        var oam = 52 - om; om = oam/100;
+                        oam = om * temdatanumbers[30]; om = temdatanumbers[30]-oam;
+                        var tema = Math.round(om);
+                        var attackm = RandomMinMax(tema,temdatanumbers[30]);
+                        if(temdatanumbers[13]==3){
+                            defeffected = temdatanumbers[5]*.50;
+                            temdatanumbers[5]-=defeffected
+                        }
+                        var newatkm = temdatanumbers[5]*attackm;
+                        newatkm = temdatanumbers[30]-newatkm;
+                        newatkm = Math.round(newatkm);
+                        newatkm= newatkm-=temdatanumbers[4];
+                        if(newatkm<0)newatkm=0;
+                        if(monstercheatype==9&&herospkey<foespdkey&Math.random()<0.20){ effects="\n[Warning] "+temdatanames[5]+" Attack has fallen into the void\n";newatk=0;}
+                        newatkm= Math.round(newatkm);
+                        attackm+=newatkm;temdatanumbers[0]-= attackm;if(temdatanumbers[32]>0)temdatanumbers[0]-= attackm;
+                    }
+                        if(attackm){
+                            herotxt +="\n**"+User.name+"'s "+temdatanames[5]+" attacks "+attackm+"** dmg";
+                        }
+                        else{
+                            herotxt +="\n**"+User.name+"'s "+temdatanames[5]+" attacks but Missed**";
+                        }
+                    }
                     heroembed.setTitle("*"+herotxt+"*");
                     if(temdatanumbers[0]>0&!herotxt.includes("fled")){
                         // monster turn
@@ -769,7 +818,7 @@ return arr.filter(function(ele){return ele != value;});
                    temdatanumbers[0]-=foepoisoneffect;
                 effects="\n"+temdatanames[0]+" is poisoned! "+foepoisoneffect+" dmg";
                         }
-                        else if(temdatanumbers[13]==4){
+                        else if(temdatanumbers[13]==2){
                             // stun
                             monstereffectembed.setColor("#FFFE00");
                             foetxt = temdatanames[0]+" is stunned!";
@@ -783,15 +832,22 @@ return arr.filter(function(ele){return ele != value;});
                     temdatanumbers[0]-=foepoisoneffect;
                     effects="\n"+temdatanames[0]+" is corrupted! "+foepoisoneffect+" dmg";
                         }
-                        if(foeatkey==true){
+                        if(temdatanumbers[27]>0){temdatanumbers[27]--;foeatkey=false;}
+                        if(foeatkey!=true) foeattack=0;
                             User.HP-=foeattack;
                             if(User.HP<0) User.HP=0;
-                            if(User.HP>User.MaxHP)User.HP = User.MaxHP;
+                            if(skillname==Gamedata.sys_heronoskills[24]&User.HP==0)User.HP=1;
+                            if(Gamedata.sys_monsternames_normal.some(a=>a==temdatanames[5])&skillname!=Gamedata.sys_heronoskills[19]&temdatanumbers[29]>0){
+                                temdatanumbers[29]-=foeattack;
+                                if(temdatanumbers[29]<=0){
+                                    effects+="\n"+User.name+"'s "+temdatanames[5]+" has been defeated";
+                                    temdatanames[5]="";temdatanumbers[29]=0;temdatanumbers[30]=0;temdatanumbers[31]=0;Imgset[3]=0;User.Ary_Imgset=Imgset.join("<:>");
+                                }
+                            }
                             if(mdata[7]<foeattack){
                                 mdata[7]=foeattack;
                                 User.Metadata = mdata.join("<:>");
                             }
-                        }
                     heroembed.setDescription("*"+foetxt+"*");
                 }
                 heroembed.setFooter(effects);
@@ -823,147 +879,114 @@ return arr.filter(function(ele){return ele != value;});
                     temdatanumbers[0]-=foepoisoneffect;
                     effects=temdatanames[0]+" is corrupted! "+foepoisoneffect+" dmg";
                         }
-                        if(foeatkey==true){
+                        if(temdatanumbers[27]>0){temdatanumbers[27]--;foeatkey=false;}
+                        if(foeatkey!=true) foeattack=0;
                             User.HP-=foeattack;
                             if(User.HP<0) User.HP=0;
-                            if(User.HP>User.MaxHP)User.HP = User.MaxHP;
+                            if(Gamedata.sys_monsternames_normal.some(a=>a==temdatanames[5])&skillname!=Gamedata.sys_heronoskills[19]&temdatanumbers[29]>0){
+                                temdatanumbers[29]-=foeattack;
+                                if(temdatanumbers[29]<=0){
+                                    effects+="\n"+User.name+"'s "+temdatanames[5]+" has been defeated";
+                                    temdatanames[5]="";temdatanumbers[29]=0;temdatanumbers[30]=0;temdatanumbers[31]=0;Imgset[3]=0;User.Ary_Imgset=Imgset.join("<:>");
+                                }
+                            }
                             if(mdata[7]<foeattack){
                                 mdata[7]=foeattack;
                                 User.Metadata = mdata.join("<:>");
                             }
-                        }
                     heroembed.setTitle("*"+foetxt+"*");
                     if(User.HP>0){
                         // hero turn
-                        if(profiledata[3]==1){
-                            if(defendload==0){
-                            temdatanumbers[17]==0;}
-                            else{
-                                temdatanumbers[17]=defendload;
-                            }
-                        }
-                        if(profiledata[3]==3){
-                            if(defendload==0){
-                                temdatanumbers[17]==0;}
-                                else{
-                                    temdatanumbers[17]=defendload;
-                                }
-                        }
-                        if(arg.includes("skill")&skillkey==true){
-                            if(User.CombatMode==1){
-                                if(skillcost>1){
+                        if(temdatanumbers[17]>0)temdatanumbers[17]=0;
+                        if(skillkey==true||skillname){
+                            if(temdatanumbers[28]>0){temdatanumbers[28]--;attack=0;}
+                                User.Skillenergy -= skillsetdata[dtable3];
+                                if(User.Skillenergy<0)User.Skillenergy=0;
+                                if(skillsetdata[dtable1]==1){
                                 temdatanumbers[0]-= attack;
+                                if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
+                                if(alla==true)temdatanumbers[32]-= attack;
                                 if(mdata[6]<attack){
                                     mdata[6]=attack;
                                     User.Metadata = mdata.join("<:>");
                                 }
-                                User.Skillenergy -= skillcost;
-                                for(var skilcount = 0;skilcount<heroatkcrit.length;skilcount++){
-                                if(heroatkcrit[skilcount]>0){
-                                    if(skillname==Gamedata.sys_skill_names[0]&temdatanumbers[13]==0){
-                                        if(Math.random()<Gamedata.sys_skill_data2[0]){
-                                            //monster defense decreases
-                                            temdatanumbers[13]=3;
-                                            heroeffectembed.setColor("#FFFE00");
-                                            heroeffectembed.setDescription(":shield: "+temdatanames[0]+" defense has defeased!");
-                                            heroeftkey = true;
+                                if(skilleffects.trueffect){
+                                    for(var skilcount = 0;skilcount<heroatkcrit.length;skilcount++){
+                                        if(heroatkcrit[skilcount]>0){
+                                            if(skilleffects.trueffect==3&temdatanumbers[13]==0){
+                                                if(Math.random()<Gamedata.sys_skill_data2[0]){
+                                                    //monster defense decreases
+                                                    temdatanumbers[13]=3;
+                                                    heroeffectembed.setColor("#FFFE00");
+                                                    heroeffectembed.setDescription(":shield: "+temdatanames[0]+" defense has decrease!");
+                                                    heroeftkey = true;
+                                                }
+                                            }
+                                            else if(skilleffects.trueffect==2&temdatanumbers[13]==0){
+                                                if(Math.random()<Gamedata.sys_skill_data2[1]){
+                                                   // stun
+                                                   temdatanumbers[13] = 2;
+                                                   heroeffectembed.setColor("#FFFE00");
+                                                    heroeffectembed.setDescription(":zap: "+temdatanames[0]+" has been stunned!");
+                                                    heroeftkey = true;
+                                                }
+                                            }
+                                            else if(skilleffects.trueffect==4&temdatanumbers[13]==0){
+                                                if(Math.random()<Gamedata.sys_skill_data2[3]){
+                                                    // curruption
+                                                    temdatanumbers[13] = 4;
+                                                    temdatanumbers[11]-= 0.05;
+                                                    heroeffectembed.setColor("#0F0F0F");
+                                                    heroeffectembed.setDescription(":broken_heart: "+temdatanames[0]+" has been corrupted!");
+                                                    heroeftkey = true;
+                                                }
+                                            }
+                                            else if(skilleffects.trueffect==1&temdatanumbers[13]==0){
+                                                if(Math.random()<Gamedata.sys_skill_data2[4]){
+                                                    // poison
+                                                    temdatanumbers[13] = 1;
+                                                    heroeffectembed.setColor("#01FF00");
+                                                    heroeffectembed.setDescription(":green_heart: "+temdatanames[0]+" has been poisoned!");
+                                                    heroeftkey = true;
+                                                }
+                                            }
+                                            else if(skillname==Gamedata.sys_heronoskills[14]&profiledata[15]!=0){
+                                                //reflection
+                                                temdatanumbers[13]=profiledata[15];
+                                                if(profiledata[15]==1){heroeffectembed.setColor("#01FF00");
+                                                heroeffectembed.setDescription(":green_heart: "+temdatanames[0]+" has been poisoned!");}
+                                                else if(profiledata[15]==3){heroeffectembed.setColor("#FFFE00");
+                                                heroeffectembed.setDescription(":shield: "+temdatanames[0]+" defense has decreased!");}
+                                                else if(profiledata[15]==4){heroeffectembed.setColor("#0F0F0F");temdatanumbers[11]+= 0.05;
+                                                heroeffectembed.setDescription(":broken_heart: "+temdatanames[0]+" has been corrupted!");}
+                                            }
                                         }
-                                    }
-                                    else if(skillname==Gamedata.sys_skill_names[2]&temdatanumbers[13]==0){
-                                        if(Math.random()<Gamedata.sys_skill_data2[1]){
-                                           // stun
-                                           temdatanumbers[13] = 2;
-                                           User.Skillenergy++;
-                                           if(User.Skillenergy>User.Maxskillenergy) User.Skillenergy=User.Maxskillenergy;
-                                           heroeffectembed.setColor("#FFFE00");
-                                            heroeffectembed.setDescription(":zap: "+temdatanames[0]+" has been stunned!");
-                                            heroeftkey = true;
-                                        }
-                                    }
-                                    else if(skillname==Gamedata.sys_skill_names[3]&temdatanumbers[13]==0){
-                                        if(Math.random()<Gamedata.sys_skill_data2[2]){
-                                             //monster defense decreases
-                                             temdatanumbers[13]=3;
-                                            heroeffectembed.setColor("#FFFE00");
-                                            heroeffectembed.setDescription(":shield: "+temdatanames[0]+" defense has defeased!");
-                                            heroeftkey = true;
-                                        }
-                                    }
-                                    else if(skillname==Gamedata.sys_skill_names[5]&temdatanumbers[13]==0){
-                                        if(Math.random()<Gamedata.sys_skill_data2[3]){
-                                            // curruption
-                                            temdatanumbers[13] = 4;
-                                            temdatanumbers[11]-= 0.05;
-                                            heroeffectembed.setColor("#0F0F0F");
-                                            heroeffectembed.setDescription(":broken_heart: "+temdatanames[0]+" has been corrupted!");
-                                            heroeftkey = true;
-                                        }
-                                    }
-                                    else if(skillname==Gamedata.sys_skill_names[6]&temdatanumbers[13]==0){
-                                        if(Math.random()<Gamedata.sys_skill_data2[4]){
-                                            // poison
-                                            temdatanumbers[13] = 1;
-                                            heroeffectembed.setColor("#01FF00");
-                                            heroeffectembed.setDescription(":green_heart: "+temdatanames[0]+" has been poisoned!");
-                                            heroeftkey = true;
-                                        }
-                                    }
-                                    else if(skillname==Gamedata.sys_skill_names[8]&temdatanumbers[13]==0){
-                                        if(Math.random()<Gamedata.sys_skill_data2[5]){
-                                            // stun
-                                            temdatanumbers[13] = 2;
-                                            heroeffectembed.setColor("#FFFE00");
-                                            heroeffectembed.setDescription(":zap: "+temdatanames[0]+" has been stunned!");
-                                            heroeftkey = true;
-                                        }
-                                    }
-                                }}
-                            }
-                            else{
-                                if(skillname==Gamedata.sys_skill_names[1]){
-                                    if(temdatanumbers[11]<0.25){
-                                    temdatanumbers[11]+=skillnums;
-                                    herotxt = herotxt+"AddAtk has increased +"+displayper+"%";
-                                    User.Skillenergy -= skillcost;}
-                                    else{
-                                        herotxt= herotxt+"AddAtk has maxed out";
                                     }
                                 }
-                               else if(skillname==Gamedata.sys_skill_names[4]){
-                                if(temdatanumbers[22]<0.25){
-                                    temdatanumbers[22]+=skillnums;
-                                    herotxt = herotxt+"CriticalRate has increased +"+displayper+"%";
-                                    User.Skillenergy -= skillcost;}
-                                    else{
-                                        herotxt= herotxt+"CriticalRate has maxed out";
-                                    }
-                                }
-                                else if(skillname==Gamedata.sys_skill_names[7]){
-                                    if(temdatanumbers[12]<0.25){
-                                    temdatanumbers[12]+=skillnums;
-                                    herotxt = herotxt+"Speed has increased +"+displayper+"%";
-                                    User.Skillenergy -= skillcost;}
-                                    else{
-                                        herotxt= herotxt+"Speed has maxed out";
-                                    }
-                                }
-                            }
-                            }
+                            }var rpath = require.resolve(skillpath);delete require.cache[rpath];
                         }
                        else if(arg=="attack"){
                             if(User.CombatMode==1){
                                 temdatanumbers[0]-= attack;
+                                if(skillsetdata[4]==1||skillsetdata[9]==1||skillsetdata[14]==1||skillsetdata[19]==1)
+                            {var healback =Math.round(attack*0.35);User.HP+=healback;herotxt+="\n:heart: You heal back +"+healback;};
+                                if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
+                                if(alla==true)temdatanumbers[32]-= attack;
                             }
                             User.Skillenergy++;
                             if(User.Skillenergy>User.Maxskillenergy){
                                 User.Skillenergy=User.Maxskillenergy;
                             }
                         }
-                        else if(arg=="defend"&profiledata[3]!=2){
+                        else if(arg=="defend"){
+                        if(defendload>0){
+                            temdatanumbers[17]= defendload;
+                        }
+                        if(foeatkcrit>0){
                             User.Skillenergy++;
-                            if(User.Skillenergy>User.Maxskillenergy){
-                                User.Skillenergy=User.Maxskillenergy;
-                            }
+                        if(User.Skillenergy>User.Maxskillenergy){
+                            User.Skillenergy=User.Maxskillenergy;
+                        }}
                         }
                         else if(arg.includes("potion")&potioneffect!=0){
                             if(herotxt.includes("HP")||herotxt.includes("Fairy")){
@@ -994,6 +1017,7 @@ return arr.filter(function(ele){return ele != value;});
                                 }
                                 Imgset[1] = "";
                             User.Ary_Imgset = Imgset.join("<:>");
+                            if(hh3funset1[16]>0){hh3funset1[16]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");};
                             User.TemdataNames="";
                             User.TemdataNumbers="";
                             User.CombatMode=0;
@@ -1014,6 +1038,33 @@ return arr.filter(function(ele){return ele != value;});
                             heroembed.setColor("#0F0F0F");
                             effects="You are corrupted \n"+poisoneffect+" dmg";
                         }
+                        if(Gamedata.sys_monsternames_normal.some(a=>a==temdatanames[5])&temdatanumbers[29]>0){
+                            if(Math.random()<temdatanumbers[31]){
+                            var om = temdatanumbers[30]/2;
+                            var oam = 52 - om; om = oam/100;
+                            oam = om * temdatanumbers[30]; om = temdatanumbers[30]-oam;
+                            var tema = Math.round(om);
+                            var attackm = RandomMinMax(tema,temdatanumbers[30]);
+                            if(temdatanumbers[13]==3){
+                                defeffected = temdatanumbers[5]*.50;
+                                temdatanumbers[5]-=defeffected
+                            }
+                            var newatkm = temdatanumbers[5]*attackm;
+                            newatkm = temdatanumbers[30]-newatkm;
+                            newatkm = Math.round(newatkm);
+                            newatkm= newatkm-=temdatanumbers[4];
+                            if(newatkm<0)newatkm=0;
+                            if(monstercheatype==9&&herospkey<foespdkey&Math.random()<0.20){ effects="\n[Warning] "+temdatanames[5]+" Attack has fallen into the void\n";newatk=0;}
+                            newatkm= Math.round(newatkm);
+                            attackm+=newatkm;temdatanumbers[0]-= attackm;if(temdatanumbers[32]>0)temdatanumbers[0]-= attackm;
+                        }
+                            if(attackm){
+                                herotxt +="\n**"+User.name+"'s "+temdatanames[5]+" attacks "+attackm+"** dmg";
+                            }
+                            else{
+                                herotxt +="\n**"+User.name+"'s "+temdatanames[5]+" attacks but Missed**";
+                            }
+                        }
                     heroembed.setDescription("*"+herotxt+"*");
                 }
                     heroembed.setFooter(effects);
@@ -1028,7 +1079,7 @@ return arr.filter(function(ele){return ele != value;});
                     foecheatxt =  temdatanames[0]+"'s Ability: `Age of Ruin`\n Your speed has decreased";
                     monstercheatembed.setDescription(foecheatxt);
             }
-               else if(monstercheatype==2&heroatkcrit>1&temdatanumbers[0]>0&Math.random()<0.30){
+               else if(monstercheatype==2&heroatkcrit.some(a=>a==3)&temdatanumbers[0]>0&Math.random()<0.30){
                         profiledata[15]=2;
                         temdatanumbers[21]+=0.05;
                         monstercheatembed.setColor("#FF0000");
@@ -1041,7 +1092,7 @@ return arr.filter(function(ele){return ele != value;});
                     temdatanumbers[3] +=0.10;
                     temdatanumbers[5] =0;
                     monstercheatembed.setColor("#FF0000");
-                    foecheatxt = temdatanames[0]+"'s Ability: `Warrior's Fury`\n"+temdatanames[0]+"'s attack power has increases\nalso defense has decreases.";
+                    foecheatxt = temdatanames[0]+"'s Ability: `Warrior's Fury`\n"+temdatanames[0]+"'s attack power has increase\nbut defense has decrease.";
                     monstercheatembed.setDescription(foecheatxt);
                 }
                 else if(monstercheatype==4& temdatanumbers[13]!=0){
@@ -1050,16 +1101,14 @@ return arr.filter(function(ele){return ele != value;});
                     foecheatxt = temdatanames[0]+"'s Ability: `Natural Immunity`\nThis boss status cannot be changed.";
                     monstercheatembed.setDescription(foecheatxt);
                 }
-                else if(monstercheatype==5& temdatanumbers[0]< temdatanumbers[1]&temdatanumbers[0]<temdatanumbers[23]){
-                    temdatanumbers[23] = temdatanumbers[0];
+                else if(monstercheatype==5& temdatanumbers[0]< temdatanumbers[1]&attack>0){
                     var rate = temdatanumbers[1] - temdatanumbers[0];
                     var ratelv = rate/temdatanumbers[1];
                     ratelv = Math.round(ratelv*100);
                     var critrate = ratelv*0.003
                     temdatanumbers[7] = temdatanumbers[7] =critrate;
                 }
-                else if(monstercheatype==6& temdatanumbers[0]< temdatanumbers[1]&temdatanumbers[0]<temdatanumbers[23]){
-                    temdatanumbers[23] = temdatanumbers[0];
+                else if(monstercheatype==6& temdatanumbers[0]< temdatanumbers[1]&attack>0){
                     var rate = temdatanumbers[1] - temdatanumbers[0];
                     var ratelv = rate/temdatanumbers[1];
                     ratelv = Math.round(ratelv*100);
@@ -1099,26 +1148,31 @@ return arr.filter(function(ele){return ele != value;});
                     monstercheatembed.setImage(Imgset[1]);
                     foecheatxt="";
                 }
-                if(monstereffectype==1&foeatkcrit>0&profiledata[15]==0&Math.random()<0.23&temdatanumbers[0]>0){
+                else if(monstercheatype==11&foeatkcrit==0){
+                    temdatanumbers[3]+=0.07;
+                    foecheatxt=temdatanames[0]+"'s AddDmg increases";
+                    monstercheatembed.setDescription(foecheatxt);
+                }
+                if((monstereffectype==1&foeatkcrit>0&profiledata[15]==0&foeatkey==true||foeskillef==1)&Math.random()<0.23&temdatanumbers[0]>0){
                     profiledata[15]=1;
                     monstereffectembed.setColor("#01FF00");
                     monstereffectembed.setDescription(":green_heart: You have been Poisoned!\nYou will take additional dmg each round and your speed decreased");
                     monstereffectembed.setFooter("Tip: You can use a Pure Potion to remove the effects");
                     foeffect="";
                 }
-               else if(monstereffectype==2&foeatkcrit>0&profiledata[15]==0&Math.random()<0.12&temdatanumbers[0]>0){
+               else if((monstereffectype==2&foeatkcrit>0&profiledata[15]==0&foeatkey==true||foeskillef==2)&Math.random()<0.12&temdatanumbers[0]>0){
                     profiledata[15]=2;
                     monstereffectembed.setColor("#FFFE00");
                     monstereffectembed.setDescription(":zap: You have been Stunned!\nYou must use any act command to fight the stun");
                     foeffect="";
                 }
-                else if(monstereffectype==3&foeatkcrit>0&profiledata[15]==0&Math.random()<0.15&temdatanumbers[0]>0){
+                else if((monstereffectype==3&foeatkcrit>0&profiledata[15]==0&foeatkey==true||foeskillef==3)&Math.random()<0.15&temdatanumbers[0]>0){
                     profiledata[15]=3;
                     monstereffectembed.setColor("#FFFE00");
                     monstereffectembed.setDescription(":shield: Your Defense has decreased!");
                     foeffect="";
                 }
-                else if(monstereffectype==4&foeatkcrit>0&profiledata[15]==0&Math.random()<0.20&temdatanumbers[0]>0){
+                else if((monstereffectype==4&foeatkcrit>0&profiledata[15]==0&foeatkey==true||foeskillef==4)&Math.random()<0.20&temdatanumbers[0]>0){
                     profiledata[15]=4;
                     monstereffectembed.setColor("#0F0F0F");
                     monstereffectembed.setDescription(":broken_heart: You have been Corrupted!\nYou will take additional dmg each round and your defense decreased");
@@ -1134,11 +1188,11 @@ return arr.filter(function(ele){return ele != value;});
                 if(foeffect!=undefined){
                     message.channel.send(monstereffectembed);
                 }
-                if(profilenames[1]!=""&profiledata[3]<4&profiledata[3]>0&!herotxt.includes("fled")&heroatkcrit>0||profilenames[2]!=""&profiledata[14]==0&!herotxt.includes("fled")&foeatkcrit>0){
+                if(profilenames[1]!=""&profiledata[3]<4&profiledata[3]>0&!herotxt.includes("fled")&heroatkcrit.some(a=>a>0)||profilenames[2]!=""&profiledata[14]==0&!herotxt.includes("fled")&foeatkcrit>0){
                     var wepdmg = profiledata[7];
                     var armdmg = profiledata[11];
                     if(profilenames[1]!=""&profiledata[3]<10&profiledata[6]>0){profiledata[6]-=wepdmg;}
-                    else if(profilenames[1]!=""){
+                    else if(profilenames[1]!=""&profiledata[3]<4&profiledata[3]>0){
                         warnembed.setColor("#FFFE00");
                         warnembed.setDescription(":warning: "+ profilenames[1]+" has been broken\nTo repair command: -repair (You can use this command outside of combat)");
                         profiledata[3]+=10;
@@ -1146,7 +1200,7 @@ return arr.filter(function(ele){return ele != value;});
                         message.channel.send(warnembed);
                     }
                     if(profilenames[2]!=""&profiledata[14]!=10&profiledata[10]>0){profiledata[10]-=armdmg;}
-                    else if(profilenames[2]!=""){
+                    else if(profilenames[2]!=""&profiledata[14]==0){
                         warnembed2.setColor("#FFFE00");
                         warnembed2.setDescription(":warning: "+ profilenames[2]+" has been broken\nTo repair command: -repair (You can use this command outside of combat)");
                         profiledata[14]=10;
@@ -1154,6 +1208,7 @@ return arr.filter(function(ele){return ele != value;});
                         message.channel.send(warnembed2);
                     }
                 }
+                if(temdatanames[6]!=""&temdatanames[6]!=undefined&displayskill==true)temdatanames[6]="";
                 User.TemdataNames = temdatanames.join("<:>");
                 User.TemdataNumbers = temdatanumbers.join("<:>");
                 User.Ary_HH3ProfileData = profiledata.join("<:>");
@@ -1162,15 +1217,16 @@ return arr.filter(function(ele){return ele != value;});
                     User.Metadata = mdata.join("<:>");
                     herodefeatembed.setAuthor(User.name+" has been defeated by "+temdatanames[0],message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
                     if(User.Fightagain>0){
-                        herodefeatembed.setTitle("Do you wish to continue fighting?\n`cost 20 Energy`\nYou can use this command once daily");
-                        herodefeatembed.setDescription("To continue fighting command: `-again`\nYou can use this command `once daily`")
-                        herodefeatembed.setFooter("instead your hp will be fully recovered and your floor be reset to begining of current floor or back to the Check Point");
-                        User.CombatMode=0;
-                        User.HP = User.MaxHP;
                         hh3funset1[10]=1;
                         profiledata[15]=0;
                         User.Ary_HH3ProfileData = profiledata.join("<:>");
                         User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
+                        herodefeatembed.setTitle("Do you wish to continue fighting?\n`cost 20 Energy`\nYou can use this command once daily");
+                        herodefeatembed.setDescription("To continue fighting command: `-again`\nYou can use this command `once daily`")
+                            herodefeatembed.setFooter("instead your hp will be fully recovered and your floor be reset to begining of current floor or back to the Check Point");
+                            User.CombatMode=0;
+                            User.HP = User.MaxHP;
+                        
                     }
                     else{
                     User.TemdataNames = "";
@@ -1244,17 +1300,20 @@ return arr.filter(function(ele){return ele != value;});
                     message.channel.send(herodefeatembed);
                 }
                 else if(temdatanumbers[0]<=0&User.CombatMode==1){
-                    monsterdefeatembed.setAuthor(temdatanames[0]+" has been defeated", Imgset[1]);
+                    if(mdefeated==true) defeatxt=defeatxt+"\n"+temdatanames[0]+" has been defeated", Imgset[1];
+                    else {defeatxt=temdatanames[0]+" has been defeated", Imgset[1];mdefeated=true;}
                     var kepname = temdatanames[0];
                     var rawdrop = ""+temdatanumbers[9];
                     var monstertype =Number(rawdrop.charAt(0));
                     var droptier =Number (rawdrop.substring(1));
                     Imgset[1]="";
                     User.Ary_Imgset = Imgset.join("<:>");
+                    if(hh3funset1[16]>0){hh3funset1[16]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");};
                     User.TemdataNames = "";
                     User.TemdataNumbers = "";
                     User.CombatMode=0;
                     mdata[3]++;
+                    if(temdatanumbers[33]!=0)mdata[3]++;
                     User.Metadata = mdata.join("<:>");
                     var balance = 0;
                     var expdrop = 0;
@@ -1278,8 +1337,22 @@ return arr.filter(function(ele){return ele != value;});
                     exp = RandomMinMax(minexpdrop,expdrop);
                     User.exp += exp;
                     User.currency += currency;
+                    if(temdatanumbers[33]!=0){
+                        var rawdropII = ""+temdatanumbers[41];
+                        var droptierII =Number (rawdropII.substring(1));
+                        var monstertypeII =Number(rawdropII.charAt(0));
+                       var balanceII = droptierII*6;
+                       var expdropII = droptierII*15
+                       var minbalanceII = Math.round(0.30*balanceII);
+                        var minexpdropII = Math.round(0.50*expdropII);
+                       var currencyII = RandomMinMax(minbalanceII,balanceII);
+                       var expII = RandomMinMax(minexpdropII,expdropII);
+                        User.exp += expII;
+                        User.currency += currencyII;
+                        }
                     monsterdefeatembed.setTitle(":gift: Reward");
-                    monsterdefeatembed.setDescription("EXP: "+exp+"\nCurrency: "+currency);
+                   if(temdatanumbers[33]==0) monsterdefeatembed.setDescription("EXP: "+exp+"\nCurrency: "+currency);
+                   else monsterdefeatembed.setDescription("EXP: "+exp+"(+"+expII+")\nCurrency: "+currency+"(+"+currencyII+")");
                     if(monstertype==1&droptier==1){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier1;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier1rate;
@@ -1309,6 +1382,10 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
                     }
                     if(monstertype==1&droptier==9){
+                        itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                    }
+                    if(monstertype==1&droptier==10){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
                     }
@@ -1348,6 +1425,48 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier9;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier4rate;
                     }
+                    if(monstertype==3&droptier==10){
+                        itemdropnames = Gamedata.sys_monsterbossdrop_tier9;
+                        itemdropnums = Gamedata.sys_monsterbossdrop_tier4rate;
+                    }
+                    if(hh3funset1[11]==2){
+                        if(monstertypeII==1&droptierII==1){
+                            itemdropnames = Gamedata.sys_monsternormaldrop_tier1;
+                            itemdropnums = Gamedata.sys_monsternormaldrop_tier1rate;
+                        }
+                        if(monstertypeII==1&droptierII==2){
+                            itemdropnames = Gamedata.sys_monsternormaldrop_tier2;
+                            itemdropnums = Gamedata.sys_monsternormaldrop_tier2rate;
+                        }
+                        if(monstertypeII==1&droptierII==3){
+                            itemdropnames = Gamedata.sys_monsternormaldrop_tier3;
+                            itemdropnums = Gamedata.sys_monsternormaldrop_tier3rate;
+                        }
+                        if(monstertypeII==1&droptierII==5){
+                            itemdropnames = Gamedata.sys_monsternormaldrop_tier5;
+                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        }
+                        if(monstertypeII==1&droptierII==6){
+                            itemdropnames = Gamedata.sys_monsternormaldrop_tier6;
+                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        }
+                        if(monstertypeII==1&droptierII==7){
+                            itemdropnames = Gamedata.sys_monsternormaldrop_tier7;
+                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        }
+                        if(monstertypeII==1&droptierII==8){
+                            itemdropnames = Gamedata.sys_monsternormaldrop_tier8;
+                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        }
+                        if(monstertypeII==1&droptierII==9){
+                            itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
+                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        }
+                        if(monstertypeII==1&droptierII==10){
+                            itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
+                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        }
+                    }
                         for(var item = 0; item < 3; item++){
                             var items = RandomMax(itemdropnames.length);
                             if(Math.random()<itemdropnums[items]){
@@ -1355,7 +1474,7 @@ return arr.filter(function(ele){return ele != value;});
                                     var getname = Gamedata.sys_material_names.find(a=>IgnoringCase(a,itemdropnames[items]));
                                     var getcort = Gamedata.sys_material_names.indexOf(getname);
                                     var amount = RandomMinMax(1,3);
-                                    getcrot = getcort+=10;
+                                    getcrot = getcort+=12;
                                     if(itembagnames[getcort]==""){
                                     itembagnames[getcort] = getname;}
                                     itembagdata[getcort] += amount;
@@ -1493,19 +1612,37 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnames = arrayRemove(itemdropnames,itemdropnames[items]);
                         itemdropnums = arrayRemove(itemdropnums,itemdropnums[items]);
                     }
-                    if(kepname==Gamedata.sys_monsternames_boss[9]){profiledata[2]=1; profilenames[0]="Hunted House Master"; monsterdefeatembed.addField("Master Key",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten the game.\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nThanks for playing~!")}
+                    if(temdatanumbers[9]>19){
+                    var getskill = [];
+                    var theskill="";
+                    for(var skillsetm=0;skillsetm<3;skillsetm++){
+                    var set=skillsetm+1;
+                    if(temdatanames[set]!=""){
+                        getskill[skillsetm]= temdatanames[set];
+                    }else break;
+                        }
+                    theskill= getskill[RandomMax(getskill.length)];
+                    if(!skillslearned.includes(theskill)){
+                        skillslearned[skillslearned.length] =theskill;
+                        User.skillslearned = skillslearned.join("<:>");
+                        monsterdefeatembed.addField(":ledger: You have Learned `"+theskill+"`!","command: `skill index` for full decription");
+                    }
+                    }
+                    if(kepname==Gamedata.sys_monsternames_boss[9]){profiledata[2]=1; profilenames[8]="Hunted House Master"; monsterdefeatembed.addField("Master Key",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten the game.\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nThanks for playing~!")}
                     if(monstertype==3){hh3funset1[9]++;User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>")};
+                    if(hh3funset1[16]>0)User.Skillenergy=0;
                     User.Ary_HH3ProfileNames= profilenames.join("<:>");
                     User.Ary_HH3ProfileData = profiledata.join("<:>");
                     User.Ary_Equipmentnames = equipnames.join("<:>");
                     User.Ary_Equipmentdata = equipmentdata.join("<:>");
                     User.Ary_itembagnames = itembagnames.join("<:>");
                     User.Ary_itembagdata = itembagdata.join("<:>");
-                    message.channel.send(monsterdefeatembed);
+                   if(temdatanumbers[33]==0) message.channel.send(monsterdefeatembed);
                 }
+                //if(temdatanumbers[33]!=0&mdefeated==true)message.channel.send(monsterdefeatembed);
             }
                 else{
-                    warnembed.setDescription(":x: you can only use act with attack, defend, skill <skill name>, potion, or flee")
+                    warnembed.setDescription(":x: you can only use act with attack, defend, skill <skill name>, potion, or flee");
                     message.channel.send(warnembed);
                 }
             }
@@ -1514,10 +1651,7 @@ return arr.filter(function(ele){return ele != value;});
                 message.channel.send(warnembed);
             }
     }
-    else{
-        warnembed.setDescription(":x: You are not in combat");
-        message.channel.send(warnembed);
-    }
+    else return message.channel.send(warnembed.setDescription(":x: You are not in combat"));
 }
 module.exports.key = {
     name: "act",

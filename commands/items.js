@@ -1,10 +1,11 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
 module.exports.run = async (message, arg, User) => {
-    var itembagnames = User.Ary_itembagnames.split("<:>");
+    if(User.Ary_itembagnames)var itembagnames = User.Ary_itembagnames.split("<:>");
+    else return message.channel.send(itemsembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var rawitembagdata = User.Ary_itembagdata.split("<:>");var itembagdata = [];
     for(var index=0; index<rawitembagdata.length;index++){
-        itembagdata[index]= Number(rawitembagdata[index])
+        itembagdata[index]= Number(rawitembagdata[index]);
     }
     const itemsembed = new Discord.MessageEmbed();
     itemsembed.setColor(User.colortheme);
@@ -13,17 +14,76 @@ module.exports.run = async (message, arg, User) => {
     if (num ==0 | isNaN(num)){
     itemsembed.setTitle(":school_satchel: Item Bag");
     if(!itembagnames.every(a=>a=="")){
-    for(var itemsdex = 0; itemsdex< itembagnames.length; itemsdex++){
-        if(itembagnames[itemsdex]!=""){
-            itemsembed.addField(itembagnames[itemsdex],itembagdata[itemsdex]);
-        }
-    }}
-    else{
-        itemsembed.setDescription(":x: You do not have any items");
+        var items = itembagnames.filter(a=>a);
+    for(var index = 0; index<6; index++){
+        var x = itembagnames.indexOf(items[index]);
+        itemsembed.addField(items[index],itembagdata[x]);
     }
-        itemsembed.addField("HP",User.HP+"/"+User.MaxHP);
-        itemsembed.addField("Energy",User.energy+"/"+User.Maxenergy);
-        itemsembed.setFooter("To Heal using "+Gamedata.sys_item_names[0]+" Command: -items 1\nTo Heal using "+Gamedata.sys_item_names[1]+" Command: -items 2\nTo use "+Gamedata.sys_item_names[9]+" Command: -items 3");
+}
+    else{
+        message.channel.send(itemsembed.setDescription(":x: You do not have any items"));
+    }
+        itemsembed.addField("HP",User.HP+"/"+User.MaxHP,true);
+        itemsembed.addField("Energy",Math.round(User.energy)+"/"+Math.round(User.Maxenergy),true);
+        var text = "To Heal using "+Gamedata.sys_item_names[0]+" Command: -items 1\nTo Heal using "+Gamedata.sys_item_names[1]+" Command: -items 2\nTo use "+Gamedata.sys_item_names[9]+" Command: -items 3"
+        itemsembed.setFooter(text);
+        if(items<7) message.channel.send(itemsembed);
+        else message.channel.send(itemsembed.setFooter(text+"\n⬅️➡️⏪⏩ view more items")).then((message)=>{message.react('⏪'),message.react('⬅️'),message.react('➡️'),message.react('⏩');
+        function sample(){
+        const filter = (reaction, user) => {
+         return ['⬅️','➡️','⏪','⏩'].includes(reaction.emoji.name) && user.id === User.id;
+     };
+        message.awaitReactions(filter, { max: 1})
+     .then((collected) => {
+         const reaction = collected.first();
+         if (reaction.emoji.name == '➡️') {
+           if(index<items.length) itemsembed.spliceFields(0,9);
+            var newdex = index+6;
+            if(newdex>items.length)newdex=items.length;
+            for(index; index< newdex||index<items.length; index++){
+                if(items[index]){
+                var x = itembagnames.indexOf(items[index]);
+                itemsembed.addField(items[index],itembagdata[x]);}
+            }
+             message.edit(itemsembed).then(message=>{message.reactions.resolve('➡️').users.remove(User.id);});
+             sample();
+         } else if (reaction.emoji.name == '⬅️') {
+             index-=12;
+             if(index<0)index=0;
+             var newdex = index+6;
+             itemsembed.spliceFields(0,9);
+             for(index; index< newdex; index++){
+                var x = itembagnames.indexOf(items[index]);
+                itemsembed.addField(items[index],itembagdata[x]);
+             }
+             message.edit(itemsembed).then(message=>{message.reactions.resolve('⬅️').users.remove(User.id);});
+             sample();
+         }
+        else if (reaction.emoji.name == '⏩') {
+            itemsembed.spliceFields(0,9);
+            var newdex = items.length;
+            index = items.length-6;
+            for(index; index< newdex; index++){
+                var x = itembagnames.indexOf(items[index]);
+                itemsembed.addField(items[index],itembagdata[x]);
+            }
+             message.edit(itemsembed).then(message=>{message.reactions.resolve('⏩').users.remove(User.id);});
+             sample();
+         }
+         else if (reaction.emoji.name == '⏪') {
+            itemsembed.spliceFields(0,9);
+            index = 0;
+            for(index; index<6; index++){
+                var x = itembagnames.indexOf(items[index]);
+                itemsembed.addField(items[index],itembagdata[x]);
+            }
+             message.edit(itemsembed).then(message=>{message.reactions.resolve('⏪').users.remove(User.id);});
+             sample();
+         }
+     })
+     }
+     sample();
+     });
     }
     else{
         if(num==1){
@@ -34,13 +94,13 @@ module.exports.run = async (message, arg, User) => {
                     if(User.HP>User.MaxHP){User.HP=User.MaxHP};
                     User.Ary_itembagdata = itembagdata.join("<:>");
                     itemsembed.setDescription(":test_tube: "+User.name+" consumes 1 "+Gamedata.sys_item_names[0]+"\n recover +"+Gamedata.sys_Item_Effects[0]+" HP");
-                    itemsembed.addField("HP",User.HP+"/"+User.MaxHP);
+                    message.channel.send(itemsembed.addField("HP",User.HP+"/"+User.MaxHP));
                 }
                 else{
-                    itemsembed.setDescription(":test_tube: "+User.name+"'s HP is Full \nThe Item was not consumed.");
+                    message.channel.send(itemsembed.setDescription(":test_tube: "+User.name+"'s HP is Full \nThe Item was not consumed."));
                 }
             }else{
-                itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[0]);
+                message.channel.send(itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[0]));
             }
         }
        else if(num==2){
@@ -51,13 +111,13 @@ module.exports.run = async (message, arg, User) => {
                     if(User.HP>User.MaxHP){User.HP=User.MaxHP};
                     User.Ary_itembagdata = itembagdata.join("<:>");
                     itemsembed.setDescription(":test_tube: "+User.name+" consumes 1 "+Gamedata.sys_item_names[1]+"\n recover +"+Gamedata.sys_Item_Effects[1]+" HP");
-                    itemsembed.addField("HP",User.HP+"/"+User.MaxHP);
+                    message.channel.send(itemsembed.addField("HP",User.HP+"/"+User.MaxHP));
                 }
                 else{
-                    itemsembed.setDescription(":heart: "+User.name+" HP is Full \nThe Item was not consumed.");
+                    message.channel.send(itemsembed.setDescription(":heart: "+User.name+" HP is Full \nThe Item was not consumed."));
                 }
             }else{
-                itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[1]);
+                message.channel.send(itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[1]));
             }
         }
         else if(num==3){
@@ -68,25 +128,22 @@ module.exports.run = async (message, arg, User) => {
                     if(User.energy>User.Maxenergy){User.energy=User.Maxenergy};
                     User.Ary_itembagdata = itembagdata.join("<:>");
                     itemsembed.setDescription(":test_tube: "+User.name+" consumes 1 "+Gamedata.sys_item_names[9]+"\n recover +"+Gamedata.sys_Item_Effects[1]+" Energy");
-                    itemsembed.addField("Energy",User.energy+"/"+User.Maxenergy);
+                    message.channel.send(itemsembed.addField("Energy",User.energy+"/"+User.Maxenergy));
                 }
                 else{
-                    itemsembed.setDescription(":zap: "+User.name+" Energy is Full \nThe Item was not consumed.");
+                    message.channel.send(itemsembed.setDescription(":zap: "+User.name+" Energy is Full \nThe Item was not consumed."));
                 }
             }else{
-                itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[1]);
+                message.channel.send(itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[1]));
             }
         }
         else{
-            itemsembed.setDescription(":x: That item doesn't exist.");
+            message.channel.send(itemsembed.setDescription(":x: That item doesn't exist."));
         }
     }
     }else{
-        itemsembed.setDescription(":x: You are in a battle.\nTo view foe, command: `-check`\nTo Heal, command: `-act potion`");
+        message.channel.send(itemsembed.setDescription(":x: You are in a battle.\nTo view foe, command: `-check`\nTo Heal, command: `-act potion`"));
     }
-    
-    
-         message.channel.send( itemsembed );
 }
 module.exports.key = {
     name: "items",

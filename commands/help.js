@@ -12,14 +12,16 @@ module.exports.run = async (client, message, arg) => {
     newemmbed.addField("Command: `-fate <option> & <option2>`", "This Command will take 1 choices after `-fate` then another after `&` and give you the best result");
     newemmbed.addField("Command: `-animehunt`", "guess your anime smarts game");
     newemmbed.addField("Command: `-statistic`","your account statistics");
-    newemmbed.setFooter("To view Game Commands: -help game\nTo view Music Commands: -help music\n"+client.user.username+" Ver 9.6.8 \n Made by: AhhLoli#5983");}
+    newemmbed.setFooter("To view Game Commands: -help game\nTo view Music Commands: -help music\n"+client.user.username+" Ver 9.7.8 \n Made by: AhhLoli#5983");}
     else if(arg.includes("game")){
         newemmbed.addField("Command: `-roll`","Roll a dice to Progress in HH3");
         newemmbed.addField("Command: `-check`","To View what Floor your on or foe status");
         newemmbed.addField("Command: `-items`","Check or use items in your bag");
+        newemmbed.addField("Command: `-give < User Tag > < Item >`","Give items to your friends");
         newemmbed.addField("Command: `-equip`","View the equipment in your bag or `-equip < equipment number >` to use equipment");
         newemmbed.addField("Command: `-unequip`","unequip current equip you have on");
         newemmbed.addField("Command: `-discard < equipment number >`","discard");
+        newemmbed.addField("Command: `-crystal`","Check or use crystals in your bag");
         newemmbed.addField("Command: `-shop`","To vist the shop");
         newemmbed.addField("Command: `-sell`","To sell equipment");
         newemmbed.addField("Command: `-craft`","To vist the craft shop");

@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
 module.exports.run = async (message, arg, User) => {
+    if(User.Ary_HH3FunctionSet1)var rawhh3funset1 = User.Ary_HH3FunctionSet1.split("<:>");
+    else return message.channel.send(checkembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var profilenames = User.Ary_HH3ProfileNames.split("<:>");
     var rawdata = User.Metadata.split("<:>");var mdata = [];
     for(var index=0; index<rawdata.length;index++){
         mdata[index]= Number(rawdata[index])
     }
-    var rawhh3funset1 = User.Ary_HH3FunctionSet1.split("<:>");
       var hh3funset1 = [];
       for(var index=0; index<rawhh3funset1.length;index++){
           hh3funset1[index]= Number(rawhh3funset1[index])

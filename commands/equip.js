@@ -1,26 +1,26 @@
 const Discord = require('discord.js');
-const Gamedata = require('../data/hh3data.json');
 module.exports.run = async (message, arg,User) => {
     const equipembed = new Discord.MessageEmbed();
     var num = Number(arg);
-    var equipnames = User.Ary_Equipmentnames.split("<:>");
+    if(User.Ary_Equipmentnames)var equipnames = User.Ary_Equipmentnames.split("<:>");
+    else return message.channel.send(equipembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var profilenames = User.Ary_HH3ProfileNames.split("<:>");
     var rawequipmentdata = User.Ary_Equipmentdata.split("<:>");var equipmentdata = [];
     for(var index=0; index<rawequipmentdata.length;index++){
-        equipmentdata[index]= Number(rawequipmentdata[index])
+        equipmentdata[index]= Number(rawequipmentdata[index]);
     }
     var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
     for(var index=0; index<rawprofiledata.length;index++){
-        profiledata[index]= Number(rawprofiledata[index])
+        profiledata[index]= Number(rawprofiledata[index]);
     }
     var rawhh3funset1 = User.Ary_HH3FunctionSet1.split("<:>");
     var hh3funset1 = [];
     for(var index=0; index<rawhh3funset1.length;index++){
-        hh3funset1[index]= Number(rawhh3funset1[index])
+        hh3funset1[index]= Number(rawhh3funset1[index]);
     };
     var rawdata = User.Metadata.split("<:>");var mdata = [];
     for(var index=0; index<rawdata.length;index++){
-        mdata[index]= Number(rawdata[index])
+        mdata[index]= Number(rawdata[index]);
     }
     equipembed.setColor(User.colortheme);
             if (num ==0 | isNaN(num))

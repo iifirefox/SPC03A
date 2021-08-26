@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
+const Account = require("../data/tree");
 module.exports.run = async (message, arg, User) => {
     var equipnames = User.Ary_Equipmentnames.split("<:>");
     var rawequipmentdata = User.Ary_Equipmentdata.split("<:>");var equipmentdata = [];
@@ -19,32 +20,7 @@ module.exports.run = async (message, arg, User) => {
     var equipindex;
      var theprice;
     if (num ==0 | isNaN(num)){
-        if (hh3funset1[6] >= 1 & arg == "yes"){
-            var argcounter = 5 * hh3funset1[7];
-                        var typecort = 0 + argcounter;
-                        var phycort = 1 + argcounter;
-                        var precentcort = 2 + argcounter;
-                        var durcort = 3 + argcounter;
-                        var durdmgcort = 4 + argcounter;
-                        temnamesav = equipnames[hh3funset1[7]];
-                        tempricesav = hh3funset1[8];
-                        equipnames[hh3funset1[7]] = "";
-                        equipmentdata[typecort] = 0;
-                        equipmentdata[phycort] = 0;
-                        equipmentdata[precentcort] = 0;
-                        equipmentdata[durcort] = 0;
-                        equipmentdata[durdmgcort] = 0;
-                        User.currency += hh3funset1[8];
-                        hh3funset1[7] = 0;
-                        hh3funset1[6] = 0;
-                        hh3funset1[8] = 0;
-                        User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
-                        User.Ary_Equipmentnames = equipnames.join("<:>");
-                        User.Ary_Equipmentdata = equipmentdata.join("<:>");
-                        sellembed.setDescription(":moneybag:  `" + temnamesav + "` has been sold for `"+tempricesav+"`");
-        }
-        else{
-            if(equipnames.every(a=>a == "")){
+    if(equipnames.every(a=>a == "")){
                 sellembed.setTitle(":school_satchel: Equipment Bag");
                     sellembed.setDescription(":x: you don't have any items in your bag.");
                 sellembed.addField("0/8","Currency balance: `"+User.currency+"`");
@@ -130,7 +106,6 @@ module.exports.run = async (message, arg, User) => {
                     sellembed.addField(temnum + "/8","Currency balance: `"+User.currency+"`");
                     sellembed.setFooter("To sell an item Command: -sell <number in list>");
                 }
-                }
                     await message.channel.send(sellembed);
     }else{
         num--;
@@ -143,12 +118,41 @@ module.exports.run = async (message, arg, User) => {
                        else if(Gamedata.sys_bow_names.includes(equipnames[num])){ equipindex = Gamedata.sys_bow_names.indexOf(equipnames[num]);theprice = Gamedata.sys_weapon_price[equipindex]/3;theprice= Math.round(theprice)}
                        else if(Gamedata.sys_armor_names.includes(equipnames[num])){ equipindex = Gamedata.sys_armor_names.indexOf(equipnames[num]);theprice = Gamedata.sys_armor_price[equipindex]/3;theprice= Math.round(theprice)}
                         sellembed.setDescription(":warning: Are you sure you want to sell `" + equipnames[num] +"` for `"+theprice+ "` currency?");
-                        sellembed.setFooter(" command: -sell yes to confirm.");
-                        hh3funset1[6] = 1;
-                        hh3funset1[7] = num;
-                        hh3funset1[8] = theprice;
-                        User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
-                        await message.channel.send(sellembed);
+                        await message.channel.send(sellembed.setFooter("react with :white_check_mark: to confirm")).then(function(message){message.react('✅')
+                        const filter = (reaction, user) => {
+                         return ['✅'].includes(reaction.emoji.name) && user.id === User.id;
+                     };
+                        message.awaitReactions(filter, { max: 1})
+                     .then(collected => {
+                         const reaction = collected.first();
+                 
+                         if (reaction.emoji.name === '✅') {
+                            var argcounter = 5 * num;
+                            var typecort = 0 + argcounter;
+                            var phycort = 1 + argcounter;
+                            var precentcort = 2 + argcounter;
+                            var durcort = 3 + argcounter;
+                            var durdmgcort = 4 + argcounter;
+                            temnamesav = equipnames[num];
+                            tempricesav = theprice;
+                            equipnames[num] = "";
+                            equipmentdata[typecort] = 0;
+                            equipmentdata[phycort] = 0;
+                            equipmentdata[precentcort] = 0;
+                            equipmentdata[durcort] = 0;
+                            equipmentdata[durdmgcort] = 0;
+                            Account.findOne({
+                                id: User.id
+                            },async(err,User)=>{
+                              if(err)console.log(err);
+                            User.currency += theprice;
+                            User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
+                            User.Ary_Equipmentnames = equipnames.join("<:>");
+                            User.Ary_Equipmentdata = equipmentdata.join("<:>");
+                              User.save().catch(err => console.log(err));})
+                            message.edit(sellembed.setDescription(":moneybag:  `" + temnamesav + "` has been sold for `"+tempricesav+"`").setFooter(""));
+                         } 
+                     })})
                     }
                     else
                     {

@@ -11,6 +11,8 @@ module.exports.run = async (message, arg, User) => {
         return x * 100;
       }
       var itemnames = User.Shop_itemsnames.split("<:>");
+      if(User.Ary_HH3ProfileNames)var profilenames = User.Ary_HH3ProfileNames.split("<:>");
+      else return message.channel.send(shopembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var rawitemsdata = User.Shop_itemsdata.split("<:>");var itemsdata = [];
     for(var index=0; index<rawitemsdata.length;index++){
         itemsdata[index]= Number(rawitemsdata[index])
@@ -169,7 +171,7 @@ module.exports.run = async (message, arg, User) => {
             itemsdata[13]++;
     User.Shop_itemsdata = itemsdata.join("<:>");
         }
-        else if(itemkey!==""){
+        else if(itemkey!==""){if(profilenames[5]==Gamedata.sys_chest_mysterychest[3]) itemprice= itemprice+Math.round(itemprice*0.10)
             var stockindex = itemsdata[14]+6
             itemnames[itemsdata[14]] = itemkey;
             itemsdata[itemsdata[14]] = itemprice;

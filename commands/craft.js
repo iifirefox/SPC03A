@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
+const Account = require("../data/tree");
 module.exports.run = async (message, arg, User) => {
     function IgnoringCase(text, other) {
         return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
     }
-    var temdatanames = User.TemdataNames.split("<:>");
-    var equipnames = User.Ary_Equipmentnames.split("<:>");
+    if(User.Ary_Equipmentnames)var equipnames = User.Ary_Equipmentnames.split("<:>");
+    else return message.channel.send(craftembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var rawequipmentdata = User.Ary_Equipmentdata.split("<:>");var equipmentdata = [];
     for(var index=0; index<rawequipmentdata.length;index++){
         equipmentdata[index]= Number(rawequipmentdata[index])
@@ -19,76 +20,11 @@ module.exports.run = async (message, arg, User) => {
     for(var index=0; index<rawitembagdata.length;index++){
         itembagdata[index]= Number(rawitembagdata[index])
     }
-    var rawtemdatanumbers= User.TemdataNumbers.split("<:>");
-      var temdatanumbers = [];
-      for(var index=0; index<rawtemdatanumbers.length;index++){
-        temdatanumbers[index]= Number(rawtemdatanumbers[index])
-      }
     const craftembed = new Discord.MessageEmbed();
     craftembed.setColor("#FFC500");
     if(User.CombatMode==0){
     if(hh3funset1[0]==1){
     if(arg==""||arg==undefined||arg.includes("yes")){
-        if(arg.includes("yes")&hh3funset1[6]==5){
-            var checkresult = equipnames.indexOf("");
-            if(itembagdata[temdatanumbers[4]]>= temdatanumbers[0]&itembagdata[temdatanumbers[5]]>= temdatanumbers[1]&itembagdata[temdatanumbers[6]]>= temdatanumbers[2]){
-              if(User.currency>=temdatanumbers[3]){
-                if(checkresult != -1){
-                    var dataindex;
-                    var datakey;
-                    var equipindex = 5*checkresult;
-                    var phycort = 1+equipindex;
-                    var percort = 2+equipindex;
-                    var durcort = 3+equipindex;
-                    var durdmgcort = 4+equipindex;
-                    var datacort = 3;
-                    var dataphy = 0;
-                    var dataper = 1;
-                    var datadurdmg = 2;
-                    if(Gamedata.sys_sword_names.includes(temdatanames[3])){ dataindex = Gamedata.sys_sword_names.indexOf(temdatanames[3]); 
-                      datakey=  datacort*dataindex; dataphy+=datakey; dataper+=datakey; datadurdmg+=datakey;
-                        equipmentdata[equipindex]=1; equipmentdata[phycort] = Gamedata.sys_sword_dataset[dataphy];
-                        equipmentdata[percort] = Gamedata.sys_sword_dataset[dataper];equipmentdata[durdmgcort] = Gamedata.sys_sword_dataset[datadurdmg];
-                    };
-                    if(Gamedata.sys_wand_names.includes(temdatanames[3])){ dataindex = Gamedata.sys_wand_names.indexOf(temdatanames[3]);
-                       datakey = datacort*dataindex; dataphy+=datakey; dataper+=datakey; datadurdmg+=datakey;
-                        equipmentdata[equipindex]=2; equipmentdata[phycort] = Gamedata.sys_wand_dataset[dataphy];
-                        equipmentdata[percort] = Gamedata.sys_wand_dataset[dataper];equipmentdata[durdmgcort] = Gamedata.sys_wand_dataset[datadurdmg];
-                    };
-                    if(Gamedata.sys_bow_names.includes(temdatanames[3])){ dataindex = Gamedata.sys_bow_names.indexOf(temdatanames[3]);
-                       datakey = datacort*dataindex; dataphy+=datakey; dataper+=datakey; datadurdmg+=datakey;
-                        equipmentdata[equipindex]=3; equipmentdata[phycort] = Gamedata.sys_bow_dataset[dataphy];
-                        equipmentdata[percort] = Gamedata.sys_bow_dataset[dataper];equipmentdata[durdmgcort] = Gamedata.sys_bow_dataset[datadurdmg];};
-                    if(Gamedata.sys_armor_names.includes(temdatanames[3])){ dataindex = Gamedata.sys_armor_names.indexOf(temdatanames[3]);
-                       datakey = datacort*dataindex; dataphy+=datakey; dataper+=datakey; datadurdmg+=datakey;
-                        equipmentdata[equipindex]=0; equipmentdata[phycort] = Gamedata.sys_armor_dataset[dataphy];
-                        equipmentdata[percort] = Gamedata.sys_armor_dataset[dataper];equipmentdata[durdmgcort] = Gamedata.sys_armor_dataset[datadurdmg];};
-                        var temsavename = temdatanames[3]
-                    equipnames[checkresult] =temdatanames[3];
-                    equipmentdata[durcort] = 100;
-                    User.currency -= temdatanumbers[3];
-                    itembagdata[temdatanumbers[4]]-= temdatanumbers[0];
-                    itembagdata[temdatanumbers[5]]-= temdatanumbers[1];
-                    itembagdata[temdatanumbers[6]]-= temdatanumbers[2];
-                    hh3funset1[6] =0;
-                    User.TemdataNames = "";
-                    User.TemdataNumbers = "";
-                    User.Ary_itembagdata = itembagdata.join("<:>");
-                    User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
-                    User.Ary_Equipmentnames = equipnames.join("<:>");
-                    User.Ary_Equipmentdata = equipmentdata.join("<:>");
-                    craftembed.setDescription(":tools: "+User.name+" has crafted `"+temsavename+"`!");
-                }else{
-                    craftembed.setDescription(":x: You do not have enough bag space to craft this.");
-                }
-              }else{
-                craftembed.setDescription(":x: You do not have enough Currency.");
-            }  
-            }
-            else{
-                craftembed.setDescription(":x: You do not have enough Materials.");
-            }
-        }else{
     craftembed.setAuthor("Craft Shop",Gamedata.NPC_Craft);
     for(var displayindex =0; displayindex<5;displayindex++){
         var swrdindex =displayindex+1
@@ -125,7 +61,7 @@ module.exports.run = async (message, arg, User) => {
     }
     oldlopkey = lopkey;
 }
-    craftembed.setFooter("To craft Equipment command: -craft <name in list> \n To craft potions command: -brew.");}
+message.channel.send(craftembed.setFooter("To craft Equipment command: -craft <name in list> \n To craft potions command: -brew."));
 }
 else{
     var namecheck;
@@ -142,9 +78,63 @@ else{
         if(equiptype==1){
             equipindex--
         }
+        var temnum = [];temnum[2]=0;temnum[6]=0;temnum[7]=0;
+        var temname= [];temname[2]="";
+        function confirm(message){
+            var checkresult = equipnames.indexOf("");
+            if(itembagdata[temnum[4]]>= temnum[0]&itembagdata[temnum[5]]>= temnum[1]&itembagdata[temnum[6]]>= temnum[2])0;
+            else return message.edit(craftembed.setDescription(":x: You do not have enough Materials.").setFooter("").spliceFields(0,3));
+              if(User.currency>=temnum[3])0;
+              else return message.edit(craftembed.setDescription(":x: You do not have enough Currency.").setFooter("").spliceFields(0,3));
+                if(checkresult == -1) return message.edit(craftembed.setDescription(":x: You do not have enough bag space to craft this.").setFooter("").spliceFields(0,3));
+                    var dataindex;
+                    var datakey;
+                    var equipindex = 5*checkresult;
+                    var phycort = 1+equipindex;
+                    var percort = 2+equipindex;
+                    var durcort = 3+equipindex;
+                    var durdmgcort = 4+equipindex;
+                    var datacort = 3;
+                    var dataphy = 0;
+                    var dataper = 1;
+                    var datadurdmg = 2;
+                    if(Gamedata.sys_sword_names.includes(temname[3])){ dataindex = Gamedata.sys_sword_names.indexOf(temname[3]); 
+                      datakey=  datacort*dataindex; dataphy+=datakey; dataper+=datakey; datadurdmg+=datakey;
+                        equipmentdata[equipindex]=1; equipmentdata[phycort] = Gamedata.sys_sword_dataset[dataphy];
+                        equipmentdata[percort] = Gamedata.sys_sword_dataset[dataper];equipmentdata[durdmgcort] = Gamedata.sys_sword_dataset[datadurdmg];
+                    };
+                    if(Gamedata.sys_wand_names.includes(temname[3])){ dataindex = Gamedata.sys_wand_names.indexOf(temname[3]);
+                       datakey = datacort*dataindex; dataphy+=datakey; dataper+=datakey; datadurdmg+=datakey;
+                        equipmentdata[equipindex]=2; equipmentdata[phycort] = Gamedata.sys_wand_dataset[dataphy];
+                        equipmentdata[percort] = Gamedata.sys_wand_dataset[dataper];equipmentdata[durdmgcort] = Gamedata.sys_wand_dataset[datadurdmg];
+                    };
+                    if(Gamedata.sys_bow_names.includes(temname[3])){ dataindex = Gamedata.sys_bow_names.indexOf(temname[3]);
+                       datakey = datacort*dataindex; dataphy+=datakey; dataper+=datakey; datadurdmg+=datakey;
+                        equipmentdata[equipindex]=3; equipmentdata[phycort] = Gamedata.sys_bow_dataset[dataphy];
+                        equipmentdata[percort] = Gamedata.sys_bow_dataset[dataper];equipmentdata[durdmgcort] = Gamedata.sys_bow_dataset[datadurdmg];};
+                    if(Gamedata.sys_armor_names.includes(temname[3])){ dataindex = Gamedata.sys_armor_names.indexOf(temname[3]);
+                       datakey = datacort*dataindex; dataphy+=datakey; dataper+=datakey; datadurdmg+=datakey;
+                        equipmentdata[equipindex]=0; equipmentdata[phycort] = Gamedata.sys_armor_dataset[dataphy];
+                        equipmentdata[percort] = Gamedata.sys_armor_dataset[dataper];equipmentdata[durdmgcort] = Gamedata.sys_armor_dataset[datadurdmg];};
+                        var temsavename = temname[3]
+                        message.edit(craftembed.setDescription(":tools: "+User.name+" has crafted `"+temsavename+"`!").setFooter("").spliceFields(0,3));
+                    equipnames[checkresult] =temname[3];
+                    equipmentdata[durcort] = 100;
+                    User.currency -= temnum[3];
+                    itembagdata[temnum[4]]-= temnum[0];
+                    itembagdata[temnum[5]]-= temnum[1];
+                    itembagdata[temnum[6]]-= temnum[2];
+                    return(
+                    Account.findOne({
+                        id: User.id
+                    },async(err,User)=>{
+                      if(err)console.log(err);
+                    User.Ary_itembagdata = itembagdata.join("<:>");
+                    User.Ary_Equipmentnames = equipnames.join("<:>");
+                    User.Ary_Equipmentdata = equipmentdata.join("<:>");
+                    User.save().catch(err => console.log(err));}))
+        }
          if(equipindex!= undefined&equipindex!=-1&equipindex<5){
-             User.TemdataNames = "<:>";
-             User.TemdataNumbers = "0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0";
              if(equipindex<4){
             var craftort = 3*equipindex;
             var supplie2 = 1+craftort;
@@ -152,40 +142,47 @@ else{
             var craftortname = 2*equipindex;
             var supplie2name = 1+craftortname;
             if(!namecheck.includes("Armor")){
-            temdatanumbers[0] = Gamedata.sys_craftmaterial_weaponset3[craftort];
-            temdatanumbers[1] = Gamedata.sys_craftmaterial_weaponset3[supplie2];
-            temdatanumbers[3] = Gamedata.sys_craftmaterial_weaponset3[costcort];
-            temdatanames[0] = Gamedata.sys_craftsupplie_wepnameset2[craftortname];
-            temdatanames[1] = Gamedata.sys_craftsupplie_wepnameset2[supplie2name];
-            bagsupplies1 = Gamedata.sys_material_names.indexOf(temdatanames[0]);
-            bagsupplies2 = Gamedata.sys_material_names.indexOf(temdatanames[1]);
-            temdatanumbers[4] = bagsupplies1+10;
-            temdatanumbers[5]= bagsupplies2+10;
-            temdatanumbers[7] = equipindex;
+            temnum[0] = Gamedata.sys_craftmaterial_weaponset3[craftort];
+            temnum[1] = Gamedata.sys_craftmaterial_weaponset3[supplie2];
+            temnum[3] = Gamedata.sys_craftmaterial_weaponset3[costcort];
+            temname[0] = Gamedata.sys_craftsupplie_wepnameset2[craftortname];
+            temname[1] = Gamedata.sys_craftsupplie_wepnameset2[supplie2name];
+            bagsupplies1 = Gamedata.sys_material_names.indexOf(temname[0]);
+            bagsupplies2 = Gamedata.sys_material_names.indexOf(temname[1]);
+            temnum[4] = bagsupplies1+12;
+            temnum[5]= bagsupplies2+12;
+            temnum[7] = equipindex;
 
         }
             else{
-            temdatanumbers[0] = Gamedata.sys_craftmaterial_armorset3[craftort];
-            temdatanumbers[1] = Gamedata.sys_craftmaterial_armorset3[supplie2];
-            temdatanumbers[3] = Gamedata.sys_craftmaterial_armorset3[costcort];
-            temdatanames[0] = Gamedata.sys_craftsupplie_armnameset2[craftortname];
-            temdatanames[1] = Gamedata.sys_craftsupplie_armnameset2[supplie2name];
-            bagsupplies1 = Gamedata.sys_material_names.indexOf(temdatanames[0]);
-            bagsupplies2 = Gamedata.sys_material_names.indexOf(temdatanames[1]);
-            temdatanumbers[4] = bagsupplies1+10;
-            temdatanumbers[5]= bagsupplies2+10;
-            temdatanumbers[7] = equipindex;
+            temnum[0] = Gamedata.sys_craftmaterial_armorset3[craftort];
+            temnum[1] = Gamedata.sys_craftmaterial_armorset3[supplie2];
+            temnum[3] = Gamedata.sys_craftmaterial_armorset3[costcort];
+            temname[0] = Gamedata.sys_craftsupplie_armnameset2[craftortname];
+            temname[1] = Gamedata.sys_craftsupplie_armnameset2[supplie2name];
+            bagsupplies1 = Gamedata.sys_material_names.indexOf(temname[0]);
+            bagsupplies2 = Gamedata.sys_material_names.indexOf(temname[1]);
+            temnum[4] = bagsupplies1+12;
+            temnum[5]= bagsupplies2+12;
+            temnum[7] = equipindex;
             }
-            temdatanames[3] = namecheck;
-            hh3funset1[6]=5;
-            User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
-            User.TemdataNames = temdatanames.join("<:>");
-            User.TemdataNumbers = temdatanumbers.join("<:>");
+            temname[3] = namecheck;
             craftembed.setDescription(":tools: do you want to craft `" + namecheck +"`?\nYou need:");
-            craftembed.addField(temdatanames[0],itembagdata[temdatanumbers[4]]+"/"+temdatanumbers[0]);
-            craftembed.addField(temdatanames[1],itembagdata[temdatanumbers[5]]+"/"+temdatanumbers[1]);
-            craftembed.addField("Cost: "+temdatanumbers[3],"Currency Balance: "+User.currency);
-            craftembed.setFooter(" command: -craft yes to confirm.");
+            craftembed.addField(temname[0],"`"+itembagdata[temnum[4]]+"`/"+temnum[0]);
+            craftembed.addField(temname[1],"`"+itembagdata[temnum[5]]+"`/"+temnum[1]);
+            craftembed.addField("Cost: "+temnum[3],"Currency Balance: `"+User.currency+"`");
+            message.channel.send(craftembed.setFooter(" command: -craft yes to confirm.")).then((message)=>{message.react('✅')
+            const filter = (reaction, user) => {
+             return ['✅'].includes(reaction.emoji.name) && user.id === User.id;
+         };
+            message.awaitReactions(filter, { max: 1})
+         .then(collected => {
+             const reaction = collected.first();
+     
+             if (reaction.emoji.name === '✅') {
+                 confirm(message);
+             }
+         })});
         }
             else if(equipindex==4& !namecheck.includes("Armor")){
             var newequipindex =equipindex-4
@@ -193,50 +190,56 @@ else{
             var supplie2 = 1+craftort;
             var supplie3 = 2+craftort;
             var costcort = 3+craftort;
-            temdatanumbers[0] = Gamedata.sys_craftmaterial_weaponset4[craftort];
-            temdatanumbers[1] = Gamedata.sys_craftmaterial_weaponset4[supplie2];
-            temdatanumbers[2] = Gamedata.sys_craftmaterial_weaponset4[supplie3];
-            temdatanumbers[3] = Gamedata.sys_craftmaterial_weaponset4[costcort];
-            temdatanames[0] = Gamedata.sys_craftsupplie_wepnameset3[craftort];
-            temdatanames[1] = Gamedata.sys_craftsupplie_wepnameset3[supplie2];
-            temdatanames[2] = Gamedata.sys_craftsupplie_wepnameset3[supplie3];
-            bagsupplies1 = Gamedata.sys_material_names.indexOf(temdatanames[0]);
-            bagsupplies2 = Gamedata.sys_material_names.indexOf(temdatanames[1]);
-            bagsupplies3 = Gamedata.sys_material_names.indexOf(temdatanames[2]);
-            temdatanumbers[4] = bagsupplies1+10;
-            temdatanumbers[5] = bagsupplies2+10;
-            temdatanumbers[6] = bagsupplies3+10;
-            temdatanumbers[7] = equipindex;
-            temdatanames[3] = namecheck;
-            hh3funset1[6]=5;
-            User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
-            User.TemdataNames = temdatanames.join("<:>");
-            User.TemdataNumbers = temdatanumbers.join("<:>");
+            temnum[0] = Gamedata.sys_craftmaterial_weaponset4[craftort];
+            temnum[1] = Gamedata.sys_craftmaterial_weaponset4[supplie2];
+            temnum[2] = Gamedata.sys_craftmaterial_weaponset4[supplie3];
+            temnum[3] = Gamedata.sys_craftmaterial_weaponset4[costcort];
+            temname[0] = Gamedata.sys_craftsupplie_wepnameset3[craftort];
+            temname[1] = Gamedata.sys_craftsupplie_wepnameset3[supplie2];
+            temname[2] = Gamedata.sys_craftsupplie_wepnameset3[supplie3];
+            bagsupplies1 = Gamedata.sys_material_names.indexOf(temname[0]);
+            bagsupplies2 = Gamedata.sys_material_names.indexOf(temname[1]);
+            bagsupplies3 = Gamedata.sys_material_names.indexOf(temname[2]);
+            temnum[4] = bagsupplies1+12;
+            temnum[5] = bagsupplies2+12;
+            temnum[6] = bagsupplies3+12;
+            temnum[7] = equipindex;
+            temname[3] = namecheck;
             craftembed.setDescription(":tools: do you want to craft `" + namecheck +"`?\nYou need:");
-            craftembed.addField(temdatanames[0],itembagdata[temdatanumbers[4]]+"/"+temdatanumbers[0]);
-            craftembed.addField(temdatanames[1],itembagdata[temdatanumbers[5]]+"/"+temdatanumbers[1]);
-            craftembed.addField(temdatanames[2],itembagdata[temdatanumbers[6]]+"/"+temdatanumbers[2]);
-            craftembed.addField("Cost: `"+temdatanumbers[3]+"`","Currency Balance: `"+User.currency+"`");
-            craftembed.setFooter(" command: -craft yes to confirm.");
+            craftembed.addField(temname[0],"`"+itembagdata[temnum[4]]+"`/"+temnum[0]);
+            craftembed.addField(temname[1],"`"+itembagdata[temnum[5]]+"`/"+temnum[1]);
+            craftembed.addField(temname[2],"`"+itembagdata[temnum[6]]+"`/"+temnum[2]);
+            craftembed.addField("Cost: `"+temnum[3]+"`","Currency Balance: `"+User.currency+"`");
+            message.channel.send(craftembed.setFooter(" command: -craft yes to confirm.")).then((message)=>{message.react('✅')
+            const filter = (reaction, user) => {
+             return ['✅'].includes(reaction.emoji.name) && user.id === User.id;
+         };
+            message.awaitReactions(filter, { max: 1})
+         .then(collected => {
+             const reaction = collected.first();
+     
+             if (reaction.emoji.name === '✅') {
+                 confirm(message);
+             }
+         })});
             }
             else{
-                craftembed.setDescription(":x: Cannot craft "+namecheck);
+                message.channel.send(craftembed.setDescription(":x: Cannot craft "+namecheck));
             }
         }
         else{
-            craftembed.setDescription(":x: Cannot craft "+namecheck);
+            message.channel.send(craftembed.setDescription(":x: Cannot craft "+namecheck));
         }
     }
     else{
-        craftembed.setDescription(":x: that item does not exist.");
+        message.channel.send(craftembed.setDescription(":x: that item does not exist."));
     }
 }}
 else{
-    craftembed.setDescription(":x: Craft has not been unlock yet. \nYou need to reach the 3rd floor.");
+    message.channel.send(craftembed.setDescription(":x: Craft has not been unlock yet. \nYou need to reach the 3rd floor."));
 }}else{
-    craftembed.setDescription(":x: You  cannot enter the shop because you are in a battle.\nTo leave the battle, command: `-act flee`");
+    message.channel.send(craftembed.setDescription(":x: You  cannot enter the shop because you are in a battle.\nTo leave the battle, command: `-act flee`"));
 }
-         message.channel.send( craftembed );
 }
 module.exports.key = {
     name: "craft",

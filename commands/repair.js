@@ -3,7 +3,8 @@ const Gamedata = require('../data/hh3data.json');
 module.exports.run = async (message, arg, User) => {
     const repairembed = new Discord.MessageEmbed();
     repairembed.setColor("#FFC500");
-    var equipnames = User.Ary_Equipmentnames.split("<:>");
+    if(User.Ary_Equipmentnames)var equipnames = User.Ary_Equipmentnames.split("<:>");
+    else return message.channel.send(repairembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var profilenames = User.Ary_HH3ProfileNames.split("<:>");
     var rawequipmentdata = User.Ary_Equipmentdata.split("<:>");var equipmentdata = [];
     for(var index=0; index<rawequipmentdata.length;index++){

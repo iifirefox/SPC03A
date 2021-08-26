@@ -1,7 +1,8 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
 module.exports.run = async (message, arg, User) => {
-    var Imgset = User.Ary_Imgset.split("<:>");
+    if(User.Ary_Imgset)var Imgset = User.Ary_Imgset.split("<:>");
+    else return message.channel.send(floorembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
     for(var index=0; index<rawprofiledata.length;index++){
         profiledata[index]= Number(rawprofiledata[index])
