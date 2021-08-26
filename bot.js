@@ -11,7 +11,7 @@ mongoose.connect(jstring.mongo,{
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-Server.findOne({},(err,spc)=>{if(err)console.log(err);if(spc){console.log(spc.Timeset)}})
+Server.findOne({Timeset:100},(err,spc)=>{if(err)console.log(err);if(spc){console.log(spc.Timeset)}})
 //client.login(process.env.token);
 client.login(process.env.tokena);
 const prefix = jstring.prefix;
