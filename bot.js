@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const Account = require("./data/tree");
+const Server = require("./data/spctree");
 const Gamedata = require('./data/hh3data.json');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -10,6 +11,7 @@ mongoose.connect(jstring.mongo,{
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
+Server.findOne({},(err,spc)=>{if(err)console.log(err);if(spc){console.log(spc.Timeset)}})
 //client.login(process.env.token);
 client.login(process.env.tokena);
 const prefix = jstring.prefix;
