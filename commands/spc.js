@@ -2,10 +2,11 @@ const Discord = require('discord.js');
 module.exports.run = async (message, arg, User,client) => {
 if(User.id=="265733605077155851"){
     if(arg.includes("off")){
-        client.destory();
+        message.channel.send("Good Night").then(client.destory());
     }
    else if(arg.includes("restart")){
-        client.destory().then(client.login(process.env.token))
+       message.channel.send(":gear: *restarting...*").then((message)=>{
+        client.destory().then(client.login(process.env.token)).then(message.edit(":gear: restarted back for more"))});
     }
 }
 }
