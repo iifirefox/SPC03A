@@ -6,7 +6,7 @@ if(User.id=="265733605077155851"){
     }
    else if(arg.includes("restart")){
        message.channel.send(":gear: *restarting...*").then((message)=>{
-        client.destroy().then(()=>{client.login(process.env.tokena)}).then(()=>{message.edit(":gear: restarted back for more")})});
+        client.destroy();client.login(process.env.tokena);message.edit(":gear: restarted back for more")});
     }
 }
 else message.channel.send(":x: Only my Developer can use this command")
