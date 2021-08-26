@@ -9,6 +9,7 @@ if(User.id=="265733605077155851"){
         client.destory().then(client.login(process.env.token)).then(message.edit(":gear: restarted back for more"))});
     }
 }
+else message.channel.send(":x: Only my Developer can use this command")
 }
 module.exports.key = {
     name: "spc",
