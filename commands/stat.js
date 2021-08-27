@@ -100,6 +100,7 @@ module.exports.run = async (message, arg, User) => {
   var sx= 260;
   var y = sy+30;
   var curve = sy+17.5;
+  ctx.clip();
   ctx.closePath();
   ctx.beginPath();
   ctx.lineWidth = 2;
