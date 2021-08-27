@@ -102,6 +102,12 @@ module.exports.run = async (message, arg, User) => {
   var curve = sy+17.5;
   ctx.closePath();
   ctx.beginPath();
+    //
+    ctx.fillStyle="AQUA";
+    ctx.globalCompositeOperation="source-in";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.globalCompositeOperation="destination-atop";
+    //
   ctx.lineWidth = 2;
   ctx.moveTo(sx, sy);
   ctx.lineTo(x, sy);
