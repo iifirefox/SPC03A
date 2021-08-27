@@ -343,7 +343,7 @@ ctx.closePath();
         //
         ctx.fillStyle="fff";
         ctx.globalCompositeOperation="source-in";
-        ctx.fillRect(0,0,10,10);
+        ctx.fillRect(0,0,canvas.width,canvas.height);
         //ctx.globalCompositeOperation="destination-atop";
         //
   ctx.closePath();
