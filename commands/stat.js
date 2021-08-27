@@ -340,12 +340,6 @@ ctx.closePath();
   ctx.lineWidth = 8;
   ctx.strokeStyle = User.colortheme;
   ctx.stroke();
-        //
-        ctx.fillStyle="fff";
-        ctx.globalCompositeOperation="source-in";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        //ctx.globalCompositeOperation="destination-atop";
-        //
   ctx.closePath();
   ctx.clip();
   const avatar = await loadImage(User.Profileimg);
