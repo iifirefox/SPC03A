@@ -24,6 +24,7 @@ module.exports.run = async (message, arg, User) => {
     const newemmbed = new Discord.MessageEmbed();
     var profilenames = User.Ary_HH3ProfileNames.split("<:>");
     var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
+    var Imgset = User.Ary_Imgset.split("<:>");
     for(var index=0; index<rawprofiledata.length;index++){
         profiledata[index]= Number(rawprofiledata[index])
     }
@@ -74,7 +75,9 @@ module.exports.run = async (message, arg, User) => {
   if(User.energy<0)User.energy=0;}
   const canvas = createCanvas(800,500);
   const ctx = canvas.getContext("2d");
-  const background = await loadImage("https://i.ibb.co/Q824TCw/profilebackground.jpg");
+  const background = await loadImage("https://i.ibb.co/V25DTzj/profilebackground2.png");
+  const background2 = await loadImage(Imgset[0])
+  ctx.drawImage(background2,0,0, canvas.width, canvas.height);
   ctx.drawImage(background,0,0, canvas.width, canvas.height);
   ctx.beginPath();
   ctx.fillStyle="#ffffff"
@@ -100,7 +103,6 @@ module.exports.run = async (message, arg, User) => {
   var sx= 260;
   var y = sy+30;
   var curve = sy+17.5;
-  ctx.clip();
   ctx.closePath();
   ctx.beginPath();
   ctx.lineWidth = 2;
