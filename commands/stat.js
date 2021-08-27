@@ -24,7 +24,8 @@ module.exports.run = async (message, arg, User) => {
     const newemmbed = new Discord.MessageEmbed();
     var profilenames = User.Ary_HH3ProfileNames.split("<:>");
     var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
-    var Imgset = User.Ary_Imgset.split("<:>");
+   if(User.Ary_Imgset) var Imgset = User.Ary_Imgset.split("<:>");
+   else var Imgset = ["https://i.ibb.co/gRGWDfK/f0.jpg",""]
     for(var index=0; index<rawprofiledata.length;index++){
         profiledata[index]= Number(rawprofiledata[index])
     }
