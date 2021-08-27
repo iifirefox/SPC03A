@@ -25,7 +25,7 @@ module.exports.run = async (message, arg, User) => {
     var profilenames = User.Ary_HH3ProfileNames.split("<:>");
     var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
    if(User.Ary_Imgset) var Imgset = User.Ary_Imgset.split("<:>");
-   else var Imgset = ["https://i.ibb.co/gRGWDfK/f0.jpg",""]
+   else var Imgset = ["https://i.ibb.co/gRGWDfK/f0.jpg",""];
     for(var index=0; index<rawprofiledata.length;index++){
         profiledata[index]= Number(rawprofiledata[index])
     }
@@ -77,7 +77,8 @@ module.exports.run = async (message, arg, User) => {
   const canvas = createCanvas(800,500);
   const ctx = canvas.getContext("2d");
   const background = await loadImage("https://i.ibb.co/V25DTzj/profilebackground2.png");
-  const background2 = await loadImage(Imgset[0])
+  console.log(Imgset[0])
+  const background2 = await loadImage(Imgset[0]);
   ctx.drawImage(background2,0,0, canvas.width, canvas.height);
   ctx.drawImage(background,0,0, canvas.width, canvas.height);
   ctx.beginPath();
