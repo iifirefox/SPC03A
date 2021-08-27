@@ -344,7 +344,7 @@ ctx.closePath();
         ctx.fillStyle="fff";
         ctx.globalCompositeOperation="source-in";
         ctx.fillRect(0,0,10,10);
-        ctx.globalCompositeOperation="destination-atop";
+        //ctx.globalCompositeOperation="destination-atop";
         //
   ctx.closePath();
   ctx.clip();
