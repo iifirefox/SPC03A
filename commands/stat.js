@@ -105,7 +105,7 @@ module.exports.run = async (message, arg, User) => {
     //
     ctx.fillStyle="AQUA";
     ctx.globalCompositeOperation="source-in";
-    ctx.fillRect(0,0,100,100);
+    ctx.fillRect(0,0,10,10);
     ctx.globalCompositeOperation="destination-atop";
     //
   ctx.lineWidth = 2;
