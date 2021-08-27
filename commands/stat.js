@@ -239,12 +239,6 @@ module.exports.run = async (message, arg, User) => {
   ctx.fill();
   ctx.closePath();
   ctx.beginPath();
-      //
-      ctx.fillStyle="AQUA";
-      ctx.globalCompositeOperation="source-in";
-      ctx.fillRect(0,0,10,10);
-      ctx.globalCompositeOperation="destination-atop";
-      //
   ctx.font="30px Arial";
   ctx.fillStyle="#000000";
   ctx.fillText(User.name,240,125);
@@ -346,6 +340,12 @@ ctx.closePath();
   ctx.lineWidth = 8;
   ctx.strokeStyle = User.colortheme;
   ctx.stroke();
+        //
+        ctx.fillStyle="fff";
+        ctx.globalCompositeOperation="source-in";
+        ctx.fillRect(0,0,10,10);
+        ctx.globalCompositeOperation="destination-atop";
+        //
   ctx.closePath();
   ctx.clip();
   const avatar = await loadImage(User.Profileimg);
