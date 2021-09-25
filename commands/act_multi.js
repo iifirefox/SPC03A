@@ -726,6 +726,9 @@ module.exports.run = async (message, arg, User) => {
         module.exports.HeroMaxHP = User.MaxHP;
         module.exports.username= User.name;
         module.exports.heroatkcrit=heroatkcrit;
+        module.exports.heroatkcrit0=heroatkcrit[0];
+        module.exports.skillsetdata4 = skillsetdata[dtable4];
+        module.exports.skillsetdata5 = skillsetdata[dtable5];
         module.exports.foeatkcrit = foeatkcrit;
         module.exports.herotxt = herotxt;
         module.exports.heroatk = heroatk;
@@ -1961,12 +1964,12 @@ var mdefeated = false;
                 if(!skillslearned.includes(theskill)&temdatanumbers[46]==1){
                     skillslearned[skillslearned.length] =theskill;
                     User.skillslearned = skillslearned.join("<:>");
-                    monsterdefeatembed.addField(":ledger: "+User.name+" have Learned `"+theskill+"`!","command: `skill index` for full decription");
+                    monsterdefeatembed.addField(":ledger: "+User.name+" have Learned `"+theskill+"`!","command: `skill tree` for full decription");
                 }
                else if(!skillslearnedA.includes(theskill)){
                     skillslearnedA[skillslearnedA.length] =theskill;
                     UserII.skillslearned = skillslearnedA.join("<:>");
-                    monsterdefeatembed.addField(":ledger: "+UserII.name+" have Learned `"+theskill+"`!","command: `skill index` for full decription");
+                    monsterdefeatembed.addField(":ledger: "+UserII.name+" have Learned `"+theskill+"`!","command: `skill tree` for full decription");
                 }
                 }
              if(kepname==Gamedata.sys_monsternames_boss[9]&temdatanumbers[46]==1){profiledata[28]=1; profilenames[8]="Hunted House Master";

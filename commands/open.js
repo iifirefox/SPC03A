@@ -112,7 +112,7 @@ module.exports.run = async (message, arg, User) => {
                  if(Math.random()<0.59){
                     openembed.setDescription("The Witch welcome's you to rest and gave you `Skeleton Key`"+
                     "\nYour Spawn Point has been set\nYou got a `Skeleton Key`!\ncommand:`roll`");
-                    hh3funset1[11]=User.step;hh3funset1[13]=1;
+                    hh3funset1[11]=User.step;hh3funset1[19]=1;
                     var getdex = Gamedata.sys_item_names.indexOf("Skeleton Key");
                     if(!itembagnames[getdex]){itembagnames[getdex]=Gamedata.sys_item_names[getdex];User.Ary_itembagnames=itembagnames.join("<:>");}
                     itembagdata[getdex]++;

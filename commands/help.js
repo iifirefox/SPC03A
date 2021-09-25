@@ -12,7 +12,7 @@ module.exports.run = async (client, message, arg) => {
     newemmbed.addField("Command: `-fate <option> & <option2>`", "This Command will take 1 choices after `-fate` then another after `&` and give you the best result");
     newemmbed.addField("Command: `-animehunt`", "guess your anime smarts game");
     newemmbed.addField("Command: `-statistic`","your account statistics");
-    newemmbed.setFooter("To view Game Commands: -help game\nTo view Music Commands: -help music\n"+client.user.username+" Ver 9.7.8 \n Made by: AhhLoli#5983");}
+    newemmbed.setFooter("To view Game Commands: -help game\nTo view Music Commands: -help music\n"+client.user.username+" Ver 9.8.3 \n Made by: AhhLoli#5983");}
     else if(arg.includes("game")){
         newemmbed.addField("Command: `-roll`","Roll a dice to Progress in HH3");
         newemmbed.addField("Command: `-check`","To View what Floor your on or foe status");
@@ -41,6 +41,10 @@ module.exports.run = async (client, message, arg) => {
     }
     else if(arg.includes("music")){
         newemmbed.addField("Command: `-play`", "Resumes a paused track or `-play <Video Title>` plays a track or for exact results try URL");
+        newemmbed.addField("Command: `-p`", "plays your most recent track request");
+        newemmbed.addField("Command: `-mylist`", "plays songs in your song list");
+        newemmbed.addField("Command: `-addlist`", "plays songs in your song list");
+        newemmbed.addField("Command: `-fav`", "plays your favorite track");
         newemmbed.addField("Command: `-pause`", "Pauses a playing track.");
         newemmbed.addField("Command: `-stop`", "stops and ends the track and playlist.");
         newemmbed.addField("Command: `-skip`", "Skips the playing track and plays the next track in playlist.");

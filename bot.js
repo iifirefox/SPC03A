@@ -92,20 +92,20 @@ client.on('message', message => {
                User= register.Account;
                var rpath = require.resolve(Gamedata.sys_register_path);delete require.cache[rpath];
             }
-            //if(User.server!="Hai") return;
+            //if(User.server!="Hai"&User.id!="265733605077155851"||User.server=="L0Ii"&User.id!="265733605077155851") return;
             var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
             for(var index=0; index<rawprofiledata.length;index++){
                 profiledata[index]= Number(rawprofiledata[index])
             }
             if(User.accountver==undefined)User.accountver =Gamedata.accountupdate;
-            if(User.multi==undefined|| User.id=="207279179241226244"&profiledata[16]==0.01||User.name=="Lite of the Moon"&profiledata[16]==10){
+            if(User.multi==undefined|| User.id==207279179241226244&profiledata[16]==0.01||User.name=="Lite of the Moon"&profiledata[16]==10){
                 User.multi=false;
                 var profilenames = User.Ary_HH3ProfileNames.split("<:>");
                 var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
                 for(var index=0; index<rawprofiledata.length;index++){
                     profiledata[index]= Number(rawprofiledata[index])
                 }
-                profiledata[12]=0;
+                profiledata[12]=0.20;
                 profiledata[16]=0;
                 profiledata[17]=0;
                 profiledata[18]=0;
@@ -249,6 +249,18 @@ client.on('message', message => {
                 case "disconnect":
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
+                    case "p":
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                    break;
+                    case "mylist":
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                    break;
+                    case ("fav"||"favorite"):
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                    break;
+                    case ("addlist"||"add list"):
+                        client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                        break;
                 case "stat":
                     client.commands.get('stat').run( message, arg, User);
                     break;
@@ -345,8 +357,8 @@ client.on('message', message => {
                     client.commands.get('disband').run(message, arg, User);
                     break;
                     case "spc":
-                        client.commands.get('spc').run(message, arg, User,client);
-                        break;
+                    client.commands.get('spc').run(message, arg, User,client);
+                    break;
                     
             }
             var oldlv = User.level-1;

@@ -12,7 +12,6 @@ module.exports.run = async (message, arg, User) => {
       const dice = new Discord.MessageEmbed();
       const embed = new Discord.MessageEmbed();
       const newsembed = new Discord.MessageEmbed();
-      const doorembed = new Discord.MessageEmbed();
       const warnembed = new Discord.MessageEmbed();
       const monsterembed = new Discord.MessageEmbed();
       if(User.energy!=undefined){
@@ -130,12 +129,13 @@ module.exports.run = async (message, arg, User) => {
         }
         else if (User.CombatMode == 0)
         {
-            if(hh3funset1[13]>1)hh3funset1[13]=0;
+            if(hh3funset1[13]>0)hh3funset1[13]=0;
              if(hh3funset1[11]==2){
                 Account.findOne({
                     id: User.multid
                 },async(err,UserII)=>{
                   if(err)console.log(err);
+                  if(!UserII) message.channel.send(warnembed.setDescription(":x: No User Found").setColor("#FFFE00"))
                         if(!UserII){hh3funset1[13]=1;return message.channel.send(warnembed.setDescription(":x: No User found."));}
                         if(UserII.turn!=true){hh3funset1[13]=1;return message.channel.send(warnembed.setDescription(":x: You cannot roll because\n"+UserII.name+" haven't start their turn yet."));}
                         if(UserII.CombatMode>0){hh3funset1[13]=1;return message.channel.send(warnembed.setDescription(":x: You cannot roll because\n"+UserII.name+" is in battle\n(please wait until their battle is settled)."));}
@@ -147,7 +147,7 @@ module.exports.run = async (message, arg, User) => {
                         }
                 })
             }
-            if(hh3funset1[13]==1)return undefined;
+            if(hh3funset1[13]==1&hh3funset1[11]==2)return undefined;
             if(hh3funset1[1]>0){
                 hh3funset1[1]=0;
                 User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
@@ -233,17 +233,17 @@ module.exports.run = async (message, arg, User) => {
                         if(User.floor==4 & User.level <3){
                             newsembed.setDescription("You reached the next floor but the door is locked\n You need to be at least `level 3` to reach the next floor");
                             newsembed.setFooter("your floor has been reset");
-                            User.floor=3; User.step = 60;
+                            User.floor=3; User.step = 1+60;
                         }
                         else if (User.floor==5 & User.level<5){
                             newsembed.setDescription("You reached the next floor but the door is locked\n You need to be at least `level 5` to reach the next floor");
                             newsembed.setFooter("your floor has been reset");
-                            User.floor=4; User.step = 125*3;
+                            User.floor=4; User.step = 1+(125*2);
                         }
                         else if (User.floor==9 & User.level<8){
                             newsembed.setDescription("You reached the next floor but the door is locked\n You need to be at least `level 8` to reach the next floor");
                             newsembed.setFooter("your floor has been reset");
-                            User.floor=8; User.step = 125*7;
+                            User.floor=8; User.step = 1+(125*6);
                         }
                         else if(User.floor==10&User.step>=floormax){
                             newsembed.setDescription("You reached the Top of the Hunted House");
@@ -851,8 +851,7 @@ module.exports.run = async (message, arg, User) => {
                         }
                         if(arg == ""&User.floor>=2&User.step>=halfloor&hh3funset1[8]==0){
                             dice.setTitle(":triangular_flag_on_post: Floor "+User.floor+" Check Point!\nHP recovered 50%");
-                            var heal = User.MaxHP/2;
-                            heal = Math.round(heal);
+                            var heal = Math.round(User.MaxHP/2);
                             User.HP+=heal;
                              if(User.HP>User.MaxHP){
                                 User.HP=User.MaxHP;
@@ -865,8 +864,8 @@ module.exports.run = async (message, arg, User) => {
                        User.Metadata = mdata.join("<:>");
             }
         }
-        else{embed.setDescription(":x: Your Turn hasn't started yet\nTo Start your turn, command: `-myturn`")}}
-        else{embed.setColor("#F8FF00");embed.setDescription(":x: You cannot use this command yet.\nPlease start your turn,\nCommand:`-myturn`"); message.channel.send(embed)}
+        else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: Your Turn hasn't started yet\nTo Start your turn, command: `-myturn`"))}}
+        else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: You cannot use this command yet.\nPlease start your turn,\nCommand:`-myturn`"));}
     }
     module.exports.key = {
         name: "roll",

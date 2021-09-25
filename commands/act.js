@@ -185,16 +185,14 @@ return arr.filter(function(ele){return ele != value;});
         if(temdatanames[6]){
             var skillindex = Gamedata.sys_heronoskills.indexOf(temdatanames[6])*5;
             var foeskillvalue =Gamedata.sys_heroskill_numbers[skillindex+4];
-           if(temdatanumbers[23]) skilldmg=true;
+           if(temdatanumbers[23]==1)skilldmg=true;
             displayskill=true; foeskillspecial=true;
         }
         if(foeatk==true){
         if(Math.random()<temdatanumbers[7]){
             // critical attack
             var critper = temdatanumbers[2]*Gamedata.sys_combat_rates[0];
-           var crit = temdatanumbers[2]+critper;
-            crit = Math.round(crit);
-            foephyatk = crit;
+            foephyatk = Math.round(temdatanumbers[2]+critper);
             foeatkcrit=2;
         }
         else{
@@ -212,7 +210,7 @@ return arr.filter(function(ele){return ele != value;});
         var tem = Math.round(o);
         foephyatk = RandomMinMax(tem,foephyatk);
         if(skilldmg==true){
-            var newdmge = Math.round((foephyatk*1.5)+(foeskillvalue/5));
+            var newdmge = Math.round((foephyatk*1.2)+(foeskillvalue/5));
             var newdmgemax = newdmge+foemaxdmg;
             foephyatk = RandomMinMax(newdmge,newdmgemax);
         }
@@ -239,7 +237,7 @@ return arr.filter(function(ele){return ele != value;});
                 theskill= getskill[RandomMax(getskill.length)]; 
                 var skillindex = Gamedata.sys_heronoskills.indexOf(theskill)*5;skillindex = Gamedata.sys_heroskill_numbers[skillindex];
                 if(skillindex==1){
-            effects= "[Warning] "+temdatanames[0]+" is preparing to use "+theskill+"\nuse defend or quickly avoid it!";}
+            effects= "[Warning] "+temdatanames[0]+" is preparing to use "+theskill+"\nuse defend or avoid";}
             temdatanames[6] = theskill; temdatanumbers[23]=skillindex;
         }
         }
@@ -585,16 +583,20 @@ return arr.filter(function(ele){return ele != value;});
                else if(foeatkcrit==0){
                 foetxt= temdatanames[0]+atktype+"\nbut **Missed**";
                }
+               if(foeskillspecial&!skilldmg){foetxt=temdatanames[0]+atktype;foeattack=0};
             }
             if(skillspecial||foeskillspecial){
                 if(skillspecial&skillkey==false)herotxt +=User.name+" uses "+skillname;
                 module.exports.skillspecial = skillspecial;
                 module.exports.foeskillspecial = foeskillspecial;
                 module.exports.skillsetdata = skillsetdata;
+                module.exports.skillsetdata4 = skillsetdata[dtable4];
+                module.exports.skillsetdata5 = skillsetdata[dtable5];
                 module.exports.HeroHP = User.HP;
                 module.exports.HeroMaxHP = User.MaxHP;
                 module.exports.username= User.name;
                 module.exports.heroatkcrit=heroatkcrit;
+                module.exports.heroatkcrit0=heroatkcrit[0];
                 module.exports.foeatkcrit = foeatkcrit;
                 module.exports.herotxt = herotxt;
                 module.exports.heroatk = heroatk;
@@ -609,7 +611,6 @@ return arr.filter(function(ele){return ele != value;});
                 module.exports.temdatanames = temdatanames;
                 module.exports.temdatanumbers=temdatanumbers;
                 module.exports.skillset=skillset;
-                module.exports.skillsetdata=skillsetdata;
                 module.exports.foeatkey = foeatkey;
                 module.exports.herospkey = herospkey;
                 module.exports.foespdkey = foespdkey;
@@ -617,6 +618,8 @@ return arr.filter(function(ele){return ele != value;});
                 module.exports.skilldmg = skilldmg;
                 module.exports.skillspecial = skillspecial;
                 module.exports.foeatkcrit = foeatkcrit;
+                module.exports.Skillenergy = User.Skillenergy;
+                module.exports.MaxSkillenergy = User.MaxSkillenergy;
             }
             if(skillspecial||foeskillspecial){
                 var skillpath =Gamedata.sys_skill_path+skillname;
@@ -639,6 +642,7 @@ return arr.filter(function(ele){return ele != value;});
                 if(skilleffects.healback) healback = skilleffects.healback;
                 if(skilleffects.hh3funset1) hh3funset1 = skilleffects.hh3funset1;
                 if(skilleffects.summonpic) Imgset[3]=skilleffects.summonpic; 
+                if(skilleffects.Skillenergy)User.Skillenergy=skilleffects.Skillenergy;
             }
                 if(herospkey>foespdkey){
                     // hero turn
@@ -1625,7 +1629,7 @@ return arr.filter(function(ele){return ele != value;});
                     if(!skillslearned.includes(theskill)){
                         skillslearned[skillslearned.length] =theskill;
                         User.skillslearned = skillslearned.join("<:>");
-                        monsterdefeatembed.addField(":ledger: You have Learned `"+theskill+"`!","command: `skill index` for full decription");
+                        monsterdefeatembed.addField(":ledger: You have Learned `"+theskill+"`!","command: `skill tree` for full decription");
                     }
                     }
                     if(kepname==Gamedata.sys_monsternames_boss[9]){profiledata[2]=1; profilenames[8]="Hunted House Master"; monsterdefeatembed.addField("Master Key",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten the game.\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nThanks for playing~!")}

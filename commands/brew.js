@@ -39,7 +39,7 @@ module.exports.run = async (message, arg, User) => {
            if(User.currency>=temnum[3]) 0;
            else return message.edit(brewembed.setDescription(":x: You do not have enough Currency.").setFooter("").spliceFields(0,3));
             var itm = Gamedata.sys_item_names.indexOf(temname[3]);
-                if(itembagnames[itm]=="")itembagnames[itm] = temnum[3];
+                if(itembagnames[itm]=="")itembagnames[itm] = temname[3];
                     var temsavename = temname[3];
                     if(temnum[8]==1)message.edit(brewembed.setDescription(":test_tube:  "+User.name+" has brewed `"+temsavename+"`!").setFooter("").spliceFields(0,3));
                     else message.edit(brewembed.setDescription(":test_tube:  "+User.name+" has brewed `"+temsavename+" x"+temnum[8]+"`!").setFooter("").spliceFields(0,3));

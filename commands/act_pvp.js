@@ -285,6 +285,7 @@ else if(arg=="defend"){
           module.exports.HeroHP = User.HP;
           module.exports.HeroMaxHP = User.MaxHP;
           module.exports.heroatkcrit=heroatkcrit;
+          module.exports.heroatkcrit0=heroatkcrit[0];
           module.exports.foeatkcrit = foeatkcrit;
           module.exports.herotxt = herotxt;
           module.exports.heroatk = heroatk;

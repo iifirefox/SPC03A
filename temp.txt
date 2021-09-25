@@ -1,9 +1,9 @@
-﻿const Discord = require('discord.js');
+const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const ytsh = require('youtube-sr');
 const queue = new Map();
 const Account = require("../data/tree");
-module.exports.run = async (message, arg, commandname ,User,client) => {
+module.exports.run = async (message, arg, commandname ,User) => {
     const vc = message.member.voice.channel;
     const playerembed = new Discord.MessageEmbed();
     const serverqueue = queue.get(message.guild.id);
@@ -22,6 +22,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
             return undefined;
         }
         else {
+            function oplay (arg){
             let newarg;
             if(arg.includes("https://")){
             if(arg.includes("https://www.youtube.com/watch?v=")||arg.includes("https://youtu.be")){newarg = arg}
@@ -48,159 +49,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
                 uploaded:upload,
                 requestedby:User.name,
                 loop: false,
-                url: thesong.videoDetails.video_url,
-                info: thesong
-            }
-            if (!serverqueue||!serverqueue.connection.dispatcher) {
-                const servermap = {
-                    textChannel: message.channel,
-                    voiceChanel: vc,
-                    connection: null,
-                    songs: [],
-                    volume: 5,
-                    playing: true
-                }
-                queue.set(message.guild.id, servermap);
-                servermap.songs.push(song);
-                try {
-                    var connection = await vc.join();
-                    servermap.connection = connection;
-                   await play(message.guild, servermap.songs[0]);
-                } catch (error) {
-                    queue.delete(message.guild.id);
-                    console.log("-Error-: " + error);
-                    playerembed.setDescription(":x: Player Error").setColor('#FF5BF2');
-                    return message.channel.send(playerembed);
-                }
-            }
-            else {
-                serverqueue.songs.push(song);
-                playerembed.setDescription(":arrow_forward: added to playlist " + song.title).setFooter("Command: -playlist to view playlist").setColor('#FF5BF2');
-                return message.channel.send(playerembed);
-            }
-            return undefined;
-        }
-    }
-    else if(commandname=="p"){
-        if(User.Lastplay.includes("https://")){
-        var newarg = User.Lastplay;
-        const thesong = await ytdl.getInfo(newarg);
-        var pic = thesong.videoDetails.thumbnails[3].url;
-        var upload = thesong.videoDetails.publishDate;
-        var getpic = await ytsh.search(thesong.videoDetails.title);
-        if(getpic[0]){pic=getpic[0].thumbnail.url;upload=getpic[0].uploadedAt}
-        const song = {
-            title: Discord.escapeMarkdown(thesong.videoDetails.title),
-            thumbnail:pic,
-            Duration:fancyTimeFormat(thesong.videoDetails.lengthSeconds),
-            uploaded:upload,
-            requestedby:User.name,
-            loop: false,
-            url: thesong.videoDetails.video_url,
-            info: thesong
-        }
-        if (!serverqueue) {
-            const servermap = {
-                textChannel: message.channel,
-                voiceChanel: vc,
-                connection: null,
-                songs: [],
-                volume: 5,
-                playing: true
-            }
-            queue.set(message.guild.id, servermap);
-            servermap.songs.push(song);
-            try {
-                var connection = await vc.join();
-                servermap.connection = connection;
-               await play(message.guild, servermap.songs[0]);
-            } catch (error) {
-                queue.delete(message.guild.id);
-                console.log("-Error-: " + error);
-                playerembed.setDescription(":x: Player Error").setColor('#FF5BF2');
-                return message.channel.send(playerembed);
-            }
-        }
-        else {
-            serverqueue.songs.push(song);
-            playerembed.setDescription(":arrow_forward: added to playlist " + song.title).setFooter("Command: -playlist to view playlist").setColor('#FF5BF2');
-            return message.channel.send(playerembed);
-        }
-        return undefined;
-    }
-    else return message.channel.send(playerembed.setDescription(":x: no recent tracks \nTo Play a track command: `play [Youtube Video URL] or [Name of the video]`"));
-    }
-    else if(commandname=="mylist"){
-       if(User.Mymusiclist) var musiclist = User.Mymusiclist.split("<:>");
-       else return message.channel.send(playerembed.setDescription(":x: You have no Song list\nTo add songs to your list command:`addlist`"));
-       var ardyplaying = true;
-        for(var list = 0; list < musiclist.length; list++){
-        if(musiclist[list].includes("https://")){
-        var newarg = musiclist[list];
-        const thesong = await ytdl.getInfo(newarg);
-        var pic = thesong.videoDetails.thumbnails[3].url;
-        var upload = thesong.videoDetails.publishDate;
-        var getpic = await ytsh.search(thesong.videoDetails.title);
-        if(getpic[0]){pic=getpic[0].thumbnail.url;upload=getpic[0].uploadedAt}
-        const song = {
-            title: Discord.escapeMarkdown(thesong.videoDetails.title),
-            thumbnail:pic,
-            Duration:fancyTimeFormat(thesong.videoDetails.lengthSeconds),
-            uploaded:upload,
-            requestedby:User.name,
-            loop: false,
-            url: thesong.videoDetails.video_url,
-            info: thesong
-        }
-        if (!serverqueue&list==0) {
-            const servermap = {
-                textChannel: message.channel,
-                voiceChanel: vc,
-                connection: null,
-                songs: [],
-                volume: 5,
-                playing: true
-            }
-            queue.set(message.guild.id, servermap);
-            servermap.songs.push(song);
-            try {
-                var connection = await vc.join();
-                servermap.connection = connection;
-               await play(message.guild, servermap.songs[0]);
-            } catch (error) {
-                queue.delete(message.guild.id);
-                console.log("-Error-: " + error);
-                playerembed.setDescription(":x: Player Error").setColor('#FF5BF2');
-                return message.channel.send(playerembed);
-            }
-        }
-        else {
-            serverqueue.songs.push(song);
-            if(ardyplaying){
-            ardyplaying =false;
-            return message.channel.send(playerembed.setDescription(":arrow_forward: added to playlist " + song.title).setFooter("Command: -playlist to view playlist").setColor('#FF5BF2'));
-        }
-        }}
-    }
-        return undefined;
-    }
-    else if (commandname == "fav"||commandname == "favorite"){
-        if(User.Favtrack.includes("https://")){
-            var newarg = User.Favtrack;
-            const thesong = await ytdl.getInfo(newarg);
-            var pic = thesong.videoDetails.thumbnails[3].url;
-            var upload = thesong.videoDetails.publishDate;
-            var getpic = await ytsh.search(thesong.videoDetails.title);
-            if(getpic[0]){pic=getpic[0].thumbnail.url;upload=getpic[0].uploadedAt}
-            const song = {
-                title: Discord.escapeMarkdown(thesong.videoDetails.title),
-                thumbnail:pic,
-                Duration:fancyTimeFormat(thesong.videoDetails.lengthSeconds),
-                uploaded:upload,
-                requestedby:User.name,
-                loop: false,
-                url: thesong.videoDetails.video_url,
-                info: thesong
+                url: thesong.videoDetails.video_url
             }
             if (!serverqueue) {
                 const servermap = {
@@ -216,7 +65,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
                 try {
                     var connection = await vc.join();
                     servermap.connection = connection;
-                   await play(message.guild, servermap.songs[0]);
+                    play(message.guild, servermap.songs[0]);
                 } catch (error) {
                     queue.delete(message.guild.id);
                     console.log("-Error-: " + error);
@@ -229,22 +78,12 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
                 playerembed.setDescription(":arrow_forward: added to playlist " + song.title).setFooter("Command: -playlist to view playlist").setColor('#FF5BF2');
                 return message.channel.send(playerembed);
             }
-            return undefined;
+            return undefined;}
+            oplay(arg);
         }
-        else return message.channel.send(playerembed.setDescription(":x: no Favorite tracks has been saved \nTo add a Favorite track: `play [Youtube Video URL] or [Name of the video]`\nthenreact with ❤️"));
     }
-    else if (commandname == "addlist"||commandname == "add list"){
-        Account.findOne({
-            id: User.id
-        },async(err,User)=>{
-          if(err)console.log(err);
-          var songurl=[];
-          for(var lx=0; lx<serverqueue.songs.length;lx++){
-              songurl[lx] = serverqueue.songs[lx].url;
-          };
-          User.Mymusiclist= songurl.join("<:>");
-          User.save().catch(err => console.log(err));});
-        message.edit(playerembed.setDescription(":scroll:  This Track has been added to your song list"));
+    else if(commandname=="p"){
+        oplay(User.Lastplay)
     }
     else if (commandname == "stop") {
         playerembed.setDescription(":x: You must enter a voice chat to use this command.").setColor('#FF5BF2');
@@ -254,6 +93,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
         serverqueue.songs = [];
         serverqueue.connection.dispatcher.end();
         playerembed.setDescription(":octagonal_sign:  Song has stopped.").setColor('#FF5BF2'); message.channel.send(playerembed);
+        return undefined;
     }
     else if (commandname == "skip") {
         playerembed.setDescription(":x: You must enter a voice chat to use this command.").setColor('#FF5BF2');
@@ -319,14 +159,14 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
         playerembed.setDescription(":x: You must enter a voice chat to use this command.").setColor('#FF5BF2');
         if (!vc) return message.channel.send(playerembed);
         playerembed.setDescription(":x: noththing playing.").setColor('#FF5BF2');
-        if (!serverqueue.playing) return  message.channel.send(playerembed.setFooter("To play a track try command: `play` with title or URL."));
+        if (!serverqueue.playing) return  message.channel.send(playerembed.setFooter("To play a track try command: -play with title or URL."));
         serverqueue.playing = false;
         serverqueue.connection.dispatcher.pause();
         playerembed.setDescription(":pause_button: Track has been paused.").setColor('#FF5BF2'); message.channel.send(playerembed);
     }
     else if(commandname=="disconnect"){
         playerembed.setDescription(":x: Not connected to voice channel.").setColor('#FF5BF2');
-        if (!message.guild.voice.channel) return message.channel.send(playerembed.setFooter("To play a track try command: `play` with title or URL."));
+        if (!message.guild.voice.channel) return message.channel.send(playerembed.setFooter("To play a track try command: -play with title or URL."));
         playerembed.setDescription(":mobile_phone_off: The Music has stopped and left "+message.member.voice.channel.name +" (Voice Channel)").setColor('#FF5BF2');message.channel.send(playerembed);
         if(serverqueue){
         serverqueue.songs = [];
@@ -338,7 +178,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
         playerembed.setDescription(":x: You must enter a voice chat to use this command.").setColor('#FF5BF2');
         if (!vc) return message.channel.send(playerembed);
         playerembed.setDescription(":x: noththing playing.").setColor('#FF5BF2');
-        if (!serverqueue) return message.channel.send(playerembed.setFooter("To play a track try command: `play` with title or URL."));
+        if (!serverqueue) return message.channel.send(playerembed.setFooter("To play a track try command: -play with title or URL."));
         serverqueue.songs[0].loop =true;
         serverqueue.songs[0].title+=" - :repeat:`REPEATED TRACK`"
         playerembed.setDescription(":repeat:  Current Song is looped").setColor('#FF5BF2');message.channel.send(playerembed);
@@ -347,7 +187,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
         playerembed.setDescription(":x: no voice channel").setColor('#FF5BF2');
         if (!message.member.voice.channel) return message.channel.send(playerembed);
         playerembed.setDescription(":x: noththing playing.").setColor('#FF5BF2');
-        if (!serverqueue) return message.channel.send(playerembed.setFooter("To play a track try command: `play` with title or URL."));
+        if (!serverqueue) return message.channel.send(playerembed.setFooter("To play a track try command: -play with title or URL."));
         serverqueue.songs[0].loop =false;
         serverqueue.songs[0].title=serverqueue.songs[0].title.replace(" - :repeat:`REPEATED TRACK`","");
         playerembed.setDescription(":musical_note: Current Song is unlooped").setColor('#FF5BF2');message.channel.send(playerembed);
@@ -358,7 +198,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
             queue.delete(guild.id);
             return 
         }
-        const dispatcher = serverqueue.connection.play(ytdl.downloadFromInfo(song.info,quality ='lowestvideo'))
+        const dispatcher = serverqueue.connection.play(ytdl(song.url))
             .on('finish', () => {
                 if(serverqueue.songs[0]){
                if(serverqueue.songs[0].loop==false)serverqueue.songs.shift();
@@ -367,10 +207,8 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
             .on('error', error => {
                 playerembed.setDescription(":x: Cannot play " + song.title).setColor('#FF5BF2');
                 console.log(error);
-                if(serverqueue){
-                serverqueue.songs = [];
-                serverqueue.connection.dispatcher.end();}
                  message.channel.send(playerembed);
+                 dispatcher.end();
             });
         dispatcher.setVolumeLogarithmic(serverqueue.volume / 5);
        if(!serverqueue.songs[0].title.includes(" - :repeat:`REPEATED TRACK`")){
@@ -379,44 +217,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
         },async(err,User)=>{
           if(err)console.log(err);
           User.Lastplay=song.url;User.save().catch(err => console.log(err));});
-           message.channel.send(playerembed.setDescription(":musical_note:  Playing  " + serverqueue.songs[0].title).setColor('#FF5BF2'))
-           .then((message)=>{message.react('🔁'),message.react('⏭️'),message.react('❤️')
-           function sample(){
-       const filter = (reaction,user) => {
-        return ['🔁','⏭️','❤️'].includes(reaction.emoji.name) && user.id === User.id
-    };
-       message.awaitReactions(filter, { max: 1})
-	.then(collected => {
-		const reaction = collected.first();
- if (reaction.emoji.name === '🔁') {
-            if (!vc) return message.edit(playerembed.setDescription(":x: You must enter a voice chat to use this command."));
-            if (!serverqueue) return message.edit(playerembed.setDescription(":x: noththing playing.").setFooter("To play a track try command: `play` with title or URL."));
-            if(serverqueue.songs[0].loop ==true) return message.edit(playerembed.setDescription(":x: This track is already looped.").setFooter("To unloop track command: `unloop`"));
-            serverqueue.songs[0].loop =true;
-            serverqueue.songs[0].title+=" - :repeat:`REPEATED TRACK`"
-            message.edit(playerembed.setDescription(":repeat:  Current Song is looped")).then(message=>{message.reactions.resolve('🔁').users.remove(User.id);});
-            sample();
-		}
-        else if (reaction.emoji.name === '⏭️'){
-            if (!vc) return message.edit(playerembed.setDescription(":x: You must enter a voice chat to use this command."));;
-            if (!serverqueue) return message.edit(playerembed.setDescription(":x: noththing playing.").setFooter("To play a track try command: `play` with title or URL."));
-            if(serverqueue.songs[0]){
-            if(serverqueue.songs[0].loop==true) serverqueue.songs[0].loop=false;}
-            serverqueue.connection.dispatcher.end();
-            message.edit(playerembed.setDescription(":arrow_forward: Track has been skipped .")).then(message=>{message.reactions.resolve('⏭️').users.remove(User.id);});
-            return sample();
-        }
-        else if (reaction.emoji.name === '❤️') {
-            Account.findOne({
-                id: User.id
-            },async(err,User)=>{
-              if(err)console.log(err);
-              User.Favtrack=song.url;User.save().catch(err => console.log(err));});
-            message.edit(playerembed.setDescription(":heart:  This Track has been added as your favorite")).then(message=>{message.reactions.resolve('❤️').users.remove(User.id);});
-            sample();
-        }
-	})}sample();
-})}
+           message.channel.send(playerembed.setDescription(":musical_note:  Playing  " + serverqueue.songs[0].title).setColor('#FF5BF2'));}
     }
     function fancyTimeFormat(duration)
 {
