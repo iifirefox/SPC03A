@@ -320,9 +320,6 @@ client.on('message', message => {
                     case 3:client.commands.get('act_pvp').run(message, arg, User);break;
                     default: client.commands.get('act').run(message, arg, User);break; };
                     break;
-                    case "again":
-                    client.commands.get('again').run(message, arg, User);
-                    break;
                     case "open":
                     client.commands.get('open').run(message, arg, User);
                     break;

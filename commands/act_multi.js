@@ -1313,47 +1313,97 @@ module.exports.run = async (message, arg, User) => {
         monstereffectembed.setFooter("Tip: You can use a Pure Potion to remove the effects");
         foeffect="";
     }
-var defeatkey=false;
-var defeatkeyII=false;
 var teamdefeated = false;
 var mdefeated = false;
-     if(User.HP<=0&hh3funset1[15]==0){
+     if(User.HP<=0){
+        if(User.HP!=0)User.HP=0;
+        profiledata[15]=0;
+        User.Ary_HH3ProfileData = profiledata.join("<:>");
         mdata[4]++;
         User.Metadata = mdata.join("<:>");
         herodefeatembed.setAuthor(User.name+" has been defeated by "+temdatanames[0],User.Profileimg);
         if(User.Fightagain>0){
-            herodefeatembed.setTitle("Do you wish to continue fighting?\n`cost 20 Energy`\nYou can use this command once daily");
-            herodefeatembed.setDescription("To continue fighting command: `-again`\nYou can use this command `once daily`")
-                hh3funset1[15]=1;
-                User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
-            hh3funset1[10]=1;User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
+            User.Ary_HH3ProfileData = profiledata.join("<:>");
+            message.channel.send(herodefeatembed.setTitle("Do you wish to continue fighting?\n`cost 25 Energy`\nYou can use this command once daily")
+            .setDescription("To continue fighting: react `⚡` **once daily**(cost 25 energy)\nTo cancel and wait 10 rounds until recovered: react `❌`"))
+            .then((message)=>{message.react('⚡'),message.react('❌');
+            const filter = (reaction, user) => {
+             return ['⚡','❌'].includes(reaction.emoji.name) && user.id === User.id;
+         }; message.awaitReactions(filter, { max: 1, time: 10000, errors: ['time'] })
+         .then(collected => {
+             const reaction = collected.first();
+     
+             if (reaction.emoji.name === '⚡') {
+                User.energy -25;
+                User.HP = Math.round(User.MaxHP/2);
+                User.Fightagain=0;
+                if(temdatanumbers[0]<0&temdatanumbers[32]<0){temdatanumbers[0]=1;User.TemdataNumbers = temdatanumbers.join("<:>");};
+                 message.edit(herodefeatembed.setDescription(":hearts: recovered half your HP"));
+             } else {
+                if(temdatanumbers[46]==1)temdatanumbers[57]=10;else if(temdatanumbers[46]==2)temdatanumbers[58]=10;
+                User.TemdataNumbers = temdatanumbers.join("<:>");
+                User.Ary_HH3ProfileData = profiledata.join("<:>");
+                 message.edit(herodefeatembed.setDescription(" you must wait 10 arounds to revive with quarter of your HP"));
+             }
+         })
+         .catch(collected => {
+            if(temdatanumbers[46]==1)temdatanumbers[57]=10;else if(temdatanumbers[46]==2)temdatanumbers[58]=10;
+            User.TemdataNumbers = temdatanumbers.join("<:>");
+            User.Ary_HH3ProfileData = profiledata.join("<:>");
+             message.edit(herodefeatembed.setDescription(" you must wait 10 arounds to revive with quarter of your HP"));
+         });})
         }
-        if(User.HP!=0)User.HP=0;
-        profiledata[15]=0; hh3funset1[15]=1;
-        if(temdatanumbers[46]==1)temdatanumbers[57]=10;else if(temdatanumbers[46]==2)temdatanumbers[58]=10;
-        herodefeatembed.setFooter("instead you must wait 10 arounds to revive with quarter of your HP");
-        User.TemdataNumbers = temdatanumbers.join("<:>");
-        User.Ary_HH3ProfileData = profiledata.join("<:>");
-        defeatkey=true;
+        else{
+            if(temdatanumbers[46]==1)temdatanumbers[57]=10;else if(temdatanumbers[46]==2)temdatanumbers[58]=10;
+            User.TemdataNumbers = temdatanumbers.join("<:>");
+            User.Ary_HH3ProfileData = profiledata.join("<:>");
+             message.channel.send(herodefeatembed.setDescription(" you must wait 10 arounds to revive with quarter of your HP"));
         }
-        if(UserII.HP<=0&hh3funset1A[15]==0){
+        }
+        if(UserII.HP<=0){
+        if(UserII.HP!=0)UserII.HP=0;
+        profiledataA[15]=0;
+        UserII.Ary_HH3ProfileData = profiledataA.join("<:>");
         mdataA[4]++;
         UserII.Metadata = mdataA.join("<:>");
         herodefeatembedII.setAuthor(UserII.name+" has been defeated by "+temdatanamesA[0],UserII.Profileimg);
-        if(UserII.Fightagain>0){
-            herodefeatembedII.setTitle("Do you wish to continue fighting?\n`cost 20 Energy`\nYou can use this command once daily");
-            herodefeatembedII.setDescription("To continue fighting command: `-again`\nYou can use this command `once daily`")
-                hh3funset1A[15]=1;
-                UserII.Ary_HH3FunctionSet1 = hh3funset1A.join("<:>");
-            hh3funset1A[10]=1;User.Ary_HH3FunctionSet1 = hh3funset1A.join("<:>");
+        if(User.Fightagain>0){
+            User.Ary_HH3ProfileData = profiledata.join("<:>");
+            message.channel.send(herodefeatembedII.setTitle("Do you wish to continue fighting?\n`cost 25 Energy`\nYou can use this command once daily")
+            .setDescription("To continue fighting: react `⚡` **once daily**(cost 25 energy)\nTo cancel and wait 10 rounds until recovered: react `❌`"))
+            .then((message)=>{message.react('⚡'),message.react('❌');
+            const filter = (reaction, user) => {
+             return ['⚡','❌'].includes(reaction.emoji.name) && user.id === UserII.id;
+         }; message.awaitReactions(filter, { max: 1, time: 10000, errors: ['time'] })
+         .then(collected => {
+             const reaction = collected.first();
+     
+             if (reaction.emoji.name === '⚡') {
+                User.energy -25;
+                UserII.HP = Math.round(User.MaxHP/2);
+                UserII.Fightagain=0;
+                if(temdatanumbersA[0]<0&temdatanumbersA[32]<0){temdatanumbersA[0]=1;UserII.TemdataNumbers = temdatanumbersA.join("<:>");};
+                 message.edit(herodefeatembedII.setDescription(":hearts: recovered half your HP"));
+             } else {
+                if(temdatanumbersA[46]==1)temdatanumbers[57]=10;else if(temdatanumbers[46]==2)temdatanumbersA[58]=10;
+                UserII.TemdataNumbers = temdatanumbersA.join("<:>");
+                UserII.Ary_HH3ProfileData = profiledataA.join("<:>");
+                 message.edit(herodefeatembedII.setDescription(" you must wait 10 arounds to revive with quarter of your HP"));
+             }
+         })
+         .catch(collected => {
+            if(temdatanumbersA[46]==1)temdatanumbers[57]=10;else if(temdatanumbers[46]==2)temdatanumbersA[58]=10;
+            UserII.TemdataNumbers = temdatanumbersA.join("<:>");
+            UserII.Ary_HH3ProfileData = profiledataA.join("<:>");
+             message.edit(herodefeatembedII.setDescription(" you must wait 10 arounds to revive with quarter of your HP"));
+         });})
         }
-        if(UserII.HP!=0)UserII.HP=0;
-        profiledataA[15]=0;hh3funset1A[15]=1;
-        if(temdatanumbersA[46]==1)temdatanumbers[57]=10;else if(temdatanumbers[46]==2)temdatanumbersA[58]=10;
-        herodefeatembedII.setFooter("you must wait 10 arounds to revive with quarter of your HP");
-        UserII.TemdataNumbers = temdatanumbersA.join("<:>");
-        UserII.Ary_HH3ProfileData = profiledataA.join("<:>");
-        defeatkeyII=true;
+        else{
+            if(temdatanumbersA[46]==1)temdatanumbers[57]=10;else if(temdatanumbers[46]==2)temdatanumbersA[58]=10;
+            UserII.TemdataNumbers = temdatanumbersA.join("<:>");
+            UserII.Ary_HH3ProfileData = profiledataA.join("<:>");
+             message.channel.send(herodefeatembedII.setDescription(" you must wait 10 arounds to revive with quarter of your HP"));
+        }
         }
         if(User.HP<=0&UserII.HP<=0){
             User.TemdataNames = "";
@@ -2138,8 +2188,6 @@ var mdefeated = false;
                         if(extraembedkey==true)message.channel.send(extraembed);
                         if(foecheatxt!=undefined)message.channel.send(monstercheatembed);
                         if(foeffect!=undefined)message.channel.send(monstereffectembed);
-                        if(defeatkey==true) message.channel.send(herodefeatembed);
-                        if(defeatkeyII==true) message.channel.send(herodefeatembedII);
                         if(mdefeated==true) message.channel.send(monsterdefeatembed);
     }
     else{

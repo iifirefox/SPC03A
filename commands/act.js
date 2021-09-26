@@ -1217,91 +1217,111 @@ return arr.filter(function(ele){return ele != value;});
                 User.TemdataNumbers = temdatanumbers.join("<:>");
                 User.Ary_HH3ProfileData = profiledata.join("<:>");
                 if(User.HP<=0){
+                    if(User.HP!=0)User.HP=0;
+                    profiledata[15]=0;
+                    function respawn(){
+                        User.TemdataNames = "";
+                        User.TemdataNumbers = "";
+                        User.CombatMode=0;
+                        User.Ary_HH3ProfileData = profiledata.join("<:>");
+                        User.HP = User.MaxHP;
+                       var newfix = User.floor-1;
+                       var stepamount = 0;
+                       if(User.floor>3&User.floor<=9){
+                        stepamount=125;
+                        }
+                        else if(User.floor==10){
+                            stepamount=140
+                        }
+                       else if(User.floor==3){
+                        stepamount=65;
+                        }
+                       else {
+                        stepamount = 60;
+                        }
+                       var floormax =stepamount*newfix;
+                        if(User.floor>3&User.floor<=9){
+                            var halfloor = floormax -=63;
+                            if(User.step>=halfloor){
+                                User.step = halfloor;
+                            }
+                            else{
+                            User.step=floormax-124;
+                            if(User.step<=0)User.step=10;
+                        }
+                        }
+                        else if(User.floor==10){
+                            var halfloor = floormax -=70;
+                            if(User.step>=halfloor){
+                            User.step = halfloor;
+                            }
+                            else{
+                            User.step=floormax-279;
+                            if(User.step<=0)User.step=10;
+                             }
+                            }
+                        else if(User.floor==3){
+                            var halfloor = floormax -=33;
+                            if(User.step>=halfloor){
+                                User.step = halfloor;
+                            }
+                            else{
+                            User.step-=floormax-69 ;
+                            if(User.step<=0)User.step=10;
+                        }}
+                       else if(User.floor==2){
+                        var halfloor = floormax -=30;
+                        if(User.step>=halfloor){
+                            User.step = halfloor;
+                        }
+                        else{
+                        User.step-=floormax-50;
+                        if(User.step<=0)User.step=10;
+                    }
+                    if(profilenames[1]==Gamedata.sys_sword_names[0]){
+                        profiledata[3] =1;
+                        profiledata[6]=100;
+                        User.Ary_HH3ProfileData = profiledata.join("<:>");
+                    }
+                       };
+                        Imgset[1]="";
+                        User.Ary_Imgset = Imgset.join("<:>");
+                    }
+                    var txt =User.name+" has fled from"+temdatanames[0];
                     mdata[4]++;
                     User.Metadata = mdata.join("<:>");
                     herodefeatembed.setAuthor(User.name+" has been defeated by "+temdatanames[0],message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
                     if(User.Fightagain>0){
-                        hh3funset1[10]=1;
-                        profiledata[15]=0;
                         User.Ary_HH3ProfileData = profiledata.join("<:>");
-                        User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
-                        herodefeatembed.setTitle("Do you wish to continue fighting?\n`cost 20 Energy`\nYou can use this command once daily");
-                        herodefeatembed.setDescription("To continue fighting command: `-again`\nYou can use this command `once daily`")
-                            herodefeatembed.setFooter("instead your hp will be fully recovered and your floor be reset to begining of current floor or back to the Check Point");
-                            User.CombatMode=0;
-                            User.HP = User.MaxHP;
-                        
-                    }
-                    else{
-                    User.TemdataNames = "";
-                    User.TemdataNumbers = "";
-                    User.CombatMode=0;
-                    profiledata[15]=0;
-                    User.Ary_HH3ProfileData = profiledata.join("<:>");
-                    User.HP = User.MaxHP;
-                   var newfix = User.floor-1;
-                   var stepamount = 0;
-                   if(User.floor>3&User.floor<=9){
-                    stepamount=125;
-                    }
-                    else if(User.floor==10){
-                        stepamount=140
-                    }
-                   else if(User.floor==3){
-                    stepamount=65;
-                    }
-                   else {
-                    stepamount = 60;
-                    }
-                   var floormax =stepamount*newfix;
-                    if(User.floor>3&User.floor<=9){
-                        var halfloor = floormax -=63;
-                        if(User.step>=halfloor){
-                            User.step = halfloor;
-                        }
-                        else{
-                        User.step=floormax-124;
-                        if(User.step<=0)User.step=10;
-                    }
-                    }
-                    else if(User.floor==10){
-                        var halfloor = floormax -=70;
-                        if(User.step>=halfloor){
-                        User.step = halfloor;
-                        }
-                        else{
-                        User.step=floormax-279;
-                        if(User.step<=0)User.step=10;
+                        message.channel.send(herodefeatembed.setTitle("Do you wish to continue fighting?\n`cost 25 Energy`\nYou can use this command once daily")
+                        .setDescription("To continue fighting: react `⚡` **once daily**(cost 25 energy)\nTo cancel and respawn to last check point: react `❌`")
+                        .setFooter("🔹 when respawning\nThe battle ends and you recover your HP and return back to your last check point")).then((message)=>{message.react('⚡'),message.react('❌');
+                        const filter = (reaction, user) => {
+                         return ['⚡','❌'].includes(reaction.emoji.name) && user.id === User.id;
+                     }; message.awaitReactions(filter, { max: 1, time: 10000, errors: ['time'] })
+                     .then(collected => {
+                         const reaction = collected.first();
+                 
+                         if (reaction.emoji.name === '⚡') {
+                            User.energy -25;
+                            User.HP = Math.round(User.MaxHP/2);
+                            User.Fightagain=0;
+                            if(temdatanumbers[0]<0){temdatanumbers[0]=1;User.TemdataNumbers = temdatanumbers.join("<:>");};
+                             message.edit(herodefeatembed.setDescription(":hearts: recovered half your HP"));
+                         } else {
+                             respawn();
+                             message.edit(herodefeatembed.setDescription(txt));
                          }
-                        }
-                    else if(User.floor==3){
-                        var halfloor = floormax -=33;
-                        if(User.step>=halfloor){
-                            User.step = halfloor;
-                        }
-                        else{
-                        User.step-=floormax-69 ;
-                        if(User.step<=0)User.step=10;
-                    }}
-                   else if(User.floor==2){
-                    var halfloor = floormax -=30;
-                    if(User.step>=halfloor){
-                        User.step = halfloor;
+                     })
+                     .catch(collected => {
+                        respawn();
+                        message.edit(herodefeatembed.setDescription(txt));
+                     });})
                     }
                     else{
-                    User.step-=floormax-50;
-                    if(User.step<=0)User.step=10;
-                }
-                if(profilenames[1]==Gamedata.sys_sword_names[0]){
-                    profiledata[3] =1;
-                    profiledata[6]=100;
-                    User.Ary_HH3ProfileData = profiledata.join("<:>");
-                }
-                   };
-                    Imgset[1]="";
-                    User.Ary_Imgset = Imgset.join("<:>");
+                        respawn();
+                        message.channel.send(herodefeatembed.setDescription(txt));
                     }
-                    message.channel.send(herodefeatembed);
                 }
                 else if(temdatanumbers[0]<=0&User.CombatMode==1){
                     if(mdefeated==true) defeatxt=defeatxt+"\n"+temdatanames[0]+" has been defeated", Imgset[1];
