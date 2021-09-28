@@ -1300,12 +1300,12 @@ return arr.filter(function(ele){return ele != value;});
                     herodefeatembed.setAuthor(User.name+" has been defeated by "+temdatanames[0],message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
                     if(User.Fightagain>0){
                         User.Ary_HH3ProfileData = profiledata.join("<:>");
-                        message.channel.send(herodefeatembed.setTitle("Do you wish to continue fighting?\n`cost 25 Energy`\nYou can use this command once daily")
-                        .setDescription("To continue fighting: react `⚡` **once daily**(cost 25 energy)\nTo cancel and respawn to last check point: react `❌`")
+                        message.channel.send(herodefeatembed.setTitle("Do you wish to continue fighting?\n`15 seconds` until respawn back to check point\nYou can use this command once daily")
+                        .setDescription("To continue fighting: react `⚡` **once daily** `cost 25 energy`\nTo cancel and respawn to last check point: react `❌`")
                         .setFooter("🔹 when respawning\nThe battle ends and you recover your HP and return back to your last check point")).then((message)=>{message.react('⚡'),message.react('❌');
                         const filter = (reaction, user) => {
                          return ['⚡','❌'].includes(reaction.emoji.name) && user.id === User.id;
-                     }; message.awaitReactions(filter, { max: 1, time: 10000, errors: ['time'] })
+                     }; message.awaitReactions(filter, { max: 1, time: 16000, errors: ['time'] })
                      .then(collected => {
                          const reaction = collected.first();
                  
