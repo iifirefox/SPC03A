@@ -1293,6 +1293,12 @@ return arr.filter(function(ele){return ele != value;});
                        };
                         Imgset[1]="";
                         User.Ary_Imgset = Imgset.join("<:>");
+                        Account.findOne({
+                            id: User.id
+                        },async(err,User)=>{
+                          if(err)console.log(err);
+                         User.save().catch(err => console.log(err));
+                    });
                     }
                     var txt =User.name+" has fled from"+temdatanames[0];
                     mdata[4]++;
@@ -1310,7 +1316,6 @@ return arr.filter(function(ele){return ele != value;});
                          const reaction = collected.first();
                  
                          if (reaction.emoji.name === '⚡') {
-                             console.log("evoo:"+User.HP)
                             Account.findOne({
                                 id: User.id
                             },async(err,User)=>{
@@ -1320,28 +1325,15 @@ return arr.filter(function(ele){return ele != value;});
                             User.Fightagain=0;
                             if(temdatanumbers[0]<0){temdatanumbers[0]=1;User.TemdataNumbers = temdatanumbers.join("<:>");};
                             User.save().catch(err => console.log(err));
-                            console.log("evoo:"+User.HP)
                         });
                              message.edit(herodefeatembed.setDescription(":hearts: recovered half your HP"));
                          } else {
-                            Account.findOne({
-                                id: User.id
-                            },async(err,User)=>{
-                              if(err)console.log(err);
-                             respawn();
-                             User.save().catch(err => console.log(err));
-                        });
+                            respawn();
                              message.edit(herodefeatembed.setDescription(txt));
                          }
                      })
                      .catch(collected => {
-                        Account.findOne({
-                            id: User.id
-                        },async(err,User)=>{
-                          if(err)console.log(err);
-                         respawn();
-                         User.save().catch(err => console.log(err));
-                    });
+                        respawn();
                         message.edit(herodefeatembed.setDescription(txt));
                      });})
                     }
