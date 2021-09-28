@@ -18,7 +18,7 @@ warnembed.setColor("#FFFE00");
 warnembed2.setColor("#FFFE00")
 if(User.CombatMode>0){
     // temnum : [11] monster def decrease [12] attack increase [13] monster status effect [14] hero sp increase [15] speed decrease by [16] hero def decrease by
-    // [17] defper [18] critical timer [19] defense timer [20] speed timer [21] hero's acy decreased by [22] critical rate increase by [23] temp ver saves
+    // [17] defper [18] critical timer [19] defense timer [20] speed timer [21] hero's acy decreased by [22] critical rate increase by [23] boss skill energy
     // [24] hero atk debuff  [25] perm skill effect(only one,gets replaced) [26] monster effect timer [27] skill effect monster [28] effect timer 
     // [29] summon hp [30] summon atk pow [31] summon acy [46] party leader [47] who is first [48] (blank) herotwo status [49] herotwo sp pot
     // [50] monster turn [51] monsterII turn [52] monster turn check [53] monstertwo turn check [54] hero turn check [55] hero spd [56] herotwo spd
@@ -185,7 +185,8 @@ return arr.filter(function(ele){return ele != value;});
         if(temdatanames[6]){
             var skillindex = Gamedata.sys_heronoskills.indexOf(temdatanames[6])*5;
             var foeskillvalue =Gamedata.sys_heroskill_numbers[skillindex+4];
-           if(temdatanumbers[23]==1)skilldmg=true;
+            var skillindex = Gamedata.sys_heronoskills.indexOf(temdatanames[6])*5;skillindex = Gamedata.sys_heroskill_numbers[skillindex];
+           if(skillindex==1)skilldmg=true;
             displayskill=true; foeskillspecial=true;
         }
         if(foeatk==true){
@@ -235,10 +236,11 @@ return arr.filter(function(ele){return ele != value;});
                     }else break;
                 }
                 theskill= getskill[RandomMax(getskill.length)]; 
-                var skillindex = Gamedata.sys_heronoskills.indexOf(theskill)*5;skillindex = Gamedata.sys_heroskill_numbers[skillindex];
+                var skillindex = Gamedata.sys_heronoskills.indexOf(theskill);
+                var skillm = skillindex*5;skillm = Gamedata.sys_heroskill_numbers[skillm+2];
                 if(skillindex==1){
             effects= "[Warning] "+temdatanames[0]+" is preparing to use "+theskill+"\nuse defend or avoid";}
-            temdatanames[6] = theskill; temdatanumbers[23]=skillindex;
+            if( temdatanumbers[23]>=skillm){temdatanames[6] = theskill;temdatanumbers[23]-=skillm;}
         }
         }
 }
@@ -624,6 +626,7 @@ return arr.filter(function(ele){return ele != value;});
             if(skillspecial||foeskillspecial){
                 var skillpath =Gamedata.sys_skill_path+skillname;
                 var foeskillpath =Gamedata.sys_skill_path+temdatanames[6];
+                if(temdatanames[6]!=""&temdatanames[6]!=undefined&displayskill==true)temdatanames[6]="";
                 if(skillspecial) var skilleffects = require(skillpath);
                if(foeskillspecial) var skilleffects = require(foeskillpath);
                 if(skilleffects.skillsetdata4){skillsetdata[dtable4] = skilleffects.skillsetdata4;User.Ary_skillsdata = skillsetdata.join("<:>")};
@@ -848,6 +851,8 @@ return arr.filter(function(ele){return ele != value;});
                                     temdatanames[5]="";temdatanumbers[29]=0;temdatanumbers[30]=0;temdatanumbers[31]=0;Imgset[3]=0;User.Ary_Imgset=Imgset.join("<:>");
                                 }
                             }
+                            temdatanumbers[23]++;
+                            if(temdatanumbers[23]>5)temdatanumbers[23]=5;
                             if(mdata[7]<foeattack){
                                 mdata[7]=foeattack;
                                 User.Metadata = mdata.join("<:>");
@@ -894,6 +899,8 @@ return arr.filter(function(ele){return ele != value;});
                                     temdatanames[5]="";temdatanumbers[29]=0;temdatanumbers[30]=0;temdatanumbers[31]=0;Imgset[3]=0;User.Ary_Imgset=Imgset.join("<:>");
                                 }
                             }
+                            temdatanumbers[23]++;
+                            if(temdatanumbers[23]>5)temdatanumbers[23]=5;
                             if(mdata[7]<foeattack){
                                 mdata[7]=foeattack;
                                 User.Metadata = mdata.join("<:>");
@@ -1212,7 +1219,6 @@ return arr.filter(function(ele){return ele != value;});
                         message.channel.send(warnembed2);
                     }
                 }
-                if(temdatanames[6]!=""&temdatanames[6]!=undefined&displayskill==true)temdatanames[6]="";
                 User.TemdataNames = temdatanames.join("<:>");
                 User.TemdataNumbers = temdatanumbers.join("<:>");
                 User.Ary_HH3ProfileData = profiledata.join("<:>");
