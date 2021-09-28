@@ -1310,6 +1310,7 @@ return arr.filter(function(ele){return ele != value;});
                          const reaction = collected.first();
                  
                          if (reaction.emoji.name === '⚡') {
+                             console.log("evoo:"+User.HP)
                             Account.findOne({
                                 id: User.id
                             },async(err,User)=>{
@@ -1319,6 +1320,7 @@ return arr.filter(function(ele){return ele != value;});
                             User.Fightagain=0;
                             if(temdatanumbers[0]<0){temdatanumbers[0]=1;User.TemdataNumbers = temdatanumbers.join("<:>");};
                             User.save().catch(err => console.log(err));
+                            console.log("evoo:"+User.HP)
                         });
                              message.edit(herodefeatembed.setDescription(":hearts: recovered half your HP"));
                          } else {

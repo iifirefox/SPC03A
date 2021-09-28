@@ -2,7 +2,7 @@ const Gamedata = require('../hh3data.json');
 var act = require(Gamedata.sys_skill_path1);
 if(!act.HeroMaxHP)act = require(Gamedata.sys_skill_path2);
 if(!act.HeroMaxHP)act = require(Gamedata.sys_skill_path3);
-if(act.skillspecial&act.skillsetdata[5]!=1){
+if(act.skillspecial&act.skillsetdata5!=1){
 act.temdatanum3 -0.10;
 act.temdatanum6 -0.10;
 act.herotxt = act.herotxt+="\n Foe's AddAtk and Speed decrease by 10%";
