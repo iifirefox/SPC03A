@@ -1227,6 +1227,11 @@ return arr.filter(function(ele){return ele != value;});
                     if(User.HP!=0)User.HP=0;
                     profiledata[15]=0;
                     function respawn(){
+                        console.log("dell:"+User.HP)
+                        Account.findOne({
+                            id: User.id
+                        },async(err,User)=>{
+                          if(err)console.log(err);
                         User.TemdataNames = "";
                         User.TemdataNumbers = "";
                         User.CombatMode=0;
@@ -1293,12 +1298,9 @@ return arr.filter(function(ele){return ele != value;});
                        };
                         Imgset[1]="";
                         User.Ary_Imgset = Imgset.join("<:>");
-                        Account.findOne({
-                            id: User.id
-                        },async(err,User)=>{
-                          if(err)console.log(err);
                          User.save().catch(err => console.log(err));
                     });
+                    console.log("dell:"+User.HP)
                     }
                     var txt =User.name+" has fled from"+temdatanames[0];
                     mdata[4]++;
@@ -1330,6 +1332,7 @@ return arr.filter(function(ele){return ele != value;});
                          } else {
                             respawn();
                              message.edit(herodefeatembed.setDescription(txt));
+                             console.log("iphone:"+User.HP)
                          }
                      })
                      .catch(collected => {
