@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
+const Account = require("../data/tree");
 module.exports.run = async (message, arg, User) => {
 const heroembed = new Discord.MessageEmbed();
 const monstercheatembed = new Discord.MessageEmbed();
@@ -1309,18 +1310,36 @@ return arr.filter(function(ele){return ele != value;});
                          const reaction = collected.first();
                  
                          if (reaction.emoji.name === '⚡') {
+                            Account.findOne({
+                                id: User.id
+                            },async(err,User)=>{
+                              if(err)console.log(err);
                             User.energy -25;
                             User.HP = Math.round(User.MaxHP/2);
                             User.Fightagain=0;
                             if(temdatanumbers[0]<0){temdatanumbers[0]=1;User.TemdataNumbers = temdatanumbers.join("<:>");};
+                            User.save().catch(err => console.log(err));
+                        });
                              message.edit(herodefeatembed.setDescription(":hearts: recovered half your HP"));
                          } else {
+                            Account.findOne({
+                                id: User.id
+                            },async(err,User)=>{
+                              if(err)console.log(err);
                              respawn();
+                             User.save().catch(err => console.log(err));
+                        });
                              message.edit(herodefeatembed.setDescription(txt));
                          }
                      })
                      .catch(collected => {
-                        respawn();
+                        Account.findOne({
+                            id: User.id
+                        },async(err,User)=>{
+                          if(err)console.log(err);
+                         respawn();
+                         User.save().catch(err => console.log(err));
+                    });
                         message.edit(herodefeatembed.setDescription(txt));
                      });})
                     }

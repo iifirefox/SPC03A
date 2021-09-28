@@ -18,7 +18,6 @@ module.exports.foeatkey = act.foeatkey;
 module.exports.herospkey = -1;
 }
 if(act.foeskillspecial){
-    act.attack = math.round(act.attack/2);
-    module.exports.foespkey = -2;
-    module.exports.attack = act.attack;}
+   if(act.attack){act.attack = Math.round(act.attack/2);module.exports.attack = act.attack;}
+    module.exports.foespkey = -2;}
 var rpath = require.resolve(Gamedata.sys_skill_path1,Gamedata.sys_skill_path2,Gamedata.sys_skill_path3);delete require.cache[rpath];
