@@ -1306,7 +1306,7 @@ return arr.filter(function(ele){return ele != value;});
                     herodefeatembed.setAuthor(User.name+" has been defeated by "+temdatanames[0],message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
                     if(User.Fightagain>0){
                         User.Ary_HH3ProfileData = profiledata.join("<:>");
-                        message.channel.send(herodefeatembed.setTitle("Do you wish to continue fighting?\n`15 seconds` until respawn back to check point\nYou can use this command once daily")
+                        message.channel.send(herodefeatembed.setTitle("Do you wish to continue fighting?\n`15 seconds` until respawn back to check point\ncontinue fighting option is available `once daily`")
                         .setDescription("To continue fighting: react `⚡` **once daily** `cost 25 energy`\nTo cancel and respawn to last check point: react `❌`")
                         .setFooter("🔹 when respawning\nThe battle ends and you recover your HP and return back to your last check point")).then((message)=>{message.react('⚡'),message.react('❌');
                         const filter = (reaction, user) => {
@@ -1326,15 +1326,15 @@ return arr.filter(function(ele){return ele != value;});
                             if(temdatanumbers[0]<0){temdatanumbers[0]=1;User.TemdataNumbers = temdatanumbers.join("<:>");};
                             User.save().catch(err => console.log(err));
                         });
-                             message.edit(herodefeatembed.setDescription(":hearts: recovered half your HP"));
+                             message.edit(herodefeatembed.setTitle("").setDescription(":hearts: recovered half your HP").setFooter(""));
                          } else {
                             respawn();
-                             message.edit(herodefeatembed.setDescription(txt));
+                             message.edit(herodefeatembed.setTitle("").setDescription(txt).setFooter(""));
                          }
                      })
                      .catch(collected => {
                         respawn();
-                        message.edit(herodefeatembed.setDescription(txt));
+                        message.edit(herodefeatembed.setFooter("").setDescription(txt).setFooter(""));
                      });})
                     }
                     else{
