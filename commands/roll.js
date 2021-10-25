@@ -195,7 +195,7 @@ module.exports.run = async (message, arg, User) => {
                         if (User.floor== 1)
                         {
                             Imgset[0] = Gamedata.floor1;
-                           newsembed.setDescription("You've made it inside the Mansion, though the door behind you locked it's self.\n There must be a key to unlocking it \n command: `roll`");
+                           newsembed.setDescription("You've made it inside the Mansion, though the door behind you locked it's self.\n There must be a key to unlocking it - `Clear Floor 10` \n command: `roll`");
                             newsembed.setImage(Imgset[0]);
                             
                         }

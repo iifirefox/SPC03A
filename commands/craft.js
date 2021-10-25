@@ -171,7 +171,7 @@ else{
             craftembed.addField(temname[0],"`"+itembagdata[temnum[4]]+"`/"+temnum[0]);
             craftembed.addField(temname[1],"`"+itembagdata[temnum[5]]+"`/"+temnum[1]);
             craftembed.addField("Cost: "+temnum[3],"Currency Balance: `"+User.currency+"`");
-            message.channel.send(craftembed.setFooter(" command: -craft yes to confirm.")).then((message)=>{message.react('✅')
+            message.channel.send(craftembed.setFooter("To confirm: react ✅")).then((message)=>{message.react('✅')
             const filter = (reaction, user) => {
              return ['✅'].includes(reaction.emoji.name) && user.id === User.id;
          };
@@ -209,7 +209,6 @@ else{
             temnum[4] = bagsupplies1+num;
             temnum[5] = bagsupplies2+num2;
             temnum[6] = bagsupplies3+num3;
-            console.log(temnum[4]+"\n"+temnum[5]+"\n"+temnum[6])
             temnum[7] = equipindex;
             temname[3] = namecheck;
             craftembed.setDescription(":tools: do you want to craft `" + namecheck +"`?\nYou need:");
@@ -217,7 +216,7 @@ else{
             craftembed.addField(temname[1],"`"+itembagdata[temnum[5]]+"`/"+temnum[1]);
             craftembed.addField(temname[2],"`"+itembagdata[temnum[6]]+"`/"+temnum[2]);
             craftembed.addField("Cost: `"+temnum[3]+"`","Currency Balance: `"+User.currency+"`");
-            message.channel.send(craftembed.setFooter(" command: -craft yes to confirm.")).then((message)=>{message.react('✅')
+            message.channel.send(craftembed.setFooter("To confirm: react ✅")).then((message)=>{message.react('✅')
             const filter = (reaction, user) => {
              return ['✅'].includes(reaction.emoji.name) && user.id === User.id;
          };
