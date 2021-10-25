@@ -207,8 +207,9 @@ else{
             bagsupplies3 = Gamedata.sys_material_names.indexOf(temname[2]);
             if(bagsupplies3==-1){bagsupplies3 = Gamedata.sys_item_names.indexOf(temname[2]);num3=0;}
             temnum[4] = bagsupplies1+num;
-            temnum[5] = bagsupplies2+num;
-            temnum[6] = bagsupplies3+num;
+            temnum[5] = bagsupplies2+num2;
+            temnum[6] = bagsupplies3+num3;
+            console.log(temnum[4]+"\n"+temnum[5]+"\n"+temnum[6])
             temnum[7] = equipindex;
             temname[3] = namecheck;
             craftembed.setDescription(":tools: do you want to craft `" + namecheck +"`?\nYou need:");
