@@ -1532,7 +1532,7 @@ return arr.filter(function(ele){return ele != value;});
                                     var getname = Gamedata.sys_material_names.find(a=>IgnoringCase(a,itemdropnames[items]));
                                     var getcort = Gamedata.sys_material_names.indexOf(getname);
                                     amount = RandomMinMax(1,amount);
-                                    getcrot = getcort+=12;
+                                    getcrot = getcort+=11;
                                     if(itembagnames[getcort]==""){
                                     itembagnames[getcort] = getname;}
                                     itembagdata[getcort] += amount;

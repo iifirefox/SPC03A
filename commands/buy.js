@@ -106,7 +106,7 @@ var theitem = arg.split("x");
                                     }
                            }
                                 else if(mtl!=-1){
-                                    mtl+=12;
+                                    mtl+=11;
                                      if(itembagnames[mtl]==""){
                                          itembagnames[mtl] = namecheck;
                                      }

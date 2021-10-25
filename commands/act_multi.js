@@ -2029,7 +2029,7 @@ var mdefeated = false;
                              var getname = Gamedata.sys_material_names.find(a=>IgnoringCase(a,itemdropnamesII[items]));
                              var getcort = Gamedata.sys_material_names.indexOf(getname);
                              amount = RandomMinMax(1,amount);
-                             getcrot = getcort+=12;
+                             getcrot = getcort+=11;
                              if(itembagnamesA[getcort]==""){
                              itembagnamesA[getcort] = getname;}
                              itembagdataA[getcort] += amount;

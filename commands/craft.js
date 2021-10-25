@@ -149,8 +149,8 @@ else{
             temname[1] = Gamedata.sys_craftsupplie_wepnameset2[supplie2name];
             bagsupplies1 = Gamedata.sys_material_names.indexOf(temname[0]);
             bagsupplies2 = Gamedata.sys_material_names.indexOf(temname[1]);
-            temnum[4] = bagsupplies1+12;
-            temnum[5]= bagsupplies2+12;
+            temnum[4] = bagsupplies1+11;
+            temnum[5]= bagsupplies2+11;
             temnum[7] = equipindex;
 
         }
@@ -162,8 +162,8 @@ else{
             temname[1] = Gamedata.sys_craftsupplie_armnameset2[supplie2name];
             bagsupplies1 = Gamedata.sys_material_names.indexOf(temname[0]);
             bagsupplies2 = Gamedata.sys_material_names.indexOf(temname[1]);
-            temnum[4] = bagsupplies1+12;
-            temnum[5]= bagsupplies2+12;
+            temnum[4] = bagsupplies1+11;
+            temnum[5]= bagsupplies2+11;
             temnum[7] = equipindex;
             }
             temname[3] = namecheck;
@@ -190,9 +190,9 @@ else{
             var supplie2 = 1+craftort;
             var supplie3 = 2+craftort;
             var costcort = 3+craftort;
-            var num=12;
-            var num2=12;
-            var num3=12;
+            var num=11;
+            var num2=11;
+            var num3=11;
             temnum[0] = Gamedata.sys_craftmaterial_weaponset4[craftort];
             temnum[1] = Gamedata.sys_craftmaterial_weaponset4[supplie2];
             temnum[2] = Gamedata.sys_craftmaterial_weaponset4[supplie3];

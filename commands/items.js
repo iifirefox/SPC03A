@@ -49,7 +49,7 @@ module.exports.run = async (message, arg, User) => {
              message.edit(itemsembed).then(message=>{message.reactions.resolve('➡️').users.remove(User.id);});
              sample();
          } else if (reaction.emoji.name == '⬅️') {
-             index-=12;
+             index-=11;
              if(index<0)index=0;
              var newdex = index+6;
              itemsembed.spliceFields(0,9);
