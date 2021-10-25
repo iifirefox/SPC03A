@@ -4,7 +4,6 @@ const Account = require("../data/tree");
 const {createCanvas, loadImage} = require('canvas');
 module.exports.run = async (message, arg,User) => {
     const checkembed = new Discord.MessageEmbed();
-    const miraclembed = new Discord.MessageEmbed();
     checkembed.setColor(User.colortheme);
     if(User.Ary_HH3FunctionSet1)var rawhh3funset1 = User.Ary_HH3FunctionSet1.split("<:>");
     else return message.channel.send(checkembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
@@ -54,7 +53,7 @@ module.exports.run = async (message, arg,User) => {
             var lv = temdatanumbers[9]+"";var newlv = lv.substring(1);
             if(User.CombatMode==2&temdatanumbers[41]&temdatanumbers[9])var lvII = temdatanumbers[9].toString().substring(1);
             if(lv.charAt(0)!="3") add="a ";
-            if(temdatanumbers[32]==0)checkembed.setTitle("You are in battle with "+add +temdatanames[0]);
+            if(temdatanumbers[32]==0)checkembed.setTitle("You are in battle with "+add +temdatanames[0]+"\nLv: "+newlv);
             else if(temdatanumbers[32])checkembed.setTitle("You are in battle with "+
             add +temdatanames[0]+"Lv."+newlv+" and a "+temdatanames[7]+" Lv."+lvII);
             var hpcolor ="#FF1919";
@@ -173,11 +172,15 @@ module.exports.run = async (message, arg,User) => {
             else if(monstercheatype==7)
             {checkembed.setFooter("Boss Ability: Hypothermia\nYour speed and defense decreases heavily for this battle.");}
             else if(monstercheatype==8)
-            {checkembed.setFooter(`Boss Ability: "Awaken"\n? ? ?`);}
+            {checkembed.setFooter(`Boss Ability: "Awaken"\nThis boss will use 100% of it's power`);}
             else if(monstercheatype==9)
             {checkembed.setFooter("Boss Ability: Void\nWhenever the boss moves first,there is a chance your attack might fall through the void.");}
             else if(monstercheatype==11)
-            {checkembed.setFooter("Boss Ability: Shadow\nThe boss can only be damaged by critical hits,\nand when you miss, The Boss's attack power increases.");}
+            {checkembed.setFooter("Boss Ability: Shadow\nThe boss can only be damaged by critical hits,\nand when you miss, The Boss's attack power increases(100% max).");}
+            else if(monstercheatype==12)
+            {checkembed.setFooter("Boss Ability: Perdiction\nWhenever you use a potion while on low on HP,\nyour Skill Energy is drained to 0.\nusing potions with no skill energy will stun you.");}
+            else if(monstercheatype==12)
+            {checkembed.setFooter("Boss Ability: Transformation\nThis boss will transform into Dragon, Angel or back to a crystal.\nCrystal:None\nDragon: Heavy Attack power\nAngel: Very Swift");}
             var summon = "";
             if(temdatanumbers[29]) summon="\n"+temdatanames[5]+":❤️ "+temdatanumbers[29];
         if(User.CombatMode!=2)message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+User.MaxHP+" ⚡"+User.Skillenergy+"/"+User.Maxskillenergy+summon));
@@ -236,7 +239,7 @@ module.exports.run = async (message, arg,User) => {
     else
     {
         checkembed.setColor(User.colortheme);
-        if (User.floor == 0) { checkembed.setDescription(":x: The Game haven't started yet \n `-croll` to start game"); }
+        if (User.floor == 0) { checkembed.setDescription(":x: The Game haven't started yet \n `roll` to start game"); }
         if (hh3funset1[5]==1)
         {
             checkembed.setTitle("Forest");
@@ -260,23 +263,12 @@ module.exports.run = async (message, arg,User) => {
         }
         else if (User.floor == 0) {checkembed.setTitle("Your Outside the House"); checkembed.setDescription("you have walked " + User.step + " steps.");  checkembed.setImage(Imgset[0]); }
         else if (User.floor == 1) { checkembed.setTitle("Your on floor " + User.floor); checkembed.setDescription("you have walked " + User.step + " steps."); checkembed.setImage(Imgset[0]); }
-        else if (User.floor >= 2) { checkembed.setTitle("Your on floor " + User.floor); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
+        else if (User.floor <=9) { checkembed.setTitle("Your on floor " + User.floor); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
+        else if (User.floor ==10) { checkembed.setTitle("Your on floor " + User.floor); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until Top floor"); checkembed.setImage(Imgset[0]); }
         else if (User.floor == -1) { checkembed.setTitle("Your in the Basement"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
+        else if (User.floor == -2) { checkembed.setTitle("Your in the Hidden Library"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
+        else if (User.floor == -3) { checkembed.setTitle("Your in the Crystal Cave"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
         message.channel.send(checkembed);
-}
-var half = User.MaxHP/2;
-if(hh3funset1[5]>=2&User.floor>=2&User.HP<half&User.step>=halfloor&User.CombatMode==0&Math.random()<0.45){
-    var heal = 40;
-    var oldhp = User.HP;
-    User.HP+=heal;
-    if(User.HP>User.MaxHP){
-        User.HP=User.MaxHP;
-    }
-    var amount = User.HP-oldhp;
-    miraclembed.setColor("#FDFFFF");
-    miraclembed.setTitle(":woman_fairy: You found a Fairy");
-    miraclembed.setDescription("as thanks the Fairy healed you\n:hearts: you recovered +"+amount+" HP");
-    message.channel.send(miraclembed);
 }
 }
 else{

@@ -16,6 +16,8 @@ module.exports.run = async (message, arg, User) => {
     dataembed.setAuthor(User.name+"'s Statistic",message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
     dataembed.addField("Game starts",mdata[5]);
     dataembed.addField("Rolls",mdata[1]);
+    dataembed.addField("Floors Cleared",mdata[12]);
+    dataembed.addField("Steps taken",mdata[13]);
     dataembed.addField("Monsters Encountered",mdata[2]);
     dataembed.addField("Monsters Defeated",mdata[3]);
     dataembed.addField("Defeated",mdata[4]);

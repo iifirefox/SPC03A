@@ -42,6 +42,7 @@ return arr.filter(function(ele){return ele != value;});
     var Imgset = User.Ary_Imgset.split("<:>");
     var skillset = User.Ary_skills.split("<:>");
     var skillslearned = User.skillslearned.split("<:>");
+    var crystalnames = User.Ary_Crystalnames.split("<:>");
     var rawskillsetdata = User.Ary_skillsdata.split("<:>");var skillsetdata = [];
     for(var index=0; index<rawskillsetdata.length;index++){
         skillsetdata[index]= Number(rawskillsetdata[index])};
@@ -70,6 +71,10 @@ return arr.filter(function(ele){return ele != value;});
       var rawdata = User.Metadata.split("<:>");var mdata = [];
     for(var index=0; index<rawdata.length;index++){
         mdata[index]= Number(rawdata[index]);
+    }
+    var rawcrystaldata = User.Ary_Crystaldata.split("<:>");var crystaldata = [];
+    for(var index=0; index<rawcrystaldata.length;index++){
+        crystaldata[index]= Number(rawcrystaldata[index]);
     }
     function RandomMax(max) {
         return Math.floor(Math.random() * Math.floor(max));
@@ -492,18 +497,17 @@ return arr.filter(function(ele){return ele != value;});
             if(User.HP>0&temkey!=2){
                 if(arg.includes("attack")||skillkey==true){
                     for(var atkdex =0; atkdex<heroatk.length;atkdex++){
+                       var newatk = heroatk[atkdex] -=temdatanumbers[4];
                         if(temdatanumbers[13]==3){
                             defeffected = temdatanumbers[5]*.50;
                             temdatanumbers[5]-=defeffected
                         }
-                        var newatk = temdatanumbers[5]*heroatk[atkdex];
-                        newatk = heroatk[atkdex]-newatk;
-                        newatk = Math.round(newatk);
+                        var newatkn = temdatanumbers[5]*heroatk[atkdex];
+                        newatk = Math.round(newatk-newatkn);
                         if(temdatanumbers[24]>0){
                        var newatkbuff = temdatanumbers[24]*newatk
                         newatk = newatk-=newatkbuff;
                         newatk = Math.round(newatk);}
-                        newatk= newatk-=temdatanumbers[4];
                         if(temdatanumbers[11]<0){
                             var newatk3 = temdatanumbers[11]*newatk;
                             newatk = newatk-=newatk3;
@@ -511,18 +515,18 @@ return arr.filter(function(ele){return ele != value;});
                         }
                         if(newatk<0)newatk=0;
                         if(monstercheatype==9&&herospkey<foespdkey&Math.random()<0.20){ effects="[Warning] Your Attack has fallen into the void\n";newatk=0;}
-                        if(monstercheatype==11&&heroatkcrit[atkdex]==2){newatk=0;heroatkcrit[atkdex]=0}
+                        if(monstercheatype==11&&heroatkcrit[atkdex]==1){newatk=0;heroatkcrit[atkdex]=0;}
                         newatk= Math.round(newatk);
                         if(alla==true) newatk= Math.round(newatk/2);
-                        attack+=newatk
+                        attack+=newatk;
                         if(attack<0)attack=0;
-                        if(heroatkcrit[atkdex]==2){
+                        if(heroatkcrit[atkdex]==2&attack!=0){
                             herotxteft +="\n**"+newatk+"**:boom: dmg";
                         }
-                        else if(heroatkcrit[atkdex]==1){
+                        else if(heroatkcrit[atkdex]==1&attack!=0){
                             herotxteft +="\n**"+newatk+"** dmg";
                         }
-                        else if(heroatkcrit[atkdex]==0){
+                        else if(heroatkcrit[atkdex]==0||attack==0){
                             herotxteft +="\n but **Missed**";
                         }
                     }
@@ -541,6 +545,7 @@ return arr.filter(function(ele){return ele != value;});
                 }
             }
             if(User.CombatMode==1& temdatanumbers[0]>0){
+                var netatk = Math.round(foephyatk-(profiledata[8]+profiledata[17]));
                 var profiledef = profiledata[9];
                 var lowdef = profiledef*temdatanumbers[16];
                 profiledef = Math.round(profiledef-lowdef);
@@ -553,12 +558,10 @@ return arr.filter(function(ele){return ele != value;});
                    profiledef = profiledef-= defeffected;
                 }
                 if(profiledef<0)profiledef*-1;
-                var netatk = foephyatk*temdatanumbers[17];
-                netatk = foephyatk-=netatk;
-                netatk= Math.round(netatk);
+                var netatkn = netatk*temdatanumbers[17];
+                netatk = Math.round(netatk-=netatkn);
                var netatk2 = profiledef*netatk;
                netatk = netatk-=netatk2;
-               netatk=Math.round(netatk-(profiledata[8]+profiledata[17]));
                foeattack = netatk;
                if(foeattack<0)foeattack=0;
                if(temdatanumbers[19]>0){
@@ -656,7 +659,7 @@ return arr.filter(function(ele){return ele != value;});
                             User.Skillenergy -= skillsetdata[dtable3];
                             if(User.Skillenergy<0)User.Skillenergy=0;
                             temdatanumbers[0]-= attack;
-                            if(alla==true&temdatanumbers[33]!=0)temdatanumbers[32]-= attack;
+                            //if(alla==true&temdatanumbers[33]!=0)temdatanumbers[32]-= attack;
                             if(mdata[6]<attack){
                                 mdata[6]=attack;
                                 User.Metadata = mdata.join("<:>");
@@ -721,7 +724,7 @@ return arr.filter(function(ele){return ele != value;});
                             temdatanumbers[0]-= attack;
                             if(skillsetdata[4]==1||skillsetdata[9]==1||skillsetdata[14]==1||skillsetdata[19]==1)
                             {var healback =Math.round(attack*0.35);User.HP+=healback;herotxt+="\n:heart: You heal back +"+healback;};
-                            if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
+                            //if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
                             if(alla==true)temdatanumbers[32]-= attack;
                         }
                         User.Skillenergy++;
@@ -916,7 +919,7 @@ return arr.filter(function(ele){return ele != value;});
                                 if(User.Skillenergy<0)User.Skillenergy=0;
                                 if(skillsetdata[dtable1]==1){
                                 temdatanumbers[0]-= attack;
-                                if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
+                                //if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
                                 if(alla==true)temdatanumbers[32]-= attack;
                                 if(mdata[6]<attack){
                                     mdata[6]=attack;
@@ -982,7 +985,7 @@ return arr.filter(function(ele){return ele != value;});
                                 temdatanumbers[0]-= attack;
                                 if(skillsetdata[4]==1||skillsetdata[9]==1||skillsetdata[14]==1||skillsetdata[19]==1)
                             {var healback =Math.round(attack*0.35);User.HP+=healback;herotxt+="\n:heart: You heal back +"+healback;};
-                                if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
+                                //if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
                                 if(alla==true)temdatanumbers[32]-= attack;
                             }
                             User.Skillenergy++;
@@ -1156,14 +1159,51 @@ return arr.filter(function(ele){return ele != value;});
                     temdatanumbers[10] = Gamedata.sys_monsterboss_state[beffectkey];
                     Imgset[1] = Gamedata.sys_monsterpic_boss[bset];
                     User.Ary_Imgset = Imgset.join("<:>");
-                    monstercheatembed.setTitle("Lich: I have watched you ever since you have enter my home...\nLich: gain power as you progress...\nLich: killed my friends like their monsters...\nLich: You want to leave so bad?\nLich: try to take The Master Key from me!");
+                    monstercheatembed.setTitle("Lich: I have watched you ever since you have enter my home and gain power as you progress...\nKilled my family like their monsters...\nYou want the key to leave this place?\nTry to take The Master Key from me!");
                     monstercheatembed.setImage(Imgset[1]);
                     foecheatxt="";
                 }
                 else if(monstercheatype==11&foeatkcrit==0){
-                    temdatanumbers[3]+=0.07;
-                    foecheatxt=temdatanames[0]+"'s AddDmg increases";
-                    monstercheatembed.setDescription(foecheatxt);
+                   if(temdatanumbers[3]<1) temdatanumbers[3]+=0.07;
+                }
+                else if(monstercheatype==12&User.HP<(User.MaxHP*.3)&arg.includes("potion")||monstercheatype==12&arg.includes("potion")){
+                    if(User.Skillenergy<1){profiledata[15]=2;User.Ary_HH3ProfileData= profiledata.join("<:>");monstereffectembed.setColor("#FFFE00");
+                    monstereffectembed.setDescription(":zap: You have been Stunned!\nYou must use any act command to fight the stun");foeffect="";};
+                    if(User.HP<(User.MaxHP*.3))User.Skillenergy=0;
+                }
+                else if(monstercheatype==13&Math.random()<0.30){
+                    var bset = RandomMinMax(2,4);
+                    var bdataset = 11*bset;
+                    var bmaxhp = 1+ bdataset;
+                    var batk = 2+ bdataset;
+                    var badatk = 3+ bdataset;
+                    var bdef = 4+ bdataset;
+                    var baddef = 5+bdataset;
+                    var bspeed = 6+ bdataset;
+                    var bcrit = 7+ bdataset;
+                    var baccy = 8 + bdataset;
+                    var bdropkey = 9+ bdataset;
+                    var beffectkey = 10+bdataset;
+                    var skillset = bset*4;
+                    var skillset2 = skillset+1;
+                    var skillset3 = skillset+2;
+                    var skillset4 = skillset+3;
+                    temdatanames[1] = Gamedata.sys_monsterbossA_skillname[skillset];
+                    temdatanames[2] = Gamedata.sys_monsterbossA_skillname[skillset2];
+                    temdatanames[3] = Gamedata.sys_monsterbossA_skillname[skillset3];
+                    temdatanames[4] = Gamedata.sys_monsterbossA_skillname[skillset4];
+                    temdatanumbers[2] = Gamedata.sys_monsterbossA_state[batk];
+                    temdatanumbers[3] = Gamedata.sys_monsterbossA_state[badatk];
+                    temdatanumbers[4] = Gamedata.sys_monsterbossA_state[bdef];
+                    temdatanumbers[5] = Gamedata.sys_monsterbossA_state[baddef];
+                    temdatanumbers[6] = Gamedata.sys_monsterbossA_state[bspeed];
+                    temdatanumbers[7] = Gamedata.sys_monsterbossA_state[bcrit];
+                    temdatanumbers[8] = Gamedata.sys_monsterbossA_state[baccy];
+                    temdatanumbers[9] = Gamedata.sys_monsterbossA_state[bdropkey];
+                    temdatanumbers[10] = Gamedata.sys_monsterbossA_state[beffectkey];
+                    Imgset[1] = Gamedata.sys_monsterpic_bossA[bset];
+                    monstereffectembed.setColor("#FF0000");
+                    monstereffectembed.setDescription("The Core has Transformed!\nStats has Changed.");foeffect="";
                 }
                 if((monstereffectype==1&foeatkcrit>0&profiledata[15]==0&foeatkey==true||foeskillef==1)&Math.random()<0.23&temdatanumbers[0]>0){
                     profiledata[15]=1;
@@ -1300,7 +1340,7 @@ return arr.filter(function(ele){return ele != value;});
                          User.save().catch(err => console.log(err));
                     });
                     }
-                    var txt =User.name+" has fled from"+temdatanames[0];
+                    var txt =User.name+" has fled to safety";
                     mdata[4]++;
                     User.Metadata = mdata.join("<:>");
                     herodefeatembed.setAuthor(User.name+" has been defeated by "+temdatanames[0],message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
@@ -1356,7 +1396,7 @@ return arr.filter(function(ele){return ele != value;});
                     User.TemdataNumbers = "";
                     User.CombatMode=0;
                     mdata[3]++;
-                    if(temdatanumbers[33]!=0)mdata[3]++;
+                    //if(temdatanumbers[33]!=0)mdata[3]++;
                     User.Metadata = mdata.join("<:>");
                     var balance = 0;
                     var expdrop = 0;
@@ -1380,22 +1420,8 @@ return arr.filter(function(ele){return ele != value;});
                     exp = RandomMinMax(minexpdrop,expdrop);
                     User.exp += exp;
                     User.currency += currency;
-                    if(temdatanumbers[33]!=0){
-                        var rawdropII = ""+temdatanumbers[41];
-                        var droptierII =Number (rawdropII.substring(1));
-                        var monstertypeII =Number(rawdropII.charAt(0));
-                       var balanceII = droptierII*6;
-                       var expdropII = droptierII*15
-                       var minbalanceII = Math.round(0.30*balanceII);
-                        var minexpdropII = Math.round(0.50*expdropII);
-                       var currencyII = RandomMinMax(minbalanceII,balanceII);
-                       var expII = RandomMinMax(minexpdropII,expdropII);
-                        User.exp += expII;
-                        User.currency += currencyII;
-                        }
                     monsterdefeatembed.setTitle(":gift: Reward");
-                   if(temdatanumbers[33]==0) monsterdefeatembed.setDescription("EXP: "+exp+"\nCurrency: "+currency);
-                   else monsterdefeatembed.setDescription("EXP: "+exp+"(+"+expII+")\nCurrency: "+currency+"(+"+currencyII+")");
+                   monsterdefeatembed.setDescription("EXP: "+exp+"\nCurrency: "+currency);
                     if(monstertype==1&droptier==1){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier1;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier1rate;
@@ -1408,29 +1434,41 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier3;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier3rate;
                     }
+                    if(monstertype==1&droptier==4){
+                        itemdropnames = Gamedata.sys_monsternormaldrop_tier4;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                    }
                     if(monstertype==1&droptier==5){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier5;
-                        itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier5rate;
                     }
                     if(monstertype==1&droptier==6){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier6;
-                        itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier6rate;
                     }
                     if(monstertype==1&droptier==7){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier7;
-                        itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier7rate;
                     }
                     if(monstertype==1&droptier==8){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier8;
-                        itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier8rate;
                     }
                     if(monstertype==1&droptier==9){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
-                        itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier9rate;
                     }
-                    if(monstertype==1&droptier==10){
-                        itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
-                        itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
+                    if(monstertype==1&droptier==11){
+                        itemdropnames = Gamedata.sys_monsternormaldrop_tier11;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier11rate;
+                    }
+                    if(monstertype==1&droptier==12){
+                        itemdropnames = Gamedata.sys_monsternormaldrop_tier12;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier12rate;
+                    }
+                    if(monstertype==1&droptier==13){
+                        itemdropnames = Gamedata.sys_monsternormaldrop_tier13;
+                        itemdropnums = Gamedata.sys_monsternormaldrop_tier13rate;
                     }
                     if(monstertype==3&droptier==1){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier1;
@@ -1450,73 +1488,50 @@ return arr.filter(function(ele){return ele != value;});
                     }
                     if(monstertype==3&droptier==5){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier5;
-                        itemdropnums = Gamedata.sys_monsterbossdrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsterbossdrop_tier5rate;
                     }
                     if(monstertype==3&droptier==6){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier6;
-                        itemdropnums = Gamedata.sys_monsterbossdrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsterbossdrop_tier6rate;
                     }
                     if(monstertype==3&droptier==7){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier7;
-                        itemdropnums = Gamedata.sys_monsterbossdrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsterbossdrop_tier7rate;
                     }
                     if(monstertype==3&droptier==8){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier8;
-                        itemdropnums = Gamedata.sys_monsterbossdrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsterbossdrop_tier8rate;
                     }
                     if(monstertype==3&droptier==9){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier9;
-                        itemdropnums = Gamedata.sys_monsterbossdrop_tier4rate;
+                        itemdropnums = Gamedata.sys_monsterbossdrop_tier9rate;
                     }
-                    if(monstertype==3&droptier==10){
-                        itemdropnames = Gamedata.sys_monsterbossdrop_tier9;
-                        itemdropnums = Gamedata.sys_monsterbossdrop_tier4rate;
+                    if(monstertype==3&droptier==11){
+                        itemdropnames = Gamedata.sys_monsterbossdrop_tier11;
+                        itemdropnums = Gamedata.sys_monsterbossdrop_tier11rate;
                     }
-                    if(hh3funset1[11]==2){
-                        if(monstertypeII==1&droptierII==1){
-                            itemdropnames = Gamedata.sys_monsternormaldrop_tier1;
-                            itemdropnums = Gamedata.sys_monsternormaldrop_tier1rate;
-                        }
-                        if(monstertypeII==1&droptierII==2){
-                            itemdropnames = Gamedata.sys_monsternormaldrop_tier2;
-                            itemdropnums = Gamedata.sys_monsternormaldrop_tier2rate;
-                        }
-                        if(monstertypeII==1&droptierII==3){
-                            itemdropnames = Gamedata.sys_monsternormaldrop_tier3;
-                            itemdropnums = Gamedata.sys_monsternormaldrop_tier3rate;
-                        }
-                        if(monstertypeII==1&droptierII==5){
-                            itemdropnames = Gamedata.sys_monsternormaldrop_tier5;
-                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
-                        }
-                        if(monstertypeII==1&droptierII==6){
-                            itemdropnames = Gamedata.sys_monsternormaldrop_tier6;
-                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
-                        }
-                        if(monstertypeII==1&droptierII==7){
-                            itemdropnames = Gamedata.sys_monsternormaldrop_tier7;
-                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
-                        }
-                        if(monstertypeII==1&droptierII==8){
-                            itemdropnames = Gamedata.sys_monsternormaldrop_tier8;
-                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
-                        }
-                        if(monstertypeII==1&droptierII==9){
-                            itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
-                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
-                        }
-                        if(monstertypeII==1&droptierII==10){
-                            itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
-                            itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
-                        }
+                    if(monstertype==3&droptier==12){
+                        itemdropnames = Gamedata.sys_monsterbossdrop_tier12;
+                        itemdropnums = Gamedata.sys_monsterbossdrop_tier12rate;
+                    }
+                    if(monstertype==3&droptier==13){
+                        itemdropnames = Gamedata.sys_monsterbossdrop_tier13;
+                        itemdropnums = Gamedata.sys_monsterbossdrop_tier13rate;
                     }
                         for(var item = 0; item < 3; item++){
                             var items = RandomMax(itemdropnames.length);
                             if(Math.random()<itemdropnums[items]){
+                                if(itemdropnames[items].includes("x")){
+                                    var splititem = itemdropnames[items].split("x");
+                                    splititem[0].trimEnd();
+                                    splititem[1].trimStart();
+                                    itemdropnames[items]=splititem[0];
+                                   var amount=Number(splititem[1]);
+                                }
                                 if(Gamedata.sys_material_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
                                     var getname = Gamedata.sys_material_names.find(a=>IgnoringCase(a,itemdropnames[items]));
                                     var getcort = Gamedata.sys_material_names.indexOf(getname);
-                                    var amount = RandomMinMax(1,3);
+                                    amount = RandomMinMax(1,amount);
                                     getcrot = getcort+=12;
                                     if(itembagnames[getcort]==""){
                                     itembagnames[getcort] = getname;}
@@ -1526,11 +1541,77 @@ return arr.filter(function(ele){return ele != value;});
                                 else if(Gamedata.sys_item_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
                                     var getname = Gamedata.sys_item_names.find(a=>IgnoringCase(a,itemdropnames[items]));
                                     var getcort = Gamedata.sys_item_names.indexOf(getname);
-                                    var amount = RandomMinMax(1,3);
+                                    amount = RandomMinMax(1,amount);
                                     if(itembagnames[getcort]==""){
                                     itembagnames[getcort] = getname;}
                                     itembagdata[getcort] += amount;
                                     monsterdefeatembed.addField(":test_tube: "+getname," "+amount);
+                                }
+                                else if(Gamedata.sys_crystal_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
+                                    var getname = Gamedata.sys_crystal_names.find(a=>IgnoringCase(a,itemdropnames[items]));
+                                    var getcort = Gamedata.sys_crystal_names.indexOf(getname);
+                                   var table = getcort*4;
+                                    var num=table+1;
+                                    var num2=table+2;
+                                    var num3=table+3;
+                                    var getrandom=0;
+                                    var getmini;
+                                    var checkresult = crystalnames.indexOf("");
+                                    if(checkresult!=-1){
+                                        var bagtable = 4*checkresult;
+                                        var bagphy = 1+bagtable;
+                                        var bagper = 2+bagtable;
+                                        var bagdur = 3+bagtable;
+                                        var bagdurdmg = 4+bagtable;
+                                        crystalnames[checkresult]= getname;
+                                        if(Gamedata.sys_crystalset_dataset[table]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[table])};
+                                        crystaldata[bagtable]= getrandom;
+                                        if(Gamedata.sys_crystalset_dataset[num]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num])};
+                                        crystaldata[bagphy]= getrandom;
+                                        if(Gamedata.sys_crystalset_dataset[num2]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num2])};
+                                        crystaldata[bagper]= getrandom;
+                                        if(Gamedata.sys_crystalset_dataset[num3]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[num3]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num3])}
+                                        crystaldata[bagdur]= getrandom;
+                                        User.Ary_Crystalnames = crystalnames.join("<:>");
+                                        User.Ary_Crystaldata = crystaldata.join("<:>");
+                                        monsterdefeatembed.addField(":gem: "+getname,"1");
+                                    }
+                                    else{
+                                        monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore crystals","To make more room, equip a crystal or gem")
+                                    }
+                                }
+                                else if(Gamedata.sys_gem_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
+                                    var getname = Gamedata.sys_gem_names.find(a=>IgnoringCase(a,itemdropnames[items]));
+                                    var getcort = Gamedata.sys_gem_names.indexOf(getname);
+                                   var table = getcort*4;
+                                    var num=table+1;
+                                    var num2=table+2;
+                                    var num3=table+3;
+                                    var getrandom=0;
+                                    var getmini;
+                                    var checkresult = crystalnames.indexOf("");
+                                    if(checkresult!=-1){
+                                        var bagtable = 4*checkresult;
+                                        var bagphy = 1+bagtable;
+                                        var bagper = 2+bagtable;
+                                        var bagdur = 3+bagtable;
+                                        var bagdurdmg = 4+bagtable;
+                                        crystalnames[checkresult]= getname;
+                                        if(Gamedata.sys_gemset_dataset[table]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[table])};
+                                        crystaldata[bagtable]= getrandom;
+                                        if(Gamedata.sys_gemset_dataset[num]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num])};
+                                        crystaldata[bagphy]= getrandom;
+                                        if(Gamedata.sys_gemset_dataset[num2]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num2])};
+                                        crystaldata[bagper]= getrandom;
+                                        if(Gamedata.sys_gemset_dataset[num3]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[num3]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num3])}
+                                        crystaldata[bagdur]= getrandom;
+                                        User.Ary_Crystalnames = crystalnames.join("<:>");
+                                        User.Ary_Crystaldata = crystaldata.join("<:>");
+                                        monsterdefeatembed.addField(":gem: "+getname,"1");
+                                    }
+                                    else{
+                                        monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore crystals","To make more room, equip a crystal or gem")
+                                    }
                                 }
                                 else if(Gamedata.sys_sword_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
                                     var getname = Gamedata.sys_sword_names.find(a=>IgnoringCase(a,itemdropnames[items]));
@@ -1671,7 +1752,8 @@ return arr.filter(function(ele){return ele != value;});
                         monsterdefeatembed.addField(":ledger: You have Learned `"+theskill+"`!","command: `skill tree` for full decription");
                     }
                     }
-                    if(kepname==Gamedata.sys_monsternames_boss[9]){profiledata[2]=1; profilenames[8]="Hunted House Master"; monsterdefeatembed.addField("Master Key",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten the game.\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nThanks for playing~!")}
+                    if(kepname==Gamedata.sys_monsternames_boss[9]){itembagdata[8]=1; itembagnames[8]="Master Key"; monsterdefeatembed.addField("Master Key",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten part I of the game!\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nGo to the Basement to continue Part II")}
+                   else if(kepname==Gamedata.sys_monsternames_bossA[2]){monsterdefeatembed.setFooter("Congratulations\nYou have beaten part II of the game!\nNew Side Stories coming soon!\n`stories`\nThanks for playing!").setFooter("`Restart` `Floor <number>`")};
                     if(monstertype==3){hh3funset1[9]++;User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>")};
                     if(hh3funset1[16]>0)User.Skillenergy=0;
                     User.Ary_HH3ProfileNames= profilenames.join("<:>");
@@ -1680,9 +1762,8 @@ return arr.filter(function(ele){return ele != value;});
                     User.Ary_Equipmentdata = equipmentdata.join("<:>");
                     User.Ary_itembagnames = itembagnames.join("<:>");
                     User.Ary_itembagdata = itembagdata.join("<:>");
-                   if(temdatanumbers[33]==0) message.channel.send(monsterdefeatembed);
+                   message.channel.send(monsterdefeatembed);
                 }
-                //if(temdatanumbers[33]!=0&mdefeated==true)message.channel.send(monsterdefeatembed);
             }
                 else{
                     warnembed.setDescription(":x: you can only use act with attack, defend, skill <skill name>, potion, or flee");

@@ -15,14 +15,18 @@ module.exports.run = async (message, arg, User) => {
     for(var index=0; index<rawprofiledata.length;index++){
         profiledata[index]= Number(rawprofiledata[index])
     }
+    var rawitembagdata = User.Ary_itembagdata.split("<:>");var itembagdata = [];
+    for(var index=0; index<rawitembagdata.length;index++){
+        itembagdata[index]= Number(rawitembagdata[index]);
+    }
     const restartembed = new Discord.MessageEmbed();
     restartembed.setColor(User.colortheme);
-    if(!arg.includes("yes")){
+    if(!arg.includes("yes")&profiledata[8]==1){
     restartembed.setAuthor("Restarting from the begining",User.Profileimg);
     restartembed.setTitle(":warning: Your Game will restart from the begining\n`You will lose all your progress you have made so far`");
     restartembed.setDescription("Your Level and upgrade status will maintained");
     restartembed.addField("Are you sure you want to erase your game?","to confirm command: -restart yes");
-}else if(arg.includes("yes")&profiledata[2]==1){
+}else if(arg.includes("yes")&itembagdata[8]==1){
     User.HP = User.MaxHP;
     User.energy = undefined;
     User.turn = false;
@@ -45,6 +49,7 @@ module.exports.run = async (message, arg, User) => {
     profiledata[10]=0;
     profiledata[11]=0;
     profiledata[14]=0;
+    profiledata[15]=0;
     User.Ary_HH3ProfileNames = profilenames.join("<:>");
     User.Ary_HH3ProfileData = profiledata.join("<:>");
     mdata[5]=0;
@@ -57,6 +62,8 @@ module.exports.run = async (message, arg, User) => {
     mdata[9]=0;
     mdata[10]=0;
     mdata[11]=0;
+    mdata[12]=0;
+    mdata[13]=0;
     User.Metadata = mdata.join("<:>")
     User.Shop_itemsnames="";
     User.Ary_Equipmentnames="";

@@ -1,6 +1,7 @@
 ﻿const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const ytsh = require('youtube-sr');
+const ytpl = require('ytpl');
 const queue = new Map();
 const Account = require("../data/tree");
 module.exports.run = async (message, arg, commandname ,User,client) => {
@@ -36,7 +37,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
             for(var result=0;video[result]!=undefined&result<video.length;result++){if(result>9){result=-1; break}}}
             if (result==-1||!video[result]) return message.channel.send(playerembed);
             newarg ="https://www.youtube.com/watch?v="+video[result].id;}
-            const thesong = await ytdl.getInfo(newarg);
+            const thesong = await ytdl.getInfo(newarg,{filter: 'audioandvideo', quality: 'lowestvideo'});
             var pic = thesong.videoDetails.thumbnails[3].url;
             var upload = thesong.videoDetails.publishDate;
             var getpic = await ytsh.search(thesong.videoDetails.title);
@@ -62,6 +63,31 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
                 }
                 queue.set(message.guild.id, servermap);
                 servermap.songs.push(song);
+                if(newarg.includes("list=")){
+                    var getplaylist = newarg.split("list=");
+                    var playlist = await ytpl(getplaylist[1]);
+                    var list = playlist.items
+                    for(var que = 0; que<list.length&que<20;que++){
+                        alt ="https://www.youtube.com/watch?v="+list[que].id;
+                        const thesong = await ytdl.getInfo(alt);
+                        var pic = thesong.videoDetails.thumbnails[3].url;
+                        var upload = thesong.videoDetails.publishDate;
+                        var getpic = await ytsh.search(thesong.videoDetails.title);
+                        if(getpic[0]){pic=getpic[0].thumbnail.url;upload=getpic[0].uploadedAt}
+                        const song = {
+                            title: Discord.escapeMarkdown(thesong.videoDetails.title),
+                            thumbnail:pic,
+                            Duration:fancyTimeFormat(thesong.videoDetails.lengthSeconds),
+                            uploaded:upload,
+                            requestedby:User.name,
+                            loop: false,
+                            url: thesong.videoDetails.video_url,
+                            info: thesong
+                        }
+                        console.log(song.url)
+                        servermap.songs.push(song);
+                    }
+                }
                 try {
                     var connection = await vc.join();
                     servermap.connection = connection;
@@ -84,7 +110,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
     else if(commandname=="p"){
         if(User.Lastplay.includes("https://")){
         var newarg = User.Lastplay;
-        const thesong = await ytdl.getInfo(newarg);
+        const thesong = await ytdl.getInfo(newarg,{filter: 'audioandvideo', quality: 'lowestvideo'});
         var pic = thesong.videoDetails.thumbnails[3].url;
         var upload = thesong.videoDetails.publishDate;
         var getpic = await ytsh.search(thesong.videoDetails.title);
@@ -130,64 +156,10 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
     }
     else return message.channel.send(playerembed.setDescription(":x: no recent tracks \nTo Play a track command: `play [Youtube Video URL] or [Name of the video]`"));
     }
-    else if(commandname=="mylist"){
-       if(User.Mymusiclist) var musiclist = User.Mymusiclist.split("<:>");
-       else return message.channel.send(playerembed.setDescription(":x: You have no Song list\nTo add songs to your list command:`addlist`"));
-       var ardyplaying = true;
-        for(var list = 0; list < musiclist.length; list++){
-        if(musiclist[list].includes("https://")){
-        var newarg = musiclist[list];
-        const thesong = await ytdl.getInfo(newarg);
-        var pic = thesong.videoDetails.thumbnails[3].url;
-        var upload = thesong.videoDetails.publishDate;
-        var getpic = await ytsh.search(thesong.videoDetails.title);
-        if(getpic[0]){pic=getpic[0].thumbnail.url;upload=getpic[0].uploadedAt}
-        const song = {
-            title: Discord.escapeMarkdown(thesong.videoDetails.title),
-            thumbnail:pic,
-            Duration:fancyTimeFormat(thesong.videoDetails.lengthSeconds),
-            uploaded:upload,
-            requestedby:User.name,
-            loop: false,
-            url: thesong.videoDetails.video_url,
-            info: thesong
-        }
-        if (!serverqueue&list==0) {
-            const servermap = {
-                textChannel: message.channel,
-                voiceChanel: vc,
-                connection: null,
-                songs: [],
-                volume: 5,
-                playing: true
-            }
-            queue.set(message.guild.id, servermap);
-            servermap.songs.push(song);
-            try {
-                var connection = await vc.join();
-                servermap.connection = connection;
-               await play(message.guild, servermap.songs[0]);
-            } catch (error) {
-                queue.delete(message.guild.id);
-                console.log("-Error-: " + error);
-                playerembed.setDescription(":x: Player Error").setColor('#FF5BF2');
-                return message.channel.send(playerembed);
-            }
-        }
-        else {
-            serverqueue.songs.push(song);
-            if(ardyplaying){
-            ardyplaying =false;
-            return message.channel.send(playerembed.setDescription(":arrow_forward: added to playlist " + song.title).setFooter("Command: -playlist to view playlist").setColor('#FF5BF2'));
-        }
-        }}
-    }
-        return undefined;
-    }
     else if (commandname == "fav"||commandname == "favorite"){
         if(User.Favtrack.includes("https://")){
             var newarg = User.Favtrack;
-            const thesong = await ytdl.getInfo(newarg);
+            const thesong = await ytdl.getInfo(newarg,{filter: 'audioandvideo', quality: 'lowestvideo'});
             var pic = thesong.videoDetails.thumbnails[3].url;
             var upload = thesong.videoDetails.publishDate;
             var getpic = await ytsh.search(thesong.videoDetails.title);
@@ -232,19 +204,6 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
             return undefined;
         }
         else return message.channel.send(playerembed.setDescription(":x: no Favorite tracks has been saved \nTo add a Favorite track: `play [Youtube Video URL] or [Name of the video]`\nthenreact with ❤️"));
-    }
-    else if (commandname == "addlist"||commandname == "add list"){
-        Account.findOne({
-            id: User.id
-        },async(err,User)=>{
-          if(err)console.log(err);
-          var songurl=[];
-          for(var lx=0; lx<serverqueue.songs.length;lx++){
-              songurl[lx] = serverqueue.songs[lx].url;
-          };
-          User.Mymusiclist= songurl.join("<:>");
-          User.save().catch(err => console.log(err));});
-        message.edit(playerembed.setDescription(":scroll:  This Track has been added to your song list"));
     }
     else if (commandname == "stop") {
         playerembed.setDescription(":x: You must enter a voice chat to use this command.").setColor('#FF5BF2');
@@ -301,15 +260,15 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
         totalduration+=first
         serverqueue.songs.shift();
         displaytext="";
-        for(var index=0;index<serverqueue.songs.length;index++){
+        for(var index=0;index<serverqueue.songs.length&index<7;index++){
             var listed = index+1;
             displaytext+=listed+" "+serverqueue.songs[index].title+"\nDuration: "+fancyTimeFormat(totalduration)+"\nRequestedBy: "+serverqueue.songs[index].requestedby+"\n";
             totalduration+=convertdur(serverqueue.songs[index].Duration);
         }
         serverqueue.songs.unshift(addback);
         listembed.setDescription(`
-        **Now playing:** ${serverqueue.songs[0].title+"\n"+serverqueue.songs[0].Duration+"\nRequested By:"+serverqueue.songs[0].requestedby}
-        __**Song queue:**__${displaytext}`
+        **Now playing:**\n${serverqueue.songs[0].title+"\n"+serverqueue.songs[0].Duration+"\nRequested By:"+serverqueue.songs[0].requestedby}
+        __**Song queue:**__\n${displaytext}`
         )
         listembed.setColor('#FF5BF2');
         message.channel.send(listembed);
@@ -358,7 +317,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
             queue.delete(guild.id);
             return 
         }
-        const dispatcher = serverqueue.connection.play(ytdl.downloadFromInfo(song.info,quality ='lowestvideo'))
+        const dispatcher = serverqueue.connection.play(ytdl(song.url/*,{filter: 'audioandvideo', quality: 'lowestvideo'},{quality:'lowestvideo',highWaterMark:1<<25,requestOptions:{headers:{cookie:"CgtNS05IeC1hdjRYNCiejr2LBg==",'x-youtube-identiy-token':"YSC=Ly3stE01E0M; VISITOR_INFO1_LIVE=MKNHx-av4X4; PREF=tz=Asia.Hong_Kong; GPS=1; CONSISTENCY=AGDxDeNY_TH3CfNsqHIMadxMksr7MpQOr7JmVI9IHC7A1SmAjeTeZQXfrnlV9bWZL2EWxLFzTuOUxOAz9DXX-UVlqvmQeQ1UVPsnTA7dQziYvZymgBPZb90nCuze_V6BPE501O6SKO83Lv3i1TVIysk"}}}*/))
             .on('finish', () => {
                 if(serverqueue.songs[0]){
                if(serverqueue.songs[0].loop==false)serverqueue.songs.shift();
@@ -369,7 +328,7 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
                 console.log(error);
                 if(serverqueue){
                 serverqueue.songs = [];
-                serverqueue.connection.dispatcher.end();}
+                dispatcher.end();}
                  message.channel.send(playerembed);
             });
         dispatcher.setVolumeLogarithmic(serverqueue.volume / 5);
@@ -379,7 +338,9 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
         },async(err,User)=>{
           if(err)console.log(err);
           User.Lastplay=song.url;User.save().catch(err => console.log(err));});
-           message.channel.send(playerembed.setDescription(":musical_note:  Playing  " + serverqueue.songs[0].title).setColor('#FF5BF2'))
+          var txt =":musical_note:  Playing  " + serverqueue.songs[0].title
+          if(newarg) txt+=" + Playlist"
+           message.channel.send(playerembed.setDescription(txt).setColor('#FF5BF2'))
            .then((message)=>{message.react('🔁'),message.react('⏭️'),message.react('❤️')
            function sample(){
        const filter = (reaction,user) => {

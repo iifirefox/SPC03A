@@ -5,6 +5,7 @@ module.exports.run = async (message, arg, User) => {
     function IgnoringCase(text, other) {
         return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
     }
+    const craftembed = new Discord.MessageEmbed();
     if(User.Ary_Equipmentnames)var equipnames = User.Ary_Equipmentnames.split("<:>");
     else return message.channel.send(craftembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var rawequipmentdata = User.Ary_Equipmentdata.split("<:>");var equipmentdata = [];
@@ -20,13 +21,12 @@ module.exports.run = async (message, arg, User) => {
     for(var index=0; index<rawitembagdata.length;index++){
         itembagdata[index]= Number(rawitembagdata[index])
     }
-    const craftembed = new Discord.MessageEmbed();
     craftembed.setColor("#FFC500");
     if(User.CombatMode==0){
     if(hh3funset1[0]==1){
     if(arg==""||arg==undefined||arg.includes("yes")){
     craftembed.setAuthor("Craft Shop",Gamedata.NPC_Craft);
-    for(var displayindex =0; displayindex<5;displayindex++){
+    for(var displayindex =0; displayindex<7;displayindex++){
         var swrdindex =displayindex+1
         var swordindex = 3*swrdindex;
         var equipdata = 3*displayindex;
@@ -44,7 +44,7 @@ module.exports.run = async (message, arg, User) => {
         if(displayindex ==2&User.floor>=6){ lopkey = 2};
         if(displayindex ==3&User.floor>=6){ lopkey = 3};
         if(displayindex ==4&User.floor>=8){ lopkey = 4};
-        //if(displayindex ==5&User.floor>=8){ lopkey = 5};
+        if(displayindex ==(5||6)&itembagdata[8]>0){ lopkey = 6};
         if(displayindex==0){
         craftembed.addField(Gamedata.sys_sword_names[swrdindex],"Atk: `"+Gamedata.sys_sword_dataset[swordphy]+"` AddAtk: `"+Math.round(newswordperdisplay)+"%`");
         craftembed.addField(Gamedata.sys_wand_names[displayindex],"Atk: `"+Gamedata.sys_wand_dataset[phycort]+"` AddAtk: `"+Math.round(newandperdisplay)+"%`");
@@ -134,7 +134,7 @@ else{
                     User.Ary_Equipmentdata = equipmentdata.join("<:>");
                     User.save().catch(err => console.log(err));}))
         }
-         if(equipindex!= undefined&equipindex!=-1&equipindex<5){
+         if(equipindex!= undefined&equipindex!=-1&equipindex<7){
              if(equipindex<4){
             var craftort = 3*equipindex;
             var supplie2 = 1+craftort;
@@ -190,6 +190,9 @@ else{
             var supplie2 = 1+craftort;
             var supplie3 = 2+craftort;
             var costcort = 3+craftort;
+            var num=12;
+            var num2=12;
+            var num3=12;
             temnum[0] = Gamedata.sys_craftmaterial_weaponset4[craftort];
             temnum[1] = Gamedata.sys_craftmaterial_weaponset4[supplie2];
             temnum[2] = Gamedata.sys_craftmaterial_weaponset4[supplie3];
@@ -198,11 +201,14 @@ else{
             temname[1] = Gamedata.sys_craftsupplie_wepnameset3[supplie2];
             temname[2] = Gamedata.sys_craftsupplie_wepnameset3[supplie3];
             bagsupplies1 = Gamedata.sys_material_names.indexOf(temname[0]);
+            if(bagsupplies1==-1){bagsupplies1 = Gamedata.sys_item_names.indexOf(temname[0]);num=0;}
             bagsupplies2 = Gamedata.sys_material_names.indexOf(temname[1]);
+            if(bagsupplies2==-1){bagsupplies2 = Gamedata.sys_item_names.indexOf(temname[1]);num2=0;}
             bagsupplies3 = Gamedata.sys_material_names.indexOf(temname[2]);
-            temnum[4] = bagsupplies1+12;
-            temnum[5] = bagsupplies2+12;
-            temnum[6] = bagsupplies3+12;
+            if(bagsupplies3==-1){bagsupplies3 = Gamedata.sys_item_names.indexOf(temname[2]);num3=0;}
+            temnum[4] = bagsupplies1+num;
+            temnum[5] = bagsupplies2+num;
+            temnum[6] = bagsupplies3+num;
             temnum[7] = equipindex;
             temname[3] = namecheck;
             craftembed.setDescription(":tools: do you want to craft `" + namecheck +"`?\nYou need:");

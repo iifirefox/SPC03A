@@ -25,7 +25,8 @@ module.exports.run = async (message, arg, User) => {
     }
         itemsembed.addField("HP",User.HP+"/"+User.MaxHP,true);
         itemsembed.addField("Energy",Math.round(User.energy)+"/"+Math.round(User.Maxenergy),true);
-        var text = "To Heal using "+Gamedata.sys_item_names[0]+" Command: -items 1\nTo Heal using "+Gamedata.sys_item_names[1]+" Command: -items 2\nTo use "+Gamedata.sys_item_names[9]+" Command: -items 3"
+        var text = "To Heal using "+Gamedata.sys_item_names[0]+" Command: -items 1\nTo Heal using "+Gamedata.sys_item_names[1]+" Command: -items 2\nTo use "+Gamedata.sys_item_names[9]+" Command: -items 3"+
+        "\nTo use "+Gamedata.sys_item_names[10]+" Command: -items 4"
         itemsembed.setFooter(text);
         if(items<7) message.channel.send(itemsembed);
         else message.channel.send(itemsembed.setFooter(text+"\n⬅️➡️⏪⏩ view more items")).then((message)=>{message.react('⏪'),message.react('⬅️'),message.react('➡️'),message.react('⏩');
@@ -114,7 +115,7 @@ module.exports.run = async (message, arg, User) => {
                     message.channel.send(itemsembed.addField("HP",User.HP+"/"+User.MaxHP));
                 }
                 else{
-                    message.channel.send(itemsembed.setDescription(":heart: "+User.name+" HP is Full \nThe Item was not consumed."));
+                    message.channel.send(itemsembed.setDescription(":heart: "+User.name+"'s HP is Full \nThe Item was not consumed."));
                 }
             }else{
                 message.channel.send(itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[1]));
@@ -131,10 +132,26 @@ module.exports.run = async (message, arg, User) => {
                     message.channel.send(itemsembed.addField("Energy",User.energy+"/"+User.Maxenergy));
                 }
                 else{
-                    message.channel.send(itemsembed.setDescription(":zap: "+User.name+" Energy is Full \nThe Item was not consumed."));
+                    message.channel.send(itemsembed.setDescription(":zap: "+User.name+"'s Energy is Full \nThe Item was not consumed."));
                 }
             }else{
-                message.channel.send(itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[1]));
+                message.channel.send(itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[9]));
+            }
+        }
+        else if(num==4){
+            if(itembagdata[10]>0){
+                if(User.HP<User.MaxHP){
+                    itembagdata[10]--;
+                    User.HP = User.MaxHP;
+                    User.Ary_itembagdata = itembagdata.join("<:>");
+                    itemsembed.setDescription(":test_tube: "+User.name+" consumes 1 "+Gamedata.sys_item_names[10]+"\n recover 100% HP");
+                    message.channel.send(itemsembed.addField("HP",User.HP+"/"+User.MaxHP));
+                }
+                else{
+                    message.channel.send(itemsembed.setDescription(":heart: "+User.name+"'s HP is Full \nThe Item was not consumed."));
+                }
+            }else{
+                message.channel.send(itemsembed.setDescription(":x: You do have enough "+Gamedata.sys_item_names[9]));
             }
         }
         else{

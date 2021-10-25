@@ -46,7 +46,6 @@ const dataset = mongoose.Schema({
     Reovery: Number,
     Shop_itemsnames: String,
     Shop_itemsdata: String,
-    Mymusiclist: String,
     Lastplay: String,
     Favtrack: String,
     RefreshItems: Number,

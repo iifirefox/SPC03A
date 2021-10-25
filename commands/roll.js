@@ -85,8 +85,6 @@ module.exports.run = async (message, arg, User) => {
             }
             embed.setColor(User.colortheme);
             monsterembed.setColor("#FF0000");
-                if (arg == "")
-                {
                   var  numbers = 
                     [
           1,2,3,4,5,6
@@ -94,6 +92,7 @@ module.exports.run = async (message, arg, User) => {
                     var resulted = numbers[RandomMax(numbers.length)];
                     if(User.step>900){profiledata[15]==0;User.Ary_HH3ProfileData= profiledata.join("<:>");}
                     User.step += resulted;
+                    mdata[13]+=resulted;
                     var rolled =2.8;
                     if(profilenames[5]==Gamedata.sys_chest_mysterychest[2])rolled=2;
                     else if(profilenames[5]==Gamedata.sys_chest_mysterychest[7])rolled=5;
@@ -107,7 +106,7 @@ module.exports.run = async (message, arg, User) => {
                     [
                         1,2,3,4,5,6
                     ];var resultedevent = numbers[RandomMax(numbers.length)];
-                    User.step +=resultedevent;mdata[1]++;description+="\n and "+resultedevent
+                    User.step +=resultedevent;mdata[1]++;mdata[13]+=resultedevent;description+="\n and "+resultedevent
                     }
                     dice.setDescription(description);
                     if (hh3funset1[2] == 1 && hh3funset1[3]>0)
@@ -122,7 +121,6 @@ module.exports.run = async (message, arg, User) => {
                             hh3funset1[2] = 0;
                             User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
                         }
-                    }
                     }
                    var oldfloor = User.floor;
                    var newfix=0;
@@ -142,6 +140,10 @@ module.exports.run = async (message, arg, User) => {
                     stepamount = 140;
                     halfloor=70;
                     }
+                    else if(User.floor<0&User.floor>4){
+                        stepamount = 260;
+                        halfloor=130;
+                        }
                 else {
                     stepamount = 60;
                     halfloor=30;
@@ -158,6 +160,12 @@ module.exports.run = async (message, arg, User) => {
                    else if(User.floor==2&User.step>60){
                        User.floor++;
                    }
+                   if (User.floor == 1& Imgset[0]==Gamedata.floor1){
+                    Imgset[0] = Gamedata.floor2;
+                    User.Ary_Imgset = Imgset.join("<:>");
+                    User.floor++;
+                    User.step=6;
+                }
                     if (User.floor!=oldfloor)
                     {
                         newsembed.setColor("#001AFF");
@@ -176,7 +184,7 @@ module.exports.run = async (message, arg, User) => {
                             newsembed.setFooter("your floor has been reset");
                             User.floor=8; User.step = 1+(125*6);
                         }
-                        else if(User.floor==10&User.step>=floormax){
+                        else if(User.floor==10&User.step>=(140*(1-User.floor))){
                             newsembed.setDescription("You reached the Top of the Hunted House");
                             newsembed.setFooter("command: -check to see the view");
                             Imgset[0]=Gamedata.top;
@@ -186,36 +194,35 @@ module.exports.run = async (message, arg, User) => {
                         newsembed.setTitle("You are now on floor " + User.floor + "\n -check for info");
                         if (User.floor== 1)
                         {
-                            Imgset[0] = "https://i.ibb.co/M9NJJtF/f1.jpg";
-                           newsembed.setDescription("You've made it inside the House, but the door has locked it's self.\n There must be a key to unlocking it \n command: `-roll upstairs` or `-roll downstairs`");
+                            Imgset[0] = Gamedata.floor1;
+                           newsembed.setDescription("You've made it inside the Mansion, though the door behind you locked it's self.\n There must be a key to unlocking it \n command: `roll`");
                             newsembed.setImage(Imgset[0]);
+                            
                         }
                         else if (User.floor == 3)
-                        {  Imgset[0] = Gamedata.floor3; newsembed.setDescription("You have Unlocked Shop\nYou have Unlocked Craft Shop\nYou have Unlocked Brew Shop\nYou have Unlocked Repair shop"); newsembed.addField("commands:","-shop to vist the shop\n-craft to vist the craft shop\n-brew to vist the brew shop\n-repair to vist the repair shop"); hh3funset1[0] = 1; }
+                        {  Imgset[0] = Gamedata.floor3;
+                        newsembed.setDescription("You have Unlocked Shop\nYou have Unlocked Craft Shop\nYou have Unlocked Brew Shop\nYou have Unlocked Repair shop"); newsembed.addField("commands:","-shop to vist the shop\n-craft to vist the craft shop\n-brew to vist the brew shop\n-repair to vist the repair shop");
+                        hh3funset1[0] = 1;mdata[12]=User.floor-1; }
                         else if (User.floor == 4)
-                        {  Imgset[0] = Gamedata.floor4; }
+                        {  Imgset[0] = Gamedata.floor4;mdata[12]=User.floor-1; }
                         else if (User.floor == 5)
-                        {  Imgset[0] = Gamedata.floor5; }
+                        {  Imgset[0] = Gamedata.floor5;mdata[12]=User.floor-1; }
                         else if (User.floor == 6)
-                        {  Imgset[0] = Gamedata.floor6; }
+                        {  Imgset[0] = Gamedata.floor6;mdata[12]=User.floor-1; }
                         else if (User.floor == 7)
-                        {  Imgset[0] = Gamedata.floor7;}
+                        {  Imgset[0] = Gamedata.floor7;mdata[12]=User.floor-1;}
                         else if (User.floor == 8)
-                        {  Imgset[0] = Gamedata.floor8;}
+                        {  Imgset[0] = Gamedata.floor8;mdata[12]=User.floor-1;}
                         else if (User.floor == 9)
-                        {  Imgset[0] = Gamedata.floor9;}
+                        {  Imgset[0] = Gamedata.floor9;mdata[12]=User.floor-1;}
                         else if (User.floor == 10)
-                        {  Imgset[0] = Gamedata.floor10;}
+                        {  Imgset[0] = Gamedata.floor10;mdata[12]=User.floor-1;}
                         else if (User.floor == -1)
-                        {  Imgset[0] = Gamedata.floorb1;}
+                        {  Imgset[0] = Gamedata.floorb1;User.step=0;}
                         else if (User.floor == -2)
-                        {  Imgset[0] = Gamedata.floorb2;}
+                        {  Imgset[0] = Gamedata.floorb2;mdata[12]=User.floor+1;}
                         else if (User.floor == -3)
-                        {  Imgset[0] = Gamedata.floorb3;}
-                        else if (User.floor == -4)
-                        {  Imgset[0] = Gamedata.floorb4;}
-                        else if (User.floor == -5)
-                        {  Imgset[0] = Gamedata.floorb5;}
+                        {  Imgset[0] = Gamedata.floorb5;mdata[12]=User.floor+1;}
                         hh3funset1[8]=0;
                         hh3funset1[9]=0;
                         User.Ary_Imgset = Imgset.join("<:>");
@@ -284,27 +291,6 @@ module.exports.run = async (message, arg, User) => {
                                 User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
                                 User.Ary_Imgset = Imgset.join("<:>");
                                 message.channel.send(embed);
-                        }
-                        else if(User.floor ==1& arg.includes("upstairs")|User.floor ==1& arg.includes("up stairs")){
-                            embed.setTitle(":arrow_up: *you went up stairs*");
-                            if(User.floor==1){
-                            embed.setDescription(" `-roll` to begin the exploration");
-                            Imgset[0] = Gamedata.floor2;
-                            User.Ary_Imgset = Imgset.join("<:>");
-                            User.floor++;}
-                            message.channel.send(embed);
-                        }
-                        else if(User.floor==1&arg.includes("downstairs")|User.floor==1&arg.includes("down stairs")){
-                           if(profiledata[2]==1) {
-                               embed.setDescription(":arrow_down: You use the Master key and the door is unlock and went down.")
-                               embed.setFooter("to explore Commanad: -roll");
-                               Imgset[0] = Gamedata.floorb1;
-                               User.Ary_Imgset = Imgset.join("<:>");
-                               User.floor=-1;
-                           }
-                          else embed.setTitle("This Door is locked").setDescription("You need the master key to unlock this door")
-                           .setThumbnail(Gamedata.Basement_Door).setFooter("To go upstairs command: -roll upstairs");
-                            message.channel.send(embed);
                         }
                         else if(User.floor>=-6&User.floor<=10&User.floor!=1){
                             if(User.step>=floormax-7&hh3funset1[9]==0){
@@ -774,7 +760,7 @@ module.exports.run = async (message, arg, User) => {
                                 dice.setTitle(":grey_exclamation: A door near you is emanating light\nDo you wish to open it?\n(you will need a "+Gamedata.sys_item_names[6]+")");
                                 dice.setThumbnail("https://i.ibb.co/z77mK0X/door.png");
                                 dice.setDescription("To open, command: `-open`\nyou can ignore this.\n"+dice.description);
-                                if(Math.random()<Gamedata.sys_spawn_ratedor[2]){hh3funset1[1] =2;dice.setTitle(":grey_exclamation: A door near you is sealed with skeleton lock\nDo you wish to open it?\n(you will need a "
+                                if(User.level>10&Math.random()<Gamedata.sys_spawn_ratedor[2]){hh3funset1[1] =2;dice.setTitle(":grey_exclamation: A door near you is sealed with skeleton lock\nDo you wish to open it?\n(you will need a "
                                 +Gamedata.sys_item_names[7]+" or 36x "+Gamedata.sys_item_names[6]+" )");
                                 dice.setThumbnail("https://i.ibb.co/whtnLZL/lock-door.png");dice.setDescription("To open, command: `-open`\nyou can ignore this.\n"+dice.description);}
                                 User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
@@ -790,14 +776,13 @@ module.exports.run = async (message, arg, User) => {
                             hh3funset1[8]=1;
                             User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
                         }
-                        message.channel.send(dice);
+                       if(User.floor>1||User.floor<0) message.channel.send(dice);
                        if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
                        User.Metadata = mdata.join("<:>");
             }
         }
         else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: Your Turn hasn't started yet\nTo Start your turn, command: `-myturn`"))}}
-        else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: You cannot use this command yet.\nPlease start your turn,\nCommand:`-myturn`"));}
-    }
+        else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: You cannot use this command yet.\nPlease start your turn,\nCommand:`-myturn`"));}}
     module.exports.key = {
         name: "roll",
         description: "roll to win."

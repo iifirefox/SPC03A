@@ -6,7 +6,7 @@ const Gamedata = require('./data/hh3data.json');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const jstring = require('./bot.json');
-client.login(process.env.tokena);
+client.login(process.env.token);
 mongoose.connect(jstring.mongo,{
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -252,15 +252,9 @@ client.on('message', message => {
                     case "p":
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
-                    case "mylist":
-                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
-                    break;
                     case ("fav"||"favorite"):
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
-                    case ("addlist"||"add list"):
-                        client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
-                        break;
                 case "stat":
                     client.commands.get('stat').run( message, arg, User);
                     break;
@@ -355,6 +349,9 @@ client.on('message', message => {
                     break;
                     case "spc":
                     client.commands.get('spc').run(message, arg, User,client);
+                    break;
+                    case "fighthelp":
+                    client.commands.get('fighthelp').run(message, arg, User);
                     break;
                     
             }

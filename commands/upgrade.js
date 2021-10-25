@@ -3,22 +3,6 @@ module.exports.run = async (message, arg, User) => {
     function IgnoringCase(text, other) {
         return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
     }
-    if(arg.includes(" &")&User.id==596637537636843520){
-        var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
-        for(var index=0; index<rawprofiledata.length;index++){
-            profiledata[index]= Number(rawprofiledata[index])
-        }
-        profiledata[12]=0;
-        profiledata[16]=0;
-        profiledata[17]=0;
-        profiledata[18]=0;
-        profiledata[19]=0;
-        profiledata[20]=0;
-        User.MaxHP=100;
-        User.HP=User.MaxHP;
-        User.Upgradepoint= User.level
-        User.Ary_HH3ProfileData = profiledata.join("<:>");
-    }
     var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
     for(var index=0; index<rawprofiledata.length;index++){
         profiledata[index]= Number(rawprofiledata[index])

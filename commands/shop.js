@@ -53,10 +53,8 @@ module.exports.run = async (message, arg, User) => {
             var wepset = [3,4,5];
             var getmatil = [Gamedata.sys_material_names[0],Gamedata.sys_material_names[1],Gamedata.sys_material_names[2],Gamedata.sys_material_names[3],Gamedata.sys_material_names[6],Gamedata.sys_material_names[7]];
             var getitems = [Gamedata.sys_item_names[0],Gamedata.sys_item_names[2],Gamedata.sys_item_names[3],Gamedata.sys_item_names[4],Gamedata.sys_item_names[5],Gamedata.sys_item_names[6],Gamedata.sys_item_names[9]];
-            var getswd = [Gamedata.sys_sword_dataset[1],Gamedata.sys_sword_dataset[2],Gamedata.sys_sword_dataset[3]];
-            var getwnd = [Gamedata.sys_wand_dataset[0],Gamedata.sys_wand_dataset[1],Gamedata.sys_wand_dataset[2]];
-            var getbow = [Gamedata.sys_bow_dataset[0],Gamedata.sys_bow_dataset[1],Gamedata.sys_bow_dataset[2]];
-            var getarm = [Gamedata.sys_armor_dataset[0],Gamedata.sys_armor_dataset[1],Gamedata.sys_armor_dataset[2]]
+            var ran = 3;
+            if(User.floor>5||User.floor<0) ran =5;
             var newnumset = numset[RandomMax(numset.length)]
             if(newnumset==1){
              if(Math.random()<Gamedata.sys_shop_rateset[0]) { selectitem = 1; break}}
@@ -115,7 +113,7 @@ module.exports.run = async (message, arg, User) => {
                 if(itemkey!==""){itemindex = Gamedata.sys_item_names.indexOf(itemkey); itemprice = Gamedata.sys_itm_price[itemindex];itemstock= RandomMinMax(1,Gamedata.sys_shop_itemsockI)}
         }
         else if(selectitem==3){
-            var pickitem = RandomMax(getswd.length);
+            var pickitem = RandomMax(ran);
             if(pickitem==0){
                 if(Math.random()<Gamedata.sys_shop_rateset2[0]){ itemkey= Gamedata.sys_sword_names[1];};
             }
@@ -125,10 +123,16 @@ module.exports.run = async (message, arg, User) => {
             else if(pickitem==2){
                 if(Math.random()<Gamedata.sys_shop_rateset2[2]){ itemkey= Gamedata.sys_sword_names[3];};
             }
+            else if(pickitem==3){
+                if(Math.random()<Gamedata.sys_shop_rateset2[2]){ itemkey= Gamedata.sys_sword_names[4];};
+            }
+            else if(pickitem==4){
+                if(Math.random()<Gamedata.sys_shop_rateset2[2]){ itemkey= Gamedata.sys_sword_names[5];};
+            }
             if(itemkey!==""){itemindex = Gamedata.sys_sword_names.indexOf(itemkey); itemprice = Gamedata.sys_weapon_price[itemindex]; itemstock= 1}
         }
         else if(selectitem==4){
-            var pickitem = RandomMax(getwnd.length);
+            var pickitem = RandomMax(ran);
                 if(pickitem==0){
                     if(Math.random()<Gamedata.sys_shop_rateset2[0]){ itemkey= Gamedata.sys_wand_names[pickitem];};
                 }
@@ -138,10 +142,16 @@ module.exports.run = async (message, arg, User) => {
                 else if(pickitem==2){
                     if(Math.random()<Gamedata.sys_shop_rateset2[2]){ itemkey= Gamedata.sys_wand_names[pickitem];};
                 }
+                else if(pickitem==3){
+                    if(Math.random()<Gamedata.sys_shop_rateset2[2]){ itemkey= Gamedata.sys_wand_names[pickitem];};
+                }
+                else if(pickitem==4){
+                    if(Math.random()<Gamedata.sys_shop_rateset2[2]){ itemkey= Gamedata.sys_wand_names[pickitem];};
+                }
                 if(itemkey!==""){itemindex = Gamedata.sys_wand_names.indexOf(itemkey); itemprice = Gamedata.sys_weapon_price[itemindex];itemstock= 1}
         }
         else if(selectitem==5){
-            var pickitem = RandomMax(getbow.length);
+            var pickitem = RandomMax(ran);
                 if(pickitem==0){
                     if(Math.random()<Gamedata.sys_shop_rateset2[0]){ itemkey= Gamedata.sys_bow_names[pickitem];};
                 }
@@ -151,10 +161,16 @@ module.exports.run = async (message, arg, User) => {
                 else if(pickitem==2){
                     if(Math.random()<Gamedata.sys_shop_rateset2[2]){ itemkey= Gamedata.sys_bow_names[pickitem];};
                 }
+                else if(pickitem==3){
+                    if(Math.random()<Gamedata.sys_shop_rateset2[2]){ itemkey= Gamedata.sys_bow_names[pickitem];};
+                }
+                else if(pickitem==4){
+                    if(Math.random()<Gamedata.sys_shop_rateset2[2]){ itemkey= Gamedata.sys_bow_names[pickitem];};
+                }
                 if(itemkey!==""){itemindex = Gamedata.sys_bow_names.indexOf(itemkey); itemprice = Gamedata.sys_weapon_price[itemindex];itemstock= 1}
         }
         else if(selectitem==6){
-            var pickitem = RandomMax(getarm.length);
+            var pickitem = RandomMax(3);
                 if(pickitem==0){
                     if(Math.random()<Gamedata.sys_shop_rateset2[0]){ itemkey= Gamedata.sys_armor_names[pickitem];};
                 }
@@ -166,7 +182,7 @@ module.exports.run = async (message, arg, User) => {
                 }
                 if(itemkey!==""){itemindex = Gamedata.sys_armor_names.indexOf(itemkey); itemprice = Gamedata.sys_armor_price[itemindex];itemstock= 1}
         }
-        if(itemsdata[14]>itemnames.length){break;}
+        if(itemsdata[14]>itemnames.length)break;
        else if(itemkey==""||itemnames.includes(itemkey)){
             itemsdata[13]++;
     User.Shop_itemsdata = itemsdata.join("<:>");

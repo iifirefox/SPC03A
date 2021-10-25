@@ -75,7 +75,11 @@ module.exports.run = async (message, arg, User) => {
   const canvas = createCanvas(800,500);
   const ctx = canvas.getContext("2d");
   const background = await loadImage("https://i.ibb.co/Q824TCw/profilebackground.jpg");
+  const background2 = await loadImage("https://i.ibb.co/W0Fw5sv/wallpaperhw.jpg");
   ctx.drawImage(background,0,0, canvas.width, canvas.height);
+  ctx.globalAlpha = 0.2
+  ctx.drawImage(background2,0,0, canvas.width, canvas.height);
+  ctx.globalAlpha=1;
   ctx.beginPath();
   ctx.fillStyle="#ffffff"
   ctx.fillRect(220, 170 , 50, 30);
@@ -87,6 +91,7 @@ module.exports.run = async (message, arg, User) => {
   var y = sy+35;
   var curve = sy+17.5;
   ctx.beginPath()
+  ctx.globalAlpha=1;
   ctx.lineWidth = 2;
   ctx.moveTo(sx, sy);
   ctx.lineTo(x, sy);
@@ -102,6 +107,7 @@ module.exports.run = async (message, arg, User) => {
   var curve = sy+17.5;
   ctx.closePath();
   ctx.beginPath();
+  ctx.globalAlpha=1;
   ctx.lineWidth = 2;
   ctx.moveTo(sx, sy);
   ctx.lineTo(x, sy);
@@ -113,6 +119,7 @@ module.exports.run = async (message, arg, User) => {
   ctx.fill();
   ctx.closePath();
   ctx.beginPath();
+  ctx.globalAlpha=1;
   var sy= 135;
   var sx= 230;
   var y = sy+35;
@@ -134,6 +141,7 @@ module.exports.run = async (message, arg, User) => {
   ctx.fill();
   ctx.closePath();
   ctx.beginPath();
+  ctx.globalAlpha=1;
   var oldlv = User.level-1;
   var oldlvexpmax =Math.pow(2,3)*oldlv+60*oldlv;
   var maxexp = Math.pow(2,3)*User.level+60*User.level+oldlvexpmax+User.level*2;
@@ -159,6 +167,7 @@ module.exports.run = async (message, arg, User) => {
   ctx.closePath();
   if(User.energy!=undefined){
   ctx.beginPath();
+  ctx.globalAlpha=1;
   var sy= 320;
   var sx= 500;
   var y = 360;
@@ -177,6 +186,7 @@ module.exports.run = async (message, arg, User) => {
   ctx.fill();
   ctx.closePath();
   ctx.beginPath();
+  ctx.globalAlpha=1;
   var sy= 320;
   var sx= 500;
   var y = 360;
@@ -199,6 +209,7 @@ module.exports.run = async (message, arg, User) => {
   ctx.fill();
   ctx.closePath();}
   ctx.beginPath();
+  ctx.globalAlpha=1;
   var sy= 425;
   var sx= 500;
   var y = 460;
@@ -217,6 +228,7 @@ module.exports.run = async (message, arg, User) => {
   ctx.fill();
   ctx.closePath();
   ctx.beginPath();
+  ctx.globalAlpha=1;
   var sy= 425;
   var sx= 500;
   var y = 460;
@@ -239,17 +251,18 @@ module.exports.run = async (message, arg, User) => {
   ctx.fill();
   ctx.closePath();
   ctx.beginPath();
+  ctx.globalAlpha=1;
   ctx.font="30px Arial";
   ctx.fillStyle="#000000";
   ctx.fillText(User.name,240,125);
-  ctx.font="15px Arial";
+  ctx.font="13px Arial";
   ctx.fillStyle="#000000";
-  ctx.fillText("Lv "+User.level,232,190);
+  ctx.fillText("Lv "+User.level,226,191);
   ctx.font="20px Arial";
-  ctx.fillStyle="#ffffff";
+  ctx.fillStyle="#000000";
   ctx.fillText("Skill Energy",490,450);
   ctx.font="20px Sans";
-  ctx.fillStyle="#ffffff";
+  ctx.fillStyle="#000000";
   ctx.fillText(User.Skillenergy+" / "+User.Maxskillenergy,620,450);
   if(User.energy!=undefined){
     ctx.font="23px Arial";
@@ -263,28 +276,28 @@ module.exports.run = async (message, arg, User) => {
   ctx.fillStyle="#000000";
   ctx.fillText(minutesB+"Min "+secondsB+"Sec",500,410);}
   ctx.globalAlpha=1;
-  ctx.font="18px Arial";
-  ctx.fillStyle="#ffffff";
-  ctx.fillText("EXP",265,190);
-  ctx.font="20px Sans";
-  ctx.fillStyle="#ffffff";
+  ctx.font="15px Arial";
+  ctx.fillStyle="#000000";
+  ctx.fillText("EXP",270,190);
+  ctx.font="12px Sans";
+  ctx.fillStyle="#000000";
   ctx.textAlign ="center"
-  ctx.fillText(User.exp+" / "+maxexp,350,192);
+  ctx.fillText(User.exp+" / "+maxexp,370,190);
   if(User.energy!=undefined){
   ctx.globalAlpha=1;
   ctx.font="18px Arial";
-  ctx.fillStyle="#ffffff";
+  ctx.fillStyle="#000000";
   ctx.fillText("Energy",520,345);
   ctx.font="20px Sans";
-  ctx.fillStyle="#ffffff";
+  ctx.fillStyle="#000000";
   ctx.textAlign ="center"
   ctx.fillText(Math.round(User.energy)+" / "+User.Maxenergy,605,346);}
   ctx.globalAlpha=1;
   ctx.font="18px Sans";
-  ctx.fillStyle="#ffffff";
+  ctx.fillStyle="#000000";
   ctx.fillText("HP",253,157);
   ctx.font="20px Sans";
-  ctx.fillStyle="#ffffff";
+  ctx.fillStyle="#000000";
   ctx.textAlign ="center"
   ctx.fillText(User.HP+" / "+User.MaxHP,350,157)
   ctx.font="23px Arial";
@@ -337,10 +350,27 @@ module.exports.run = async (message, arg, User) => {
 ctx.closePath();
   ctx.beginPath();
   ctx.arc(150,150,80,0,Math.PI*2,true);
-  ctx.lineWidth = 8;
+  ctx.lineWidth = 4;
   ctx.strokeStyle = User.colortheme;
   ctx.stroke();
   ctx.closePath();
+  if(User.multi==true){
+    Account.findOne({
+      id: User.multid
+  },async(err,UserII)=>{
+    if(err)console.log(err);
+  ctx.beginPath();
+  ctx.globalAlpha=1;
+  ctx.font="20px Arial";
+  ctx.fillStyle="#000000";
+  ctx.fillText(User.multname,100,100)
+  ctx.fillStyle = "#EF4910";
+  ctx.globalAlpha = 0.6;
+  var current = UserII.HP/UserII.MaxHP;
+  current = Math.round(current*100);
+  ctx.fillRect(150,190, current*2.5, 30);
+  ctx.fill();
+  ctx.closePath();});}
   ctx.clip();
   const avatar = await loadImage(User.Profileimg);
   ctx.drawImage(avatar, 70,68,165,165);

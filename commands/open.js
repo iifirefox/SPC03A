@@ -41,14 +41,13 @@ module.exports.run = async (message, arg, User) => {
     for(var index=0; index<rawprofiledata.length;index++){
         profiledata[index]= Number(rawprofiledata[index]);
     }}else return message.channel.send(openembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
-    console.log(Boolean(hh3funset1[1]==1&itembagdata[6]>0)+" hh3set1:"+hh3funset1[1]+" itembag:"+itembagdata[6])
       if(hh3funset1[1]==1&itembagdata[6]>0){
           itembagdata[6]--;
     User.Ary_itembagdata = itembagdata.join("<:>");
     var whitemark ='✅';
-    var crossmark ='❎';
             var stepamount = 0;
             var floorlimit =0;
+            var halfloor =0;
             if(User.floor>3&User.floor<=9){
                 stepamount=125;
                 halfloor = 63;
@@ -144,6 +143,8 @@ module.exports.run = async (message, arg, User) => {
     }if(apply==true) message.channel.send( openembed );
         }
         else if(hh3funset1[1]==2&(itembagdata[7]>0||itembagdata[6]>=36)){
+            var level = User.level;
+            if(level>15)level=15;
             if(itembagdata[7]>0)itembagdata[7]--;
             else if(itembagdata[6]>=36)itembagdata[6]-=36;
             User.Ary_itembagdata = itembagdata.join("<:>");
@@ -206,9 +207,9 @@ module.exports.run = async (message, arg, User) => {
             temdatanumbers[31]=0;
             temdatanumbers[32]=0;
             temdatanumbers[33]=0;
-           temdatanumbers[1]=Math.round(temdatanumbers[1]+(User.level*(temdatanumbers[1]*0.78)))
+           temdatanumbers[1]=Math.round(temdatanumbers[1]+(User.level*2)+(level*(temdatanumbers[1]*0.78)))
            temdatanumbers[0]=temdatanumbers[1];
-           temdatanumbers[3]= temdatanumbers[3]+(User.level*0.11);
+           temdatanumbers[3]= temdatanumbers[3]+(User.level*0.16);
            temdatanumbers[5] = temdatanumbers[5]+(User.level*0.03);
             mdata[2]++;
             Imgset[1] = Gamedata.sys_monsterpic_special[monsterdex];

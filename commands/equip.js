@@ -83,7 +83,7 @@ module.exports.run = async (message, arg,User) => {
     }
                     equipembed.setTitle(":school_satchel: Equipment Bag");
                     if(hh3funset1[5]==2){
-                        equipembed.setDescription("**To Equip, Command: `-equip <Number next to the item's name>`**\nTo continue the game `-roll`")
+                        equipembed.setDescription("**To Equip, Command: `equip <Number next to the item's name>`**To learn about combat command`fighthelp`\nTo continue the game command`roll`")
                     }
                     for (var i = 0; i < equipnames.length; i++)
                     {
@@ -179,7 +179,7 @@ module.exports.run = async (message, arg,User) => {
                         }
                     }
                         else{
-                            equipembed.setDescription(":gear: " + temname + " is equipped.\nTip: To check your bag, Command: `-items`\nTo continue the game `-roll`");
+                            equipembed.setDescription(":gear: " + temname + " is equipped.\n:small_blue_diamond: To check your bag, Command: `items`\n:small_blue_diamond: To learn to fight command`fighthelp`\nTo continue the game `-roll`");
                             hh3funset1[5]++;
                             User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
                         }
