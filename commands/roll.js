@@ -352,10 +352,10 @@ module.exports.run = async (message, arg, User) => {
                               if(hh3funset1[11]!=2) monsterembed.setDescription("Boss Lv"+lv);
                                 const canvas = createCanvas(256,296);
                                 const ctx = canvas.getContext("2d");
-                                const background =  loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
+                                const background = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
                                 ctx.drawImage(background,0,0, canvas.width, canvas.height);
                                 ctx.beginPath();
-                                const pic =  loadImage(Imgset[1]);
+                                const pic = await loadImage(Imgset[1]);
                                 ctx.drawImage(pic,0,33, canvas.width, 256);
                                 ctx.lineWidth = 2;
                                 ctx.strokeStyle="#FFA600";
@@ -577,10 +577,10 @@ module.exports.run = async (message, arg, User) => {
                                 monsterembed.setTitle(":interrobang: You have encountered a "+temdatanames[0]+" Lv."+lv);
                                 const canvas = createCanvas(256,296);
                                 const ctx = canvas.getContext("2d");
-                                const background =  loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
+                                const background = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
                                 ctx.drawImage(background,0,0, canvas.width, canvas.height);
                                 ctx.beginPath();
-                                const pic =  loadImage(Imgset[1]);
+                                const pic = await loadImage(Imgset[1]);
                                 ctx.drawImage(pic,0,33, canvas.width, 256);
                                 ctx.lineWidth = 2;
                                 ctx.strokeStyle="#FFA600";
@@ -616,12 +616,12 @@ module.exports.run = async (message, arg, User) => {
                                     monsterembed.setTitle(":interrobang: You have encountered a "+temdatanames[0]+" Lv."+lv+" and a "+temdatanames[7]+" Lv."+lvII);
                                     const canvas = createCanvas(516,286);
                                 const ctx = canvas.getContext("2d");
-                                const background =  loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
+                                const background = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
                                 ctx.drawImage(background,0,0, canvas.width, canvas.height);
                                 ctx.beginPath();
-                                const pic =  loadImage(Imgset[1]);
+                                const pic = await loadImage(Imgset[1]);
                                 ctx.drawImage(pic,0,33, 256, 256);
-                                const pic2 =  loadImage(Imgset[2]);
+                                const pic2 = await loadImage(Imgset[2]);
                                 ctx.drawImage(pic2,260,33, 256, 256);
                                 ctx.lineWidth = 2;
                                 ctx.strokeStyle="#FFA600";
@@ -786,7 +786,7 @@ module.exports.run = async (message, arg, User) => {
                      .then((collected) => {
                          const reaction = collected.first();
                          if (reaction.emoji.name === '🎲') {
-                             message.reactions.resolve('🎲').users.remove(User.id);
+                            message.reactions.resolve('🎲').users.remove(User.id);
                              roll();
                          } 
                      })
