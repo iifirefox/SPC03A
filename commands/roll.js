@@ -786,7 +786,7 @@ module.exports.run = async (message, arg, User) => {
                      .then((collected) => {
                          const reaction = collected.first();
                          if (reaction.emoji.name === '🎲') {
-                             message.edit(newemmbed.setDescription("Hollow end")).then((message)=>{message.reactions.resolve('🎲').users.remove(User.id);});
+                             message.reactions.resolve('🎲').users.remove(User.id);
                              roll();
                          } 
                      })
