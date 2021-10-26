@@ -38,6 +38,7 @@ module.exports.run = async (message, arg, User) => {
       var Imgset = User.Ary_Imgset.split("<:>");
     if (User.energy!=undefined||hh3funset1[0]==1)
     {
+        function roll(){
         if (User.CombatMode > 0)
         {
             warnembed.setColor("#FFFE00");
@@ -351,10 +352,10 @@ module.exports.run = async (message, arg, User) => {
                               if(hh3funset1[11]!=2) monsterembed.setDescription("Boss Lv"+lv);
                                 const canvas = createCanvas(256,296);
                                 const ctx = canvas.getContext("2d");
-                                const background = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
+                                const background =  loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
                                 ctx.drawImage(background,0,0, canvas.width, canvas.height);
                                 ctx.beginPath();
-                                const pic = await loadImage(Imgset[1]);
+                                const pic =  loadImage(Imgset[1]);
                                 ctx.drawImage(pic,0,33, canvas.width, 256);
                                 ctx.lineWidth = 2;
                                 ctx.strokeStyle="#FFA600";
@@ -576,10 +577,10 @@ module.exports.run = async (message, arg, User) => {
                                 monsterembed.setTitle(":interrobang: You have encountered a "+temdatanames[0]+" Lv."+lv);
                                 const canvas = createCanvas(256,296);
                                 const ctx = canvas.getContext("2d");
-                                const background = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
+                                const background =  loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
                                 ctx.drawImage(background,0,0, canvas.width, canvas.height);
                                 ctx.beginPath();
-                                const pic = await loadImage(Imgset[1]);
+                                const pic =  loadImage(Imgset[1]);
                                 ctx.drawImage(pic,0,33, canvas.width, 256);
                                 ctx.lineWidth = 2;
                                 ctx.strokeStyle="#FFA600";
@@ -615,12 +616,12 @@ module.exports.run = async (message, arg, User) => {
                                     monsterembed.setTitle(":interrobang: You have encountered a "+temdatanames[0]+" Lv."+lv+" and a "+temdatanames[7]+" Lv."+lvII);
                                     const canvas = createCanvas(516,286);
                                 const ctx = canvas.getContext("2d");
-                                const background = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
+                                const background =  loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
                                 ctx.drawImage(background,0,0, canvas.width, canvas.height);
                                 ctx.beginPath();
-                                const pic = await loadImage(Imgset[1]);
+                                const pic =  loadImage(Imgset[1]);
                                 ctx.drawImage(pic,0,33, 256, 256);
-                                const pic2 = await loadImage(Imgset[2]);
+                                const pic2 =  loadImage(Imgset[2]);
                                 ctx.drawImage(pic2,260,33, 256, 256);
                                 ctx.lineWidth = 2;
                                 ctx.strokeStyle="#FFA600";
@@ -776,10 +777,27 @@ module.exports.run = async (message, arg, User) => {
                             hh3funset1[8]=1;
                             User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
                         }
-                       if(User.floor>1||User.floor<0) message.channel.send(dice);
+                        if(User.floor>1||User.floor<0) message.channel.send(dice).then((message)=>{message.react('🎲');
+                        function sample(){
+                        const filter = (reaction, user) => {
+                         return ['🎲'].includes(reaction.emoji.name) && user.id === User.id;
+                     };
+                        message.awaitReactions(filter, { max: 1})
+                     .then((collected) => {
+                         const reaction = collected.first();
+                         if (reaction.emoji.name === '🎲') {
+                             message.edit(newemmbed.setDescription("Hollow end")).then((message)=>{message.reactions.resolve('🎲').users.remove(User.id);});
+                             roll();
+                         } 
+                     })
+                 }
+                     sample();
+                 });
                        if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
                        User.Metadata = mdata.join("<:>");
             }
+        }
+        roll();
         }
         else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: Your Turn hasn't started yet\nTo Start your turn, command: `-myturn`"))}}
         else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: You cannot use this command yet.\nPlease start your turn,\nCommand:`-myturn`"));}}

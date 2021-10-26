@@ -520,13 +520,13 @@ return arr.filter(function(ele){return ele != value;});
                         if(alla==true) newatk= Math.round(newatk/2);
                         attack+=newatk;
                         if(attack<0)attack=0;
-                        if(heroatkcrit[atkdex]==2&attack!=0){
+                        if(heroatkcrit[atkdex]==2){
                             herotxteft +="\n**"+newatk+"**:boom: dmg";
                         }
-                        else if(heroatkcrit[atkdex]==1&attack!=0){
+                        else if(heroatkcrit[atkdex]==1){
                             herotxteft +="\n**"+newatk+"** dmg";
                         }
-                        else if(heroatkcrit[atkdex]==0||attack==0){
+                        else if(heroatkcrit[atkdex]==0){
                             herotxteft +="\n but **Missed**";
                         }
                     }
