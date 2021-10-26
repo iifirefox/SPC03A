@@ -38,7 +38,7 @@ module.exports.run = async (message, arg, User) => {
       var Imgset = User.Ary_Imgset.split("<:>");
     if (User.energy!=undefined||hh3funset1[0]==1)
     {
-        function roll(){
+       async function roll(){
         if (User.CombatMode > 0)
         {
             warnembed.setColor("#FFFE00");
