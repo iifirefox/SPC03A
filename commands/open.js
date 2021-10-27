@@ -72,7 +72,7 @@ module.exports.run = async (message, arg, User) => {
             if(User.floor<0)newfix= User.floor*-1;
             else newfix = User.floor-1;
             var floormax =stepamount*newfix;
-    if(User.floor >=3){
+    if(User.floor >=3||User.floor <=-1){
         if(Math.random()<Gamedata.sys_spawnrate_door[0]&User.step<floormax-halfloor){
             var adfoot = RandomMinMax(12,29);
             
