@@ -778,7 +778,7 @@ module.exports.run = async (message, arg, User) => {
                             hh3funset1[8]=1;
                             User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
                         }
-                        if(User.floor>1||User.floor<0) message.channel.send(dice).then((message)=>{message.react('🎲');
+                        if(User.floor>1||User.floor<0) message.edit(dice).then((message)=>{message.react('🎲');
                         function sample(){
                         const filter = (reaction, user) => {
                          return ['🎲'].includes(reaction.emoji.name) && user.id === User.id;
@@ -801,7 +801,7 @@ module.exports.run = async (message, arg, User) => {
         Account.findOne({
             id: User.id
         },async(err,User)=>{User.save().catch(err => console.log(err));});
-        roll();
+        roll(message);
         }
         else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: Your Turn hasn't started yet\nTo Start your turn, command: `-myturn`"))}}
         else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: You cannot use this command yet.\nPlease start your turn,\nCommand:`-myturn`"));}}
