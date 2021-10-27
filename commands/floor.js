@@ -16,18 +16,18 @@ module.exports.run = async (message, arg, User) => {
     floorembed.setColor(User.colortheme);
     if(num ==0 | isNaN(num)&itembagdata[8]==1){
         floorembed.setTitle("Select the floor you wish to go to");
-        floorembed.addfield("Floor 2","Hunted ghosts takeover.");
-        floorembed.addfield("Floor 3","Creepy crawlers in the dark.");
-        floorembed.addfield("Floor 4","Forest inside a house");
-        floorembed.addfield("Floor 5","Darkness everywhere");
-        floorembed.addfield("Floor 6","Mushroom land");
-        floorembed.addfield("Floor 7","Vampire's keep");
-        floorembed.addfield("Floor 8","Spider's web");
-        floorembed.addfield("Floor 9","Cold chills everywhere");
-        floorembed.addfield("Floor 10","Darkness Party");
-        floorembed.addfield("Floor -1 (Basement)","Abandoned Basement");
-        floorembed.addfield("Floor -2 (Hidden Library)","World of secrets");
-        floorembed.addfield("Floor -3 (Crystal Cave)","Energy source of everything");
+        floorembed.addField("Floor 2","Hunted ghosts takeover.");
+        floorembed.addField("Floor 3","Creepy crawlers in the dark.");
+        floorembed.addField("Floor 4","Forest inside a house");
+        floorembed.addField("Floor 5","Darkness everywhere");
+        floorembed.addField("Floor 6","Mushroom land");
+        floorembed.addField("Floor 7","Vampire's keep");
+        floorembed.addField("Floor 8","Spider's web");
+        floorembed.addField("Floor 9","Cold chills everywhere");
+        floorembed.addField("Floor 10","Darkness Party");
+        floorembed.addField("Floor -1 (Basement)","Abandoned Basement");
+        floorembed.addField("Floor -2 (Hidden Library)","World of secrets");
+        floorembed.addField("Floor -3 (Crystal Cave)","Energy source of everything");
     }
     else if(num>=2&num<=10&itembagdata[8]==1){
         var floor = true;
