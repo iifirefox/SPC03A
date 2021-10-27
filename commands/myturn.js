@@ -452,11 +452,11 @@ if(User.energy!=undefined&User.turn==false&!arg.includes("<@")&!arg.includes("ac
             ctx.font="18px Sans";
             ctx.fillStyle="#000000";
             if(temname[0] =="Mystery Chest")ctx.fillStyle="#ffffff";
-            ctx.fillText("1",100,110);
+            ctx.fillText("1",95,110);
             ctx.font="18px Sans";
             ctx.fillStyle="#000000";
             if(temname[1]=="Mystery Chest")ctx.fillStyle="#ffffff";
-            ctx.fillText("2",270,110);
+            ctx.fillText("2",275,110);
             ctx.font="18px Sans";
             ctx.fillStyle="#000000";
             if(temname[2]=="Mystery Chest")ctx.fillStyle="#ffffff";
