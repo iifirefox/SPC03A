@@ -452,15 +452,15 @@ if(User.energy!=undefined&User.turn==false&!arg.includes("<@")&!arg.includes("ac
             ctx.font="18px Sans";
             ctx.fillStyle="#000000";
             if(temname[0] =="Mystery Chest")ctx.fillStyle="#ffffff";
-            ctx.fillText("1",70,110);
+            ctx.fillText("1",78,110);
             ctx.font="18px Sans";
             ctx.fillStyle="#000000";
             if(temname[1]=="Mystery Chest")ctx.fillStyle="#ffffff";
-            ctx.fillText("2",253,110);
+            ctx.fillText("2",261,110);
             ctx.font="18px Sans";
             ctx.fillStyle="#000000";
             if(temname[2]=="Mystery Chest")ctx.fillStyle="#ffffff";
-            ctx.fillText("3",435,110);
+            ctx.fillText("3",443,110);
             ctx.closePath();
             ctx.clip();
             const attachment = new Discord.MessageAttachment(canvas.toBuffer(),"png.png");

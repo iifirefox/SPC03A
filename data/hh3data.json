@@ -189,7 +189,7 @@
     "sys_spawn_ratedor": [0.08,0.06,0.28],
     "sys_spawnrate_door": [0.35,0.39],
     "sys_Item_Effects": [30,80,0.30,0.30,0.30,50],
-    "sys_combat_rates": [0.42,0.32,0.18,0.36,0.70,0.62,0.70,0.27,0.75],
+    "sys_combat_rates": [0.42,0.32,0.18,0.36,0.72,0.64,0.72,0.27,0.75],
     "sys_combat_def": [0.6,0.5,0.3],
     "sys_chest_woodenrate": [50, 35, 25, 12, 12, 12, 30],
     "sys_chest_woodenArate": [42, 38, 35, 23, 23, 23, 35],
