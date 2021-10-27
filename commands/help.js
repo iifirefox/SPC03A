@@ -12,7 +12,7 @@ module.exports.run = async (client, message, arg) => {
     newemmbed.addField("Command: `-fate <option> & <option2>`", "This Command will take 1 choices after `-fate` then another after `&` and give you the best result");
     newemmbed.addField("Command: `-animehunt`", "guess your anime smarts game");
     newemmbed.addField("Command: `-statistic`","your account statistics");
-    newemmbed.setFooter("To view Game Commands: -help game\nTo view Music Commands: -help music\n"+client.user.username+" Ver 9.8.6 \n Made by: AhhLoli#5983");}
+    newemmbed.setFooter("To view Game Commands: -help game\nTo view Music Commands: -help music\n"+client.user.username+" Ver 9.8.7 \n Made by: AhhLoli#5983");}
     else if(arg.includes("game")){
         newemmbed.addField("Command: `-roll`","Roll a dice to Progress in HH3");
         newemmbed.addField("Command: `-check`","To View what Floor your on or foe status");
