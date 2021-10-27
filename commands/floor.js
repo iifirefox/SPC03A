@@ -29,7 +29,7 @@ module.exports.run = async (message, arg, User) => {
         floorembed.addField("Floor -2 (Hidden Library)","World of secrets");
         floorembed.addField("Floor -3 (Crystal Cave)","Energy source of everything");
     }
-    else if(num>=2&num<=10&itembagdata[8]==1||num<-1&num>-4&itembagdata[8]==1){
+    else if(num>=2&num<=10&itembagdata[8]==1||num<0&num>-4&itembagdata[8]==1){
         var floor = true;
         if(num==2){
             User.floor=num;
