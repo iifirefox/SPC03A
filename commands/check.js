@@ -263,7 +263,7 @@ module.exports.run = async (message, arg,User) => {
         }
         else if (User.floor == 0) {checkembed.setTitle("Your Outside the House"); checkembed.setDescription("you have walked " + User.step + " steps.");  checkembed.setImage(Imgset[0]); }
         else if (User.floor == 1) { checkembed.setTitle("Your on floor " + User.floor); checkembed.setDescription("you have walked " + User.step + " steps."); checkembed.setImage(Imgset[0]); }
-        else if (User.floor <=9) { checkembed.setTitle("Your on floor " + User.floor+ " - `Reach floor 10`"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
+        else if (User.floor <=9&User.floor<2) { checkembed.setTitle("Your on floor " + User.floor+ " - `Reach floor 10`"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
         else if (User.floor ==10) { checkembed.setTitle("Your on floor " + User.floor); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until Top floor"); checkembed.setImage(Imgset[0]); }
         else if (User.floor == -1) { checkembed.setTitle("Your in the Basement"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
         else if (User.floor == -2) { checkembed.setTitle("Your in the Hidden Library"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
