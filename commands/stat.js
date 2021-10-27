@@ -15,14 +15,11 @@ module.exports.run = async (message, arg, User) => {
   }
   var theuser = User;
   var ismension =getUserFromMention(arg);
-  console.log(":"+ismension);
   Account.findOne({
     id: ismension
 },async(err,User)=>{
   if(err)console.log(err);
-  console.log(Boolean(!User))
         if(!User)User=theuser;
-
     const newemmbed = new Discord.MessageEmbed();
     var profilenames = User.Ary_HH3ProfileNames.split("<:>");
     var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
