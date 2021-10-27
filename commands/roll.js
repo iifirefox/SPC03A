@@ -762,7 +762,7 @@ module.exports.run = async (message, arg, User, client) => {
                                 dice.setTitle(":grey_exclamation: A door near you is emanating light\nDo you wish to open it?\n(you will need a "+Gamedata.sys_item_names[6]+")");
                                 dice.setThumbnail("https://i.ibb.co/z77mK0X/door.png");
                                 dice.setDescription("To open, command: `-open`\nyou can ignore this.\n"+dice.description);
-                                if(User.level>10&Math.random()<Gamedata.sys_spawn_ratedor[2]){hh3funset1[1] =2;dice.setTitle(":grey_exclamation: A door near you is sealed with skeleton lock\nDo you wish to open it?\n(you will need a "
+                                if(User.level>=10&Math.random()<Gamedata.sys_spawn_ratedor[2]){hh3funset1[1] =2;dice.setTitle(":grey_exclamation: A door near you is sealed with skeleton lock\nDo you wish to open it?\n(you will need a "
                                 +Gamedata.sys_item_names[7]+" or 36x "+Gamedata.sys_item_names[6]+" )");
                                 dice.setThumbnail("https://i.ibb.co/whtnLZL/lock-door.png");dice.setDescription("To open, command: `-open`\nyou can ignore this.\n"+dice.description);}
                                 User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
@@ -813,10 +813,10 @@ module.exports.run = async (message, arg, User, client) => {
                     if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
                     User.Metadata = mdata.join("<:>");
             }
+            Account.findOne({
+                id: User.id
+            },async(err,User)=>{User.save().catch(err => console.log(err));});
         }
-        Account.findOne({
-            id: User.id
-        },async(err,User)=>{User.save().catch(err => console.log(err));});
         roll(message);
         }
         else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: Your Turn hasn't started yet\nTo Start your turn, command: `-myturn`"))}}
