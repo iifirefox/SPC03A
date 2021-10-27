@@ -36,6 +36,8 @@ client.on('message', message => {
             if(updateuser.name!=message.author.username)updateuser.name = message.author.username;
             if(updateuser.server!=message.guild.name)updateuser.server = message.guild.name;
             updateuser.expcooldown = Date.now()+Gamedata.sys_set_expcdnew;
+            if(updateuser.Profileimg!=message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
+            {updateuser.Profileimg=message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })}
             updateuser.save().catch(err => console.log(err));
         }
         }
@@ -207,8 +209,6 @@ client.on('message', message => {
             }
             User.Lastupdated = Date.now();
         }
-            if(User.Profileimg!=message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
-            {User.Profileimg=message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })}
             const commandname = newmsg.shift();const arg = newmsg.join(" ");var samp=User;
             if(User.name!=message.author.username)User.name = message.author.username;
             if(User.server!=message.guild.name)User.server = message.guild.name;
