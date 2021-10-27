@@ -274,7 +274,7 @@ client.on('message', message => {
                     client.commands.get('myturn').run(message, arg, User);
                     break;
                     case "roll":
-                    client.commands.get('roll').run(message, arg, User);
+                    client.commands.get('roll').run(message, arg, User, client);
                     break;
                     case "check":
                     client.commands.get('check').run(message, arg, User);

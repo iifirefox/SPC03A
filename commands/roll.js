@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const {createCanvas, loadImage} = require('canvas');
 const Gamedata = require('../data/hh3data.json');
 const Account = require("../data/tree");
-module.exports.run = async (message, arg, User) => {
+module.exports.run = async (message, arg, User, client) => {
     function RandomMax(max) {
         return Math.floor(Math.random() * Math.floor(max));
       };
@@ -778,7 +778,7 @@ module.exports.run = async (message, arg, User) => {
                             hh3funset1[8]=1;
                             User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
                         }
-                        if(User.floor>1||User.floor<0) message.edit(dice).then((message)=>{message.react('🎲');
+                        if(client.user.id!=message.author.id&User.floor>1||client.user.id!=message.author.id&User.floor<0) message.channel.send(dice).then((message)=>{message.react('🎲');
                         function sample(){
                         const filter = (reaction, user) => {
                          return ['🎲'].includes(reaction.emoji.name) && user.id === User.id;
@@ -794,6 +794,22 @@ module.exports.run = async (message, arg, User) => {
                  }
                      sample();
                  });
+                 else if(User.floor>1||User.floor<0) message.edit(dice).then((message)=>{message.react('🎲');
+                 function sample(){
+                 const filter = (reaction, user) => {
+                  return ['🎲'].includes(reaction.emoji.name) && user.id === User.id;
+              };
+                 message.awaitReactions(filter, { max: 1})
+              .then((collected) => {
+                  const reaction = collected.first();
+                  if (reaction.emoji.name === '🎲') {
+                     message.reactions.resolve('🎲').users.remove(User.id);
+                      roll(message);
+                  } 
+              })
+          }
+              sample();
+          });
                     if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
                     User.Metadata = mdata.join("<:>");
             }
