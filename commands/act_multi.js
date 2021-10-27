@@ -2233,7 +2233,8 @@ var mdefeated = false;
                  itemdropnamesII = arrayRemove(itemdropnamesII,itemdropnamesII[items]);
                  itemdropnumsII = arrayRemove(itemdropnumsII,itemdropnumsII[items]);
              };
-             if(temdatanumbers[9]>19&temdatanumbers[46]==1){
+             var checkmonster = Number(temdatanumbers[9].toString().charAt(0));
+             if(checkmonster>19&temdatanumbers[46]==1){
                 var getskill = [];
                 var theskill="";
                 for(var skillsetm=0;skillsetm<3;skillsetm++){

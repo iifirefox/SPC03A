@@ -1736,7 +1736,8 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnames = arrayRemove(itemdropnames,itemdropnames[items]);
                         itemdropnums = arrayRemove(itemdropnums,itemdropnums[items]);
                     }
-                    if(temdatanumbers[9]>19){
+                    var checkmonster = Number(temdatanumbers[9].toString().charAt(0));
+                    if(checkresult>19){
                     var getskill = [];
                     var theskill="";
                     for(var skillsetm=0;skillsetm<3;skillsetm++){
