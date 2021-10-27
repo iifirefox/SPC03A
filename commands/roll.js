@@ -38,7 +38,8 @@ module.exports.run = async (message, arg, User) => {
       var Imgset = User.Ary_Imgset.split("<:>");
     if (User.energy!=undefined||hh3funset1[0]==1)
     {
-       async function roll(){
+        // Messages are not sync with each other for the reaction, future me please sync them :) - past me
+       async function roll(message){
         if (User.CombatMode > 0)
         {
             warnembed.setColor("#FFFE00");
@@ -777,7 +778,7 @@ module.exports.run = async (message, arg, User) => {
                             hh3funset1[8]=1;
                             User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
                         }
-                        if(User.floor>1||User.floor<0) message.channel.send(dice).then((message)=>{message.react('🎲');
+                        if(!message&User.floor>1||!message&User.floor<0) message.channel.send(dice).then((message)=>{message.react('🎲')
                         function sample(){
                         const filter = (reaction, user) => {
                          return ['🎲'].includes(reaction.emoji.name) && user.id === User.id;
@@ -787,16 +788,34 @@ module.exports.run = async (message, arg, User) => {
                          const reaction = collected.first();
                          if (reaction.emoji.name === '🎲') {
                             message.reactions.resolve('🎲').users.remove(User.id);
-                             roll();
+                             roll(message);
                          } 
                      })
                  }
                      sample();
-                 });
-                       if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
-                       User.Metadata = mdata.join("<:>");
+                 });else if(message&User.floor>1||message&User.floor<0) message.edit(dice).then((message)=>{message.react('🎲')
+                 function sample(){
+                 const filter = (reaction, user) => {
+                  return ['🎲'].includes(reaction.emoji.name) && user.id === User.id;
+              };
+                 message.awaitReactions(filter, { max: 1})
+              .then((collected) => {
+                  const reaction = collected.first();
+                  if (reaction.emoji.name === '🎲') {
+                     message.reactions.resolve('🎲').users.remove(User.id);
+                      roll(message);
+                  } 
+              })
+          }
+              sample();
+          });
+                if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
+                User.Metadata = mdata.join("<:>");
             }
         }
+        Account.findOne({
+            id: User.id
+        },async(err,User)=>{User.save().catch(err => console.log(err));});
         roll();
         }
         else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: Your Turn hasn't started yet\nTo Start your turn, command: `-myturn`"))}}
