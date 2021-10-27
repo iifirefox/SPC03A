@@ -756,7 +756,7 @@ module.exports.run = async (message, arg, User, client) => {
                                 }
                                 }
                             }
-                            else if(User.floor>2&Math.random()<Gamedata.sys_spawn_ratedor[0]||User.floor<0&Math.random()<Gamedata.sys_spawn_ratedor[1]){
+                            else if(User.floor>2&Math.random()<0.99||User.floor<0&Math.random()<Gamedata.sys_spawn_ratedor[1]){
                                 hh3funset1[1] =1;
                                 dice.setColor("#32BEFE");
                                 dice.setTitle(":grey_exclamation: A door near you is emanating light\nDo you wish to open it?\n(you will need a "+Gamedata.sys_item_names[6]+")");
