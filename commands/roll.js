@@ -779,7 +779,6 @@ module.exports.run = async (message, arg, User, client) => {
                             User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");
                         }
                         if(client.user.id!=message.author.id&User.floor>1||client.user.id!=message.author.id&User.floor<0) message.channel.send(dice).then((message)=>{message.react('🎲');
-                        function sample(){
                         const filter = (reaction, user) => {
                          return ['🎲'].includes(reaction.emoji.name) && user.id === User.id;
                      };
@@ -791,11 +790,8 @@ module.exports.run = async (message, arg, User, client) => {
                              roll(message);
                          } 
                      })
-                 }
-                     sample();
                  });
                  else if(User.floor>1||User.floor<0) message.edit(dice).then((message)=>{message.react('🎲');
-                 function sample(){
                  const filter = (reaction, user) => {
                   return ['🎲'].includes(reaction.emoji.name) && user.id === User.id;
               };
@@ -804,18 +800,17 @@ module.exports.run = async (message, arg, User, client) => {
                   const reaction = collected.first();
                   if (reaction.emoji.name === '🎲') {
                      message.reactions.resolve('🎲').users.remove(User.id);
-                      roll(message);
+                     if(client.user.id==message.author.id){ Account.findOne({
+                        id: User.id
+                    },async(err,User)=>{
+                     roll(message);
+                     User.save().catch(err => console.log(err));});};
                   } 
               })
-          }
-              sample();
           });
                     if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
                     User.Metadata = mdata.join("<:>");
             }
-            if(client.user.id==message.author.id){ Account.findOne({
-                id: User.id
-            },async(err,User)=>{User.save().catch(err => console.log(err));});}
         }
         roll(message);
         }
