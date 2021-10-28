@@ -810,7 +810,7 @@ module.exports.run = async (message, arg, User, client) => {
                     if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
                     User.Metadata = mdata.join("<:>");
             }
-             User.save().catch(err => console.log(err));});
+            if(client.user.id==message.author.id) User.save().catch(err => console.log(err));});
         }
         roll(message);
         }
