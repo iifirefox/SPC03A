@@ -815,11 +815,11 @@ module.exports.run = async (message, arg, User, client) => {
             }
            if(client.user.id==message.author.id){ Account.findOne({
                 id: User.id
-            },async(err,User)=>{User.save().catch(err => console.log(err));});}
+            },async(err,User)=>{User.save().catch(err => console.log(err));});};
         }
-        Account.findOne({
+        if(client.user.id==message.author.id){Account.findOne({
             id: User.id
-        },async(err,User)=>{User.save().catch(err => console.log(err));});
+        },async(err,User)=>{User.save().catch(err => console.log(err));});};
         roll(message);
         }
         else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: Your Turn hasn't started yet\nTo Start your turn, command: `-myturn`"))}}
