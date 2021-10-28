@@ -40,6 +40,9 @@ module.exports.run = async (message, arg, User, client) => {
     {
         // Messages are not sync with each other for the reaction, future me please sync them :) - past me
        async function roll(message){
+        Account.findOne({
+            id: User.id
+        },async(err,User)=>{
         if (User.CombatMode > 0)
         {
             warnembed.setColor("#FFFE00");
@@ -800,17 +803,14 @@ module.exports.run = async (message, arg, User, client) => {
                   const reaction = collected.first();
                   if (reaction.emoji.name === '🎲') {
                      message.reactions.resolve('🎲').users.remove(User.id);
-                     if(client.user.id==message.author.id){ Account.findOne({
-                        id: User.id
-                    },async(err,User)=>{
-                     roll(message);
-                     User.save().catch(err => console.log(err));});};
+                      roll(message);
                   } 
               })
           });
                     if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
                     User.Metadata = mdata.join("<:>");
             }
+             User.save().catch(err => console.log(err));});
         }
         roll(message);
         }
