@@ -813,13 +813,10 @@ module.exports.run = async (message, arg, User, client) => {
                     if(hh3funset1[6]>0){hh3funset1[6]=0;hh3funset1[7]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");}
                     User.Metadata = mdata.join("<:>");
             }
-           if(client.user.id==message.author.id){ Account.findOne({
+            if(client.user.id==message.author.id){ Account.findOne({
                 id: User.id
-            },async(err,User)=>{User.save().catch(err => console.log(err));});};
+            },async(err,User)=>{User.save().catch(err => console.log(err));});}
         }
-        if(client.user.id==message.author.id){Account.findOne({
-            id: User.id
-        },async(err,User)=>{User.save().catch(err => console.log(err));});};
         roll(message);
         }
         else{message.channel.send(embed.setColor("#F8FF00").setDescription(":x: Your Turn hasn't started yet\nTo Start your turn, command: `-myturn`"))}}
