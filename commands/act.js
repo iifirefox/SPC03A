@@ -1386,9 +1386,8 @@ return arr.filter(function(ele){return ele != value;});
                     if(mdefeated==true) defeatxt=defeatxt+"\n"+temdatanames[0]+" has been defeated", Imgset[1];
                     else {defeatxt=temdatanames[0]+" has been defeated", Imgset[1];mdefeated=true;}
                     var kepname = temdatanames[0];
-                    var rawdrop = ""+temdatanumbers[9];
-                    var monstertype =Number(rawdrop.charAt(0));
-                    var droptier =Number (rawdrop.substring(1));
+                    var monstertype =Number(temdatanumbers[9].toString().charAt(0));
+                    var droptier =Number (temdatanumbers[9].toString().substring(1));
                     Imgset[1]="";
                     User.Ary_Imgset = Imgset.join("<:>");
                     if(hh3funset1[16]>0){hh3funset1[16]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");};
@@ -1458,15 +1457,15 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier9rate;
                     }
-                    if(monstertype==1&droptier==11){
+                    if(monstertype==1&droptier==10){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier11;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier11rate;
                     }
-                    if(monstertype==1&droptier==12){
+                    if(monstertype==1&droptier==11){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier12;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier12rate;
                     }
-                    if(monstertype==1&droptier==13){
+                    if(monstertype==1&droptier==12){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier13;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier13rate;
                     }
@@ -1506,15 +1505,15 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier9;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier9rate;
                     }
-                    if(monstertype==3&droptier==11){
+                    if(monstertype==3&droptier==10){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier11;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier11rate;
                     }
-                    if(monstertype==3&droptier==12){
+                    if(monstertype==3&droptier==11){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier12;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier12rate;
                     }
-                    if(monstertype==3&droptier==13){
+                    if(monstertype==3&droptier==12){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier13;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier13rate;
                     }
