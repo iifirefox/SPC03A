@@ -31,13 +31,9 @@ module.exports.run = async (message, arg,User) => {
         stepamount=65;
         halfloor = 33;
     }
-    else if(User.floor<0){
-        stepamount=100;
-        halfloor = 50;
-    }
     else if(User.floor<0&User.floor>-4){
-        stepamount = 260;
-        halfloor=130;
+        stepamount = 230;
+        halfloor=115;
         }
       else {
           stepamount = 60;

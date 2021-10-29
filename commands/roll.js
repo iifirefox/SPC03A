@@ -146,8 +146,8 @@ module.exports.run = async (message, arg, User, client) => {
                     halfloor=70;
                     }
                     else if(User.floor<0&User.floor>-4){
-                        stepamount = 260;
-                        halfloor=130;
+                        stepamount = 230;
+                        halfloor=115;
                         }
                 else {
                     stepamount = 60;
