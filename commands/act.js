@@ -517,7 +517,7 @@ return arr.filter(function(ele){return ele != value;});
                         if(monstercheatype==9&&herospkey<foespdkey&Math.random()<0.20){ effects="[Warning] Your Attack has fallen into the void\n";newatk=0;}
                         if(monstercheatype==11&&heroatkcrit[atkdex]==1){newatk=0;heroatkcrit[atkdex]=0;}
                         newatk= Math.round(newatk);
-                        if(alla==true) newatk= Math.round(newatk/2);
+                        //if(alla==true) newatk= Math.round(newatk/2);
                         attack+=newatk;
                         if(attack<0)attack=0;
                         if(heroatkcrit[atkdex]==2){
@@ -1400,16 +1400,16 @@ return arr.filter(function(ele){return ele != value;});
                     var balance = 0;
                     var expdrop = 0;
                     if(monstertype==1){
-                     balance = droptier*6;
-                     expdrop = droptier*15;
+                     balance = droptier*3;
+                     expdrop = droptier*8;
                     }
                     else if(monstertype==2){
-                     balance = droptier*10;
-                     expdrop = droptier*26;
+                     balance = droptier*11;
+                     expdrop = droptier*32;
                     }
                     else if(monstertype==3){
-                     balance = droptier*15;
-                     expdrop = droptier*35;
+                     balance = droptier*9;
+                     expdrop = droptier*25;
                     }
                     var minbalance = 0.30*balance;
                     var minexpdrop = 0.50*expdrop;
@@ -1522,10 +1522,8 @@ return arr.filter(function(ele){return ele != value;});
                             if(Math.random()<itemdropnums[items]){
                                 if(itemdropnames[items].includes("x")){
                                     var splititem = itemdropnames[items].split("x");
-                                    splititem[0].trimEnd();
-                                    splititem[1].trimStart();
-                                    itemdropnames[items]=splititem[0];
-                                   var amount=Number(splititem[1]);
+                                    itemdropnames[items]=splititem[0].trimEnd();
+                                   var amount=Number(splititem[1].trimStart());
                                 }
                                 if(Gamedata.sys_material_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
                                     var getname = Gamedata.sys_material_names.find(a=>IgnoringCase(a,itemdropnames[items]));
@@ -1736,7 +1734,7 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnums = arrayRemove(itemdropnums,itemdropnums[items]);
                     }
                     var checkmonster = Number(temdatanumbers[9].toString().charAt(0));
-                    if(checkresult>19){
+                    if(checkmonster>19){
                     var getskill = [];
                     var theskill="";
                     for(var skillsetm=0;skillsetm<3;skillsetm++){

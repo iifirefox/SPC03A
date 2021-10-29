@@ -1624,17 +1624,17 @@ var mdefeated = false;
              var balance = 0;
              var expdrop = 0;
              if(monstertype==1){
-              balance = droptier*6;
-              expdrop = droptier*15;
-             }
-             else if(monstertype==2){
-              balance = droptier*10;
-              expdrop = droptier*26;
-             }
-             else if(monstertype==3){
-              balance = droptier*15;
-              expdrop = droptier*35;
-             }
+                balance = droptier*3;
+                expdrop = droptier*8;
+               }
+               else if(monstertype==2){
+                balance = droptier*11;
+                expdrop = droptier*32;
+               }
+               else if(monstertype==3){
+                balance = droptier*9;
+                expdrop = droptier*25;
+               }
              var minbalance = 0.30*balance;
              var minexpdrop = 0.50*expdrop;
              minbalance = Math.round(minbalance);

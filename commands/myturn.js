@@ -250,10 +250,8 @@ if(User.energy!=undefined&User.turn==false&!arg.includes("<@")&!arg.includes("ac
                        var itemamount=0;
                        if(getitem.includes("x")){
                            var splititem = getitem.split("x");
-                           splititem[0].trimEnd();
-                           splititem[1].trimStart();
-                           getitem=splititem[0];
-                           itemamount=Number(splititem[1]);
+                           getitem=splititem[0].trimEnd();
+                           itemamount=Number(splititem[1].trimStart());
                        }
                     if(Gamedata.sys_material_names.some(a=>IgnoringCase(a,getitem))){
                         var getname = Gamedata.sys_material_names.find(a=>IgnoringCase(a,getitem));
