@@ -96,6 +96,7 @@
     "sys_skill_path3":"../../commands/act_pvp",
     "sys_register_path":"./data/register",
     "sys_crystal_getype": ["HP","Def","Atk","Def%","Atk%","Skill Energy","Speed","Regeneration","AddAtk","AddDef","Speed"],
+    "sys_gem_getype": ["HP","Def","Atk","Speed","Regeneration","AddAtk","AddDef","Speed"],
     "sys_crystal_red":"https://i.ibb.co/rHQV9Dz/redcrystal.png",
     "sys_crystal_blue":"https://i.ibb.co/GC6Ymgd/bluecrystal.png",
     "sys_crystal_orange":"https://i.ibb.co/b3sPtpK/orangecrystal.png",
