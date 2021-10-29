@@ -207,10 +207,10 @@ module.exports.run = async (message, arg, User) => {
             temdatanumbers[31]=0;
             temdatanumbers[32]=0;
             temdatanumbers[33]=0;
-           temdatanumbers[1]=Math.round(temdatanumbers[1]+(User.level*2)+(level*(temdatanumbers[1]*0.78)))
+           temdatanumbers[1]=Math.round(temdatanumbers[1]+(User.level*2)+(level*(temdatanumbers[1]*0.64)))
            temdatanumbers[0]=temdatanumbers[1];
-           temdatanumbers[3]= temdatanumbers[3]+(User.level*0.16);
-           temdatanumbers[5] = temdatanumbers[5]+(User.level*0.03);
+           temdatanumbers[3]= temdatanumbers[3]+(User.level*0.008);
+           temdatanumbers[5] = temdatanumbers[5]+(User.level*0.005);
             mdata[2]++;
             Imgset[1] = Gamedata.sys_monsterpic_special[monsterdex];
             User.Metadata= mdata.join("<:>");

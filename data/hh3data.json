@@ -2,7 +2,7 @@
     "sys_item_names":["HP Potion", "Fairy Potion", "Critical Potion", "Defense Potion", "Speed Potion","Pure Potion", "Mystery Key", "Skeleton Key", "Master Key","Energy Potion","Restore Potion"],
     "sys_material_names":["Wood", "String", "Steel", "Iron", "Fairy Essence", "Crystal Shard", "Energy Essence", "Energy Crystal", "Empowered Crystal", "Unknown" ],
     "sys_crystal_names":["Health Crystal", "Steel Crystal", "Sharp Crystal", "Alive Crystal", "Stone Crystal", "Spiked Crystal", "Eternal Crystal", "Unbreakable Crystal", "Empowerment Crystal" ],
-    "sys_gem_names":["HP Gem", "Denfese Gem", "Damage Gem", "Combat Gem", "Speed Gem", "Healing Gem", "Master Gem" ],
+    "sys_gem_names":["HP Gem", "Defense Gem", "Damage Gem", "Combat Gem", "Speed Gem", "Healing Gem", "Master Gem" ],
     "sys_sword_names":["Stick", "Copper Sword", "Standard Sword", "Battle Sword", "Champion Sword", "Master Sword", "Crystal Sword", "Judgement Sword" ],
     "sys_wand_names":[ "Wooden Wand", "Standard Wand", "Battle Wand", "Champion Wand", "Master Wand", "Crystal Wand", "Judgement Wand"],
     "sys_bow_names":[ "Basic Bow", "Standard Bow", "Battle Bow", "Champion Bow", "Master Bow", "Crystal Bow", "Judgement Bow" ],
