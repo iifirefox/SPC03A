@@ -6,6 +6,7 @@ module.exports.run = async (message, arg, User) => {
         return Math.floor(Math.random() * Math.floor(max));
       };
     const spembed = new Discord.MessageEmbed();
+    spembed.setColor("#5e72fc");
     if(User.energy!=undefined&User.CombatMode==0&User.multi!=true){
         var temdatanames = User.TemdataNames.split("<:>");
         var Imgset = User.Ary_Imgset.split("<:>");
@@ -106,7 +107,7 @@ module.exports.run = async (message, arg, User) => {
         ctx.closePath;
         ctx.clip();
         const attachment = new Discord.MessageAttachment(canvas.toBuffer(),"png.png");
-        message.channel.send(spembed.attachFiles(attachment).
+        message.channel.send(spembed.attachFiles(attachment).setColor("#FF0000").
         setImage("attachment://png.png").
         addField("To fight, command:"," -act with `attack`, `defend`,`potion`,`flee`\n or to check status command: `-check`"));
     }
