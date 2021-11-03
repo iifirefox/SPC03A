@@ -471,7 +471,7 @@ return arr.filter(function(ele){return ele != value;});
             if(temdatanames[0].includes("no.")){
                 herotxt = User.name+" has fled from"+temdatanames[0];
             }
-            if(runkey>runkey2){
+           else if(runkey>runkey2){
                 var chance = RandomMinMax(6,20);
                 herotxt = User.name+" has fled from"+temdatanames[0]+"\n-**"+chance+"** steps";
             }
