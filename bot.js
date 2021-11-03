@@ -156,7 +156,7 @@ client.on('message', message => {
             }
             if((User.turn==true||User.CombatMode>0)&&Date.now()> User.Lastupdated+Gamedata.sys_set_turnendcd){
                 User.turn = false;
-                if(User.CombatMode=1){
+                if(User.CombatMode=1&!User.TemdataNames.includes("no.")){
                    var newfix = User.floor-1;
                    var oldfix = User.floor-2;
                    if(User.floor<0){newfix= User.floor*-1;oldfix =newfix-1}
