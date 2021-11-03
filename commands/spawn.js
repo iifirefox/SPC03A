@@ -7,6 +7,7 @@ module.exports.run = async (message, arg, User) => {
     const spembed = new Discord.MessageEmbed();
     if(User.energy!=undefined&User.CombatMode==0&User.multi!=true){
         var temdatanames = User.TemdataNames.split("<:>");
+        var Imgset = User.Ary_Imgset.split("<:>");
       var rawtemdatanumbers= User.TemdataNumbers.split("<:>");
       var temdatanumbers = [];
       for(var index=0; index<rawtemdatanumbers.length;index++){
