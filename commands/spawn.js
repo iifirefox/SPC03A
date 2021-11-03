@@ -70,7 +70,7 @@ module.exports.run = async (message, arg, User) => {
         User.Ary_Imgset = Imgset.join("<:>");
         User.TemdataNames = temdatanames.join("<:>");
         User.TemdataNumbers = temdatanumbers.join("<:>");
-        monsterembed.setTitle(":interrobang: You have encountered a "+temdatanames[0]);
+        spembed.setTitle(":interrobang: You have encountered a "+temdatanames[0]);
         const canvas = createCanvas(256,296);
         const ctx = canvas.getContext("2d");
         const background = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
