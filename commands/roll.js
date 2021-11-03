@@ -38,7 +38,6 @@ module.exports.run = async (message, arg, User, client) => {
       var Imgset = User.Ary_Imgset.split("<:>");
     if (User.energy!=undefined||hh3funset1[0]==1)
     {
-        // Messages are not sync with each other for the reaction, future me please sync them :) - past me
        async function roll(message){
         Account.findOne({
             id: User.id

@@ -242,6 +242,10 @@ if(User.energy!=undefined&User.turn==false&!arg.includes("<@")&!arg.includes("ac
             getchestrate = Gamedata.sys_chest_mysticrate;
            }
            if(getchest){
+            return(
+                Account.findOne({
+                    id: User.id
+                },async(err,User)=>{
                var getitem;
                while(!getitem){
                    var randomitem = RandomMax(getchest.length);
@@ -427,10 +431,6 @@ if(User.energy!=undefined&User.turn==false&!arg.includes("<@")&!arg.includes("ac
                    }
                }
                message.edit(newemmbed.setImage(""));
-               return(
-                Account.findOne({
-                    id: User.id
-                },async(err,User)=>{
                   if(err)console.log(err);
                   User.hh3dailycooldown = Date.now()+86400000;
                 User.save().catch(err => console.log(err));}))
