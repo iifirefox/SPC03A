@@ -97,6 +97,7 @@ module.exports.run = async (message, arg, User, client) => {
                     if(User.step>900){profiledata[15]==0;User.Ary_HH3ProfileData= profiledata.join("<:>");}
                     User.step += resulted;
                     mdata[13]+=resulted;
+                    mdata[13]=Number(mdata[13]);
                     var rolled =2.8;
                     if(profilenames[5]==Gamedata.sys_chest_mysterychest[2])rolled=2;
                     else if(profilenames[5]==Gamedata.sys_chest_mysterychest[7])rolled=5;
@@ -110,7 +111,7 @@ module.exports.run = async (message, arg, User, client) => {
                     [
                         1,2,3,4,5,6
                     ];var resultedevent = numbers[RandomMax(numbers.length)];
-                    User.step +=resultedevent;mdata[1]++;mdata[13]+=resultedevent;description+="\n and "+resultedevent
+                    User.step +=resultedevent;mdata[1]++;mdata[13]+=resultedevent;mdata[13]=Number(mdata[13]);description+="\n and "+resultedevent
                     }
                     dice.setDescription(description);
                     if (hh3funset1[2] == 1 && hh3funset1[3]>0)
