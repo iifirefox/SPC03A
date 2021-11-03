@@ -17,7 +17,7 @@ module.exports.run = async (message, arg, User) => {
         var items = itembagnames.filter(a=>a);
     for(var index = 0; index<6; index++){
         var x = itembagnames.indexOf(items[index]);
-        itemsembed.addField(items[index],itembagdata[x]);
+       if(items[index]) itemsembed.addField(items[index],itembagdata[x]);
     }
 }
     else{
@@ -44,7 +44,7 @@ module.exports.run = async (message, arg, User) => {
             for(index; index< newdex||index<items.length; index++){
                 if(items[index]){
                 var x = itembagnames.indexOf(items[index]);
-                itemsembed.addField(items[index],itembagdata[x]);}
+               if(items[index]) itemsembed.addField(items[index],itembagdata[x]);}
             }
              message.edit(itemsembed).then(message=>{message.reactions.resolve('➡️').users.remove(User.id);});
              sample();
@@ -55,7 +55,7 @@ module.exports.run = async (message, arg, User) => {
              itemsembed.spliceFields(0,9);
              for(index; index< newdex; index++){
                 var x = itembagnames.indexOf(items[index]);
-                itemsembed.addField(items[index],itembagdata[x]);
+               if(items[index]) itemsembed.addField(items[index],itembagdata[x]);
              }
              message.edit(itemsembed).then(message=>{message.reactions.resolve('⬅️').users.remove(User.id);});
              sample();
@@ -66,7 +66,7 @@ module.exports.run = async (message, arg, User) => {
             index = items.length-6;
             for(index; index< newdex; index++){
                 var x = itembagnames.indexOf(items[index]);
-                itemsembed.addField(items[index],itembagdata[x]);
+               if(items[index]) itemsembed.addField(items[index],itembagdata[x]);
             }
              message.edit(itemsembed).then(message=>{message.reactions.resolve('⏩').users.remove(User.id);});
              sample();
@@ -76,7 +76,7 @@ module.exports.run = async (message, arg, User) => {
             index = 0;
             for(index; index<6; index++){
                 var x = itembagnames.indexOf(items[index]);
-                itemsembed.addField(items[index],itembagdata[x]);
+               if(items[index]) itemsembed.addField(items[index],itembagdata[x]);
             }
              message.edit(itemsembed).then(message=>{message.reactions.resolve('⏪').users.remove(User.id);});
              sample();
