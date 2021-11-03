@@ -390,7 +390,7 @@ return arr.filter(function(ele){return ele != value;});
             if(arg.includes("hp")||arg=="potion"){
                 if(itembagdata[0]>0){
                 potioneffect = Gamedata.sys_potion_effect[0];
-                itembagdata[0]--;
+               if(!temdatanames[0].includes("no.")) itembagdata[0]--;
                 var oldhp = User.HP;
                 var newhp = User.HP+potioneffect;
                 var amount = newhp-oldhp;
@@ -402,7 +402,7 @@ return arr.filter(function(ele){return ele != value;});
            else if(arg.includes("fairy")){
                 if(itembagdata[1]>0){
                 potioneffect = Gamedata.sys_potion_effect[1];
-                itembagdata[1]--;
+                if(!temdatanames[0].includes("no.")) itembagdata[1]--;
                 var oldhp = User.HP;
                 var newhp = User.HP+potioneffect;
                 var amount = newhp-oldhp;
@@ -414,7 +414,7 @@ return arr.filter(function(ele){return ele != value;});
             else if(arg.includes("critical")){
                 if(itembagdata[2]>0){
                 potionkey=18;
-                itembagdata[2]--;
+                if(!temdatanames[0].includes("no.")) itembagdata[2]--;
                 herotxt = User.name+" consumed 1 "+Gamedata.sys_item_names[2]+"\n:clock1: +3 rounds";
                 }
                 else{
@@ -424,7 +424,7 @@ return arr.filter(function(ele){return ele != value;});
         else if(arg.includes("defense")){
             if(itembagdata[3]>0){
                potionkey=19;
-               itembagdata[3]--;
+               if(!temdatanames[0].includes("no.")) itembagdata[3]--;
                herotxt = User.name+" consumed 1 "+Gamedata.sys_item_names[3]+"\n:clock1: +3 rounds";
                }
                else{
@@ -434,7 +434,7 @@ return arr.filter(function(ele){return ele != value;});
        else if(arg.includes("speed")){
            if(itembagdata[4]>0){
                potionkey=20;
-               itembagdata[4]--;
+               if(!temdatanames[0].includes("no.")) itembagdata[4]--;
                herotxt = User.name+" consumed 1 "+Gamedata.sys_item_names[4]+"\n:clock1: +3 rounds";
                }
                else{
@@ -443,7 +443,7 @@ return arr.filter(function(ele){return ele != value;});
        }
        else if(arg.includes("pure")){
            if(itembagdata[5]>0){
-               itembagdata[5]--;
+            if(!temdatanames[0].includes("no.")) itembagdata[5]--;
                potioneffect=1;
                herotxt = User.name+" consumed 1 "+Gamedata.sys_item_names[5]+"\nYour status return to normal";
                }
@@ -757,6 +757,7 @@ return arr.filter(function(ele){return ele != value;});
                         }
                     }
                     else if(arg.includes("flee")&herotxt.includes("fled")){
+                        if(!temdatanames[0].includes("no.")){
                         var fixed = 125*User.floor;
                             fixed = fixed-124;
                             User.step-=chance;
@@ -768,7 +769,7 @@ return arr.filter(function(ele){return ele != value;});
                             }
                             else if(User.floor==3&User.step<60){
                                 User.floor--;
-                            }
+                            }}
                             Imgset[1] = "";
                         User.Ary_Imgset = Imgset.join("<:>");
                         if(hh3funset1[16]>0){hh3funset1[16]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");};
@@ -1018,6 +1019,7 @@ return arr.filter(function(ele){return ele != value;});
                             }
                         }
                         else if(arg.includes("flee")&herotxt.includes("fled")){
+                            if(!temdatanames[0].includes("no.")){
                             var fixed = 125*User.floor;
                                 fixed = fixed-124;
                                 User.step-=chance;
@@ -1029,7 +1031,7 @@ return arr.filter(function(ele){return ele != value;});
                                 }
                                 else if(User.floor==3&User.step<60){
                                     User.floor--;
-                                }
+                                }}
                                 Imgset[1] = "";
                             User.Ary_Imgset = Imgset.join("<:>");
                             if(hh3funset1[16]>0){hh3funset1[16]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");};
@@ -1383,11 +1385,15 @@ return arr.filter(function(ele){return ele != value;});
                     }
                 }
                 else if(temdatanumbers[0]<=0&User.CombatMode==1){
-                    if(mdefeated==true) defeatxt=defeatxt+"\n"+temdatanames[0]+" has been defeated", Imgset[1];
-                    else {defeatxt=temdatanames[0]+" has been defeated", Imgset[1];mdefeated=true;}
+                    //if(mdefeated==true) defeatxt=defeatxt+"\n"+temdatanames[0]+" has been defeated", Imgset[1];
+                    //else {defeatxt=temdatanames[0]+" has been defeated", Imgset[1];mdefeated=true;}
                     var kepname = temdatanames[0];
                     var monstertype =Number(temdatanumbers[9].toString().charAt(0));
                     var droptier =Number (temdatanumbers[9].toString().substring(1));
+                    if(temdatanames[0].includes("no.")){
+                        User.Skillenergy = Number(temdatanames[9]);
+                        User.HP = Number(temdatanames[10]);
+                     }
                     Imgset[1]="";
                     User.Ary_Imgset = Imgset.join("<:>");
                     if(hh3funset1[16]>0){hh3funset1[16]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");};
@@ -1425,95 +1431,95 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier1;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier1rate;
                     }
-                    if(monstertype==1&droptier==2){
+                   else if(monstertype==1&droptier==2){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier2;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier2rate;
                     }
-                    if(monstertype==1&droptier==3){
+                   else if(monstertype==1&droptier==3){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier3;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier3rate;
                     }
-                    if(monstertype==1&droptier==4){
+                   else if(monstertype==1&droptier==4){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier4;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier4rate;
                     }
-                    if(monstertype==1&droptier==5){
+                   else if(monstertype==1&droptier==5){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier5;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier5rate;
                     }
-                    if(monstertype==1&droptier==6){
+                   else if(monstertype==1&droptier==6){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier6;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier6rate;
                     }
-                    if(monstertype==1&droptier==7){
+                   else if(monstertype==1&droptier==7){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier7;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier7rate;
                     }
-                    if(monstertype==1&droptier==8){
+                   else if(monstertype==1&droptier==8){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier8;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier8rate;
                     }
-                    if(monstertype==1&droptier==9){
+                   else if(monstertype==1&droptier==9){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier9;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier9rate;
                     }
-                    if(monstertype==1&droptier==10){
+                   else if(monstertype==1&droptier==10){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier11;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier11rate;
                     }
-                    if(monstertype==1&droptier==11){
+                   else if(monstertype==1&droptier==11){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier12;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier12rate;
                     }
-                    if(monstertype==1&droptier==12){
+                   else if(monstertype==1&droptier==12){
                         itemdropnames = Gamedata.sys_monsternormaldrop_tier13;
                         itemdropnums = Gamedata.sys_monsternormaldrop_tier13rate;
                     }
-                    if(monstertype==3&droptier==1){
+                   else if(monstertype==3&droptier==1){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier1;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier1rate;
                     }
-                    if(monstertype==3&droptier==2){
+                   else if(monstertype==3&droptier==2){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier2;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier2rate;
                     }
-                    if(monstertype==3&droptier==3){
+                   else if(monstertype==3&droptier==3){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier3;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier3rate;
                     }
-                    if(monstertype==3&droptier==4){
+                   else if(monstertype==3&droptier==4){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier4;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier4rate;
                     }
-                    if(monstertype==3&droptier==5){
+                   else if(monstertype==3&droptier==5){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier5;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier5rate;
                     }
-                    if(monstertype==3&droptier==6){
+                   else if(monstertype==3&droptier==6){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier6;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier6rate;
                     }
-                    if(monstertype==3&droptier==7){
+                   else if(monstertype==3&droptier==7){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier7;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier7rate;
                     }
-                    if(monstertype==3&droptier==8){
+                   else if(monstertype==3&droptier==8){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier8;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier8rate;
                     }
-                    if(monstertype==3&droptier==9){
+                   else if(monstertype==3&droptier==9){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier9;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier9rate;
                     }
-                    if(monstertype==3&droptier==10){
+                   else if(monstertype==3&droptier==10){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier11;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier11rate;
                     }
-                    if(monstertype==3&droptier==11){
+                   else if(monstertype==3&droptier==11){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier12;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier12rate;
                     }
-                    if(monstertype==3&droptier==12){
+                   else if(monstertype==3&droptier==12){
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier13;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier13rate;
                     }

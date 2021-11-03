@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
+const {createCanvas, loadImage} = require('canvas');
 module.exports.run = async (message, arg, User) => {
     function RandomMax(max) {
         return Math.floor(Math.random() * Math.floor(max));
@@ -32,6 +33,8 @@ module.exports.run = async (message, arg, User) => {
        var effectkey = 10+foedatatable;
         User.CombatMode=1;
         temdatanames[0] = "Monster no."+RandomMax(9)+RandomMax(9)+RandomMax(9)+RandomMax(9)+RandomMax(9);
+        temdatanames[9] = User.skillenergy;
+        temdatanames[10] = User.HP;
         temdatanumbers[0] = monsterstat[maxhp];
         temdatanumbers[1] = monsterstat[maxhp];
         temdatanumbers[2] = monsterstat[atk];
