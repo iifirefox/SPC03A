@@ -356,6 +356,9 @@ client.on('message', message => {
                     case "spawn":
                     client.commands.get('spawn').run(message, arg, User);
                     break;
+                    case "despawn":
+                    client.commands.get('despawn').run(message, arg, User);
+                    break;
                     
             }
             var oldlv = User.level-1;
