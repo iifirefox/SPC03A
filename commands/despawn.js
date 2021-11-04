@@ -2,12 +2,12 @@ const Discord = require('discord.js');
 module.exports.run = async (message, arg, User) => {
 
     const dembed = new Discord.MessageEmbed();
+    dembed.setColor("#fdffff");
     if(User.TemdataNames.includes("no.")){
     var Imgset = User.Ary_Imgset.split("<:>");
     var img =Imgset[1];
     Imgset[1]="";
     User.Ary_Imgset = Imgset.join("<:>");
-    if(hh3funset1[16]>0){hh3funset1[16]=0;User.Ary_HH3FunctionSet1=hh3funset1.join("<:>");};
     User.TemdataNames = "";
     User.TemdataNumbers = "";
     User.CombatMode=0;
