@@ -1431,8 +1431,8 @@ return arr.filter(function(ele){return ele != value;});
                     minexpdrop = Math.round(minexpdrop);
                     currency = RandomMinMax(minbalance,balance);
                     exp = RandomMinMax(minexpdrop,expdrop);
-                    User.exp += exp;
-                    User.currency += currency;
+                    if(!temdatanames[0].includes("no.")) User.exp += exp;
+                    if(!temdatanames[0].includes("no.")) User.currency += currency;
                     monsterdefeatembed.setTitle(":gift: Reward");
                    monsterdefeatembed.setDescription("EXP: "+exp+"\nCurrency: "+currency);
                     if(monstertype==1&droptier==1){

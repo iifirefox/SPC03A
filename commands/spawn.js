@@ -18,7 +18,7 @@ module.exports.run = async (message, arg, User) => {
         var monsterpic=[];
         var monsterstat=[];
         var index =0;
-        if(arg.includes("1")) index=1;
+        if(arg.includes("test")) index=1;
             monsterpic =Gamedata.sys_monsterpic_normal;
             monsterstat=Gamedata.sys_monster_stateA;
             var foedatatable = 11*index;
