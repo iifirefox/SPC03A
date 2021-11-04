@@ -663,7 +663,7 @@ return arr.filter(function(ele){return ele != value;});
                             if(User.Skillenergy<0)User.Skillenergy=0;
                             temdatanumbers[0]-= attack;
                             //if(alla==true&temdatanumbers[33]!=0)temdatanumbers[32]-= attack;
-                            if(mdata[6]<attack){
+                            if(mdata[6]<attack&!temdatanames[0].includes("no.")){
                                 mdata[6]=attack;
                                 User.Metadata = mdata.join("<:>");
                             }
@@ -861,7 +861,7 @@ return arr.filter(function(ele){return ele != value;});
                             }
                             temdatanumbers[23]++;
                             if(temdatanumbers[23]>5)temdatanumbers[23]=5;
-                            if(mdata[7]<foeattack){
+                            if(mdata[7]<foeattack&!temdatanames[0].includes("no.")){
                                 mdata[7]=foeattack;
                                 User.Metadata = mdata.join("<:>");
                             }
@@ -909,7 +909,7 @@ return arr.filter(function(ele){return ele != value;});
                             }
                             temdatanumbers[23]++;
                             if(temdatanumbers[23]>5)temdatanumbers[23]=5;
-                            if(mdata[7]<foeattack){
+                            if(mdata[7]<foeattack&!temdatanames[0].includes("no.")){
                                 mdata[7]=foeattack;
                                 User.Metadata = mdata.join("<:>");
                             }
@@ -925,7 +925,7 @@ return arr.filter(function(ele){return ele != value;});
                                 temdatanumbers[0]-= attack;
                                 //if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
                                 if(alla==true)temdatanumbers[32]-= attack;
-                                if(mdata[6]<attack){
+                                if(mdata[6]<attack&!temdatanames[0].includes("no.")){
                                     mdata[6]=attack;
                                     User.Metadata = mdata.join("<:>");
                                 }
@@ -1245,7 +1245,7 @@ return arr.filter(function(ele){return ele != value;});
                 if(foeffect!=undefined){
                     message.channel.send(monstereffectembed);
                 }
-                if(profilenames[1]!=""&profiledata[3]<4&profiledata[3]>0&!herotxt.includes("fled")&heroatkcrit.some(a=>a>0)||profilenames[2]!=""&profiledata[14]==0&!herotxt.includes("fled")&foeatkcrit>0){
+                if(!temdatanames[0].includes("no.")&(profilenames[1]!=""&profiledata[3]<4&profiledata[3]>0&!herotxt.includes("fled")&heroatkcrit.some(a=>a>0)||profilenames[2]!=""&profiledata[14]==0&!herotxt.includes("fled")&foeatkcrit>0)){
                     var wepdmg = profiledata[7];
                     var armdmg = profiledata[11];
                     if(profilenames[1]!=""&profiledata[3]<10&profiledata[6]>0){profiledata[6]-=wepdmg;}
@@ -1281,6 +1281,7 @@ return arr.filter(function(ele){return ele != value;});
                         User.CombatMode=0;
                         User.Ary_HH3ProfileData = profiledata.join("<:>");
                         User.HP = User.MaxHP;
+                        if(!temdatanames[0].includes("no.")){
                        var newfix = User.floor-1;
                        var stepamount = 0;
                        if(User.floor>3&User.floor<=9){
@@ -1292,6 +1293,10 @@ return arr.filter(function(ele){return ele != value;});
                        else if(User.floor==3){
                         stepamount=65;
                         }
+                        else if(User.floor<0&User.floor>-4){
+                            stepamount = 230;
+                            halfloor=115;
+                            }
                        else {
                         stepamount = 60;
                         }
@@ -1333,7 +1338,7 @@ return arr.filter(function(ele){return ele != value;});
                         else{
                         User.step-=floormax-50;
                         if(User.step<=0)User.step=10;
-                    }
+                    }}
                     if(profilenames[1]==Gamedata.sys_sword_names[0]){
                         profiledata[3] =1;
                         profiledata[6]=100;
@@ -1346,7 +1351,7 @@ return arr.filter(function(ele){return ele != value;});
                     });
                     }
                     var txt =User.name+" has fled to safety";
-                    mdata[4]++;
+                   if(!temdatanames[0].includes("no.")) mdata[4]++;
                     User.Metadata = mdata.join("<:>");
                     herodefeatembed.setAuthor(User.name+" has been defeated by "+temdatanames[0],message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
                     if(User.Fightagain>0){
@@ -1403,7 +1408,7 @@ return arr.filter(function(ele){return ele != value;});
                     User.TemdataNames = "";
                     User.TemdataNumbers = "";
                     User.CombatMode=0;
-                    mdata[3]++;
+                   if(!temdatanames[0].includes("no.")) mdata[3]++;
                     //if(temdatanumbers[33]!=0)mdata[3]++;
                     User.Metadata = mdata.join("<:>");
                     var balance = 0;

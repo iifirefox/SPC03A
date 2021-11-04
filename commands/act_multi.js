@@ -1479,6 +1479,10 @@ var mdefeated = false;
            else if(User.floor==3){
             stepamount=65;
             }
+            else if(User.floor<0&User.floor>-4){
+                stepamount = 230;
+                halfloor=115;
+                }
            else {
             stepamount = 60;
             }
