@@ -318,6 +318,15 @@ module.exports.run = async (message, arg, commandname ,User,client) => {
             return 
         }
         const dispatcher = serverqueue.connection.play(ytdl(song.url/*,{filter: 'audioandvideo', quality: 'lowestvideo'},{quality:'lowestvideo',highWaterMark:1<<25,requestOptions:{headers:{cookie:"CgtNS05IeC1hdjRYNCiejr2LBg==",'x-youtube-identiy-token':"YSC=Ly3stE01E0M; VISITOR_INFO1_LIVE=MKNHx-av4X4; PREF=tz=Asia.Hong_Kong; GPS=1; CONSISTENCY=AGDxDeNY_TH3CfNsqHIMadxMksr7MpQOr7JmVI9IHC7A1SmAjeTeZQXfrnlV9bWZL2EWxLFzTuOUxOAz9DXX-UVlqvmQeQ1UVPsnTA7dQziYvZymgBPZb90nCuze_V6BPE501O6SKO83Lv3i1TVIysk"}}}*/))
+        .on("progress", (chunkLength, downloaded, total) => {
+            const percent = downloaded / total;
+            const downloaded_minutes = (Date.now() - starttime) / 1000 / 60;
+            const estimated_download_time = downloaded_minutes / percent - downloaded_minutes;
+            if (estimated_download_time.toFixed(2) >= 1.5) {
+              console.warn("Seems like YouTube is limiting our download speed, restarting the download to mitigate the problem..");
+              stream.destroy();
+              start();          
+            }})
             .on('finish', () => {
                 if(serverqueue.songs[0]){
                if(serverqueue.songs[0].loop==false)serverqueue.songs.shift();

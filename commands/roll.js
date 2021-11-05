@@ -159,6 +159,9 @@ module.exports.run = async (message, arg, User, client) => {
                    if(User.floor>2&User.step>floormax&User.floor<=9){
                        User.floor++;
                    }
+                   else if(User.floor<0&User.step>floormax&User.floor>-4){
+                    User.floor--;
+                }
                    else if(User.floor==0&hh3funset1[5]==2||User.floor==0&hh3funset1[5]==3){
                        User.floor++;
                    }
