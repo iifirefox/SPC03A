@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
+const { hh3funset1 } = require('./act');
 module.exports.run = async (message, arg, User) => {
     if(User.Ary_Imgset)var Imgset = User.Ary_Imgset.split("<:>");
     else return message.channel.send(floorembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
@@ -10,6 +11,10 @@ module.exports.run = async (message, arg, User) => {
     var rawdata = User.Metadata.split("<:>");var mdata = [];
     for(var index=0; index<rawdata.length;index++){
         mdata[index]= Number(rawdata[index])
+    }
+    var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
+    for(var index=0; index<rawprofiledata.length;index++){
+        profiledata[index]= Number(rawprofiledata[index]);
     }
     var num = Number(arg);
     const floorembed = new Discord.MessageEmbed();
@@ -35,12 +40,18 @@ module.exports.run = async (message, arg, User) => {
             User.floor=num;
             User.step=10;
             Imgset[0] = Gamedata.floor2;
+            hh3funset1[8]=0;
+            hh3funset1[9]=0;
+            User.Ary_HH3ProfileData = hh3funset1.join("<:>");
             User.Ary_Imgset = Imgset.join("<:>");
         }
         else if(num==3){
             User.floor==num;
             User.step=61;
             Imgset[0] = Gamedata.floor3;
+            hh3funset1[8]=0;
+            hh3funset1[9]=0;
+            User.Ary_HH3ProfileData = hh3funset1.join("<:>");
             User.Ary_Imgset = Imgset.join("<:>");
         }
         else if(num>3&num<10){
@@ -53,6 +64,9 @@ module.exports.run = async (message, arg, User) => {
             if(num==7) Imgset[0] = Gamedata.floor7;
             if(num==8) Imgset[0] = Gamedata.floor8;
             if(num==9) Imgset[0] = Gamedata.floor9;
+            hh3funset1[8]=0;
+            hh3funset1[9]=0;
+            User.Ary_HH3ProfileData = hh3funset1.join("<:>");
             User.Ary_Imgset = Imgset.join("<:>");
         }
         else if(num==10){
@@ -60,12 +74,18 @@ module.exports.run = async (message, arg, User) => {
             var setnum = num-2;
             User.step=140*setnum+1;
             Imgset[0] = Gamedata.floor10;
+            hh3funset1[8]=0;
+            hh3funset1[9]=0;
+            User.Ary_HH3ProfileData = hh3funset1.join("<:>");
             User.Ary_Imgset = Imgset.join("<:>");
         }
         else if(num==-1){
             User.floor=num;
             User.step=0;
             Imgset[0] = Gamedata.floorb1;
+            hh3funset1[8]=0;
+            hh3funset1[9]=0;
+            User.Ary_HH3ProfileData = hh3funset1.join("<:>");
             User.Ary_Imgset = Imgset.join("<:>");
         }
        else if(num<-1&num>-4&mdata[12]<num){
@@ -76,6 +96,10 @@ module.exports.run = async (message, arg, User) => {
             Imgset[0] = Gamedata.floorb1;
             if(num==-2) Imgset[0] = Gamedata.floorb2;
             if(num==-3) Imgset[0] = Gamedata.floorb5;
+            hh3funset1[8]=0;
+            hh3funset1[9]=0;
+            User.Ary_HH3ProfileData = hh3funset1.join("<:>");
+            User.Ary_Imgset = Imgset.join("<:>");
         }
         else{floorembed.setDescription(":x: You need to clear that floor first!");floor=false;}
        if(floor) floorembed.setDescription(":gear: You are now on floor "+User.floor);
