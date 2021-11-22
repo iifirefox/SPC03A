@@ -129,7 +129,7 @@ module.exports.run = async (message, arg, User, client) => {
                     }
                    var oldfloor = User.floor;
                    var newfix=0;
-                  if(User.floor<0)newfix= User.floor*-1;
+                  if(User.floor<0)newfix= (User.floor*-1)-1;
                  else newfix = User.floor-1;
                    var stepamount = 0;
                    var halfloor =0;
@@ -199,6 +199,7 @@ module.exports.run = async (message, arg, User, client) => {
                             User.Ary_Imgset = Imgset.join("<:>");
                         }
                         else{
+                            var floor = User.floor; if(floor==-1)floor="Basement"; else if(floor==-2)floor="Hidden Library"; else if(floor==-3)floor="Crystal Cave";
                         newsembed.setTitle("You are now on floor " + User.floor + "\n -check for info");
                         if (User.floor== 1)
                         {
