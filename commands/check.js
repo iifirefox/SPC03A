@@ -157,33 +157,34 @@ module.exports.run = async (message, arg,User) => {
             if(temdatanumbers[10]>0.0){
                 var monstercheatype = Number(temdatanumbers[10].toString().substring(2));
             }
+            var setfot="";
             if(monstercheatype==1)
-            {checkembed.setFooter("Boss Ability: Age of Ruin\nEvery time the boss lands a critical hit, there is a chance your speed will decrease.");}
+            {setfot="Boss Ability: Age of Ruin\nEvery time the boss lands a critical hit, there is a chance your speed will decrease.\n";}
             else if(monstercheatype==2)
-            {checkembed.setFooter("Boss Ability: "+temdatanames[0]+"'s roar\nEvery time you lands a critical hit, there is a chance you might be stuned and your accuracy decrease.");}
+            {setfot="Boss Ability: "+temdatanames[0]+"'s roar\nEvery time you lands a critical hit, there is a chance you might be stuned and your accuracy decrease.\n";}
             else if(monstercheatype==3)
-            {checkembed.setFooter("Boss Ability: Warrior's Fury\nWhen the boss have half it's hp, it's attack power increases while it's defense decreases.");}
+            {setfot="Boss Ability: Warrior's Fury\nWhen the boss have half it's hp, it's attack power increases while it's defense decreases.\n";}
             else if(monstercheatype==4)
-            {checkembed.setFooter("Boss Ability: Natural Immunity\nThis boss status cannot be changed.");}
+            {setfot="Boss Ability: Natural Immunity\nThis boss status cannot be changed.\n";}
             else if(monstercheatype==5)
-            {checkembed.setFooter("Boss Ability: Noble Blood\nThe more HP the boss loses the more critical chance.");}
+            {setfot="Boss Ability: Noble Blood\nThe more HP the boss loses the more critical chance.\n";}
             else if(monstercheatype==6)
-            {checkembed.setFooter("Boss Ability: Queen's Webs\nThe more HP the boss loses the more speed and accuracy you lose.");}
+            {setfot="Boss Ability: Queen's Webs\nThe more HP the boss loses the more speed and accuracy you lose.\n";}
             else if(monstercheatype==7)
-            {checkembed.setFooter("Boss Ability: Hypothermia\nYour speed and defense decreases heavily for this battle.");}
+            {setfot="Boss Ability: Hypothermia\nYour speed and defense decreases heavily for this battle.\n";}
             else if(monstercheatype==8)
-            {checkembed.setFooter(`Boss Ability: "Awaken"\nThis boss will use 100% of it's power`);}
+            {setfot=`Boss Ability: "Awaken"\nThis boss will use 100% of it's power\n`;}
             else if(monstercheatype==9)
-            {checkembed.setFooter("Boss Ability: Void\nWhenever the boss moves first,there is a chance your attack might fall through the void.");}
+            {setfot="Boss Ability: Void\nWhenever the boss moves first,there is a chance your attack might fall through the void.\n";}
             else if(monstercheatype==11)
-            {checkembed.setFooter("Boss Ability: Shadow\nThe boss can only be damaged by critical hits,\nand when you miss, The Boss's attack power increases(100% max).");}
+            {setfot="Boss Ability: Shadow\nThe boss can only be damaged by critical hits,\nand when you miss, The Boss's attack power increases(100% max).\n";}
             else if(monstercheatype==12)
-            {checkembed.setFooter("Boss Ability: Perdiction\nWhenever you use a potion while on low on HP,\nyour Skill Energy is drained to 0.\nusing potions with no skill energy will stun you.");}
+            {setfot="Boss Ability: Perdiction\nWhenever you use a potion while on low on HP,\nyour Skill Energy is drained to 0.\nusing potions with no skill energy will stun you.\n";}
             else if(monstercheatype==12)
-            {checkembed.setFooter("Boss Ability: Transformation\nThis boss will transform into Dragon, Angel or back to a crystal.\nCrystal:None\nDragon: Heavy Attack power\nAngel: Very Swift");}
+            {setfot="Boss Ability: Transformation\nThis boss will transform into Dragon, Angel or back to a crystal.\nCrystal:None\nDragon: Heavy Attack power\nAngel: Very Swift\n";}
             var summon = "";
             if(temdatanumbers[29]) summon="\n"+temdatanames[5]+":❤️ "+temdatanumbers[29];
-        if(User.CombatMode!=2)message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+User.MaxHP+" ⚡"+User.Skillenergy+"/"+User.Maxskillenergy+summon));
+        if(User.CombatMode!=2)message.channel.send(checkembed.setImage("attachment://png.png").setFooter(setfot+User.name+":❤️ "+User.HP+"/"+User.MaxHP+" ⚡"+User.Skillenergy+"/"+User.Maxskillenergy+summon));
         else{ Account.findOne({
             id: User.multid
         },async(err,UserII)=>{
@@ -194,7 +195,7 @@ module.exports.run = async (message, arg,User) => {
             temdatanumbersA[index]= Number(rawtemdatanumbersA[index])
           }
           if(temdatanumbersA[29]) summonA="\n"+temdatanamesA[5]+":❤️ "+temdatanumbersA[29];
-            message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+User.MaxHP+" ⚡"+User.Skillenergy+"/"+User.Maxskillenergy+"\n"+UserII.name+":❤️ "+UserII.HP+"/"+User.MaxHP+" ⚡"+UserII.Skillenergy+"/"+UserII.Maxskillenergy+summon+summonA));});};
+            message.channel.send(checkembed.setImage("attachment://png.png").setFooter(setfot+User.name+":❤️ "+User.HP+"/"+User.MaxHP+" ⚡"+User.Skillenergy+"/"+User.Maxskillenergy+"\n"+UserII.name+":❤️ "+UserII.HP+"/"+User.MaxHP+" ⚡"+UserII.Skillenergy+"/"+UserII.Maxskillenergy+summon+summonA));});};
     }
     else if(User.CombatMode==3){
         Account.findOne({
