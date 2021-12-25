@@ -94,61 +94,6 @@ client.on('message', message => {
                User= register.Account;
                var rpath = require.resolve(Gamedata.sys_register_path);delete require.cache[rpath];
             }
-            //if(User.server!="Hai"&User.id!="265733605077155851"||User.server=="L0Ii"&User.id!="265733605077155851") return;
-            var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
-            for(var index=0; index<rawprofiledata.length;index++){
-                profiledata[index]= Number(rawprofiledata[index])
-            }
-            if(User.accountver==undefined)User.accountver =Gamedata.accountupdate;
-            if(User.multi==undefined|| User.id==207279179241226244&profiledata[16]==0.01||User.name=="Lite of the Moon"&profiledata[16]==10){
-                User.multi=false;
-                var profilenames = User.Ary_HH3ProfileNames.split("<:>");
-                var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
-                for(var index=0; index<rawprofiledata.length;index++){
-                    profiledata[index]= Number(rawprofiledata[index])
-                }
-                profiledata[12]=0.20;
-                profiledata[16]=0;
-                profiledata[17]=0;
-                profiledata[18]=0;
-                profiledata[19]=0;
-                profiledata[20]=0;
-                User.Ary_HH3ProfileData = profiledata.join("<:>");
-                User.MaxHP=100;
-                User.HP=User.MaxHP;
-                User.Upgradepoint= User.level
-                if(!User.multid)User.multid="";
-                if(!User.multiname)User.multiname="";
-                if(User.energy){
-            var getindex;
-            if(profiledata[3]==1) getindex = Gamedata.sys_sword_names.indexOf(profilenames[1]);
-           else if(profiledata[3]==2) getindex = Gamedata.sys_wand_names.indexOf(profilenames[1]);
-           else if(profiledata[3]==3) getindex = Gamedata.sys_bow_names.indexOf(profilenames[1]);
-            if(getindex!=-1){
-                getindex = getindex*3;
-                if(profiledata[3]==1){
-                profiledata[4]= Gamedata.sys_sword_dataset[getindex];
-                profiledata[5]= Gamedata.sys_sword_dataset[getindex+1];
-                profiledata[7]= Gamedata.sys_sword_dataset[getindex+2];
-            }
-           else if(profiledata[3]==2){
-                profiledata[4]= Gamedata.sys_wand_dataset[getindex];
-                profiledata[5]= Gamedata.sys_wand_dataset[getindex+1];
-                profiledata[7]= Gamedata.sys_wand_dataset[getindex+2];
-            }
-           else if(profiledata[3]==3){
-                profiledata[4]= Gamedata.sys_bow_dataset[getindex];
-                profiledata[5]= Gamedata.sys_bow_dataset[getindex+1];
-                profiledata[7]= Gamedata.sys_bow_dataset[getindex+2];
-            }
-            User.Ary_HH3ProfileData = profiledata.join("<:>");
-            }
-                User.Ary_Crystalnames = "<:><:><:><:><:><:><:><:><:>";
-                User.Ary_Crystaldata = "0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0";
-                User.Ary_skills = "Force Attack<:>empty<:>empty<:>empty";
-                User.Ary_skillsdata = "1<:>0<:>5<:>90<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0<:>0";
-                User.skillslearned = "Force Attack<:>Slash<:>Charge<:>Mega Slash<:>Blast<:>Focus<:>Focus Blast<:>Fire<:>Swift<:>All Fire";}
-            }
             if(User.Fightagain!=undefined){
             if(User.Fightagain==0&Date.now()>User.fightagaincooldown){
                 User.Fightagain=1;
@@ -208,6 +153,13 @@ client.on('message', message => {
                 User.CombatMode=0;
             }
             User.Lastupdated = Date.now();
+        }
+        if(User.Ary_Crystalnames){
+        var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
+    for(var index=0; index<rawprofiledata.length;index++){profiledata[index]= Number(rawprofiledata[index]);};
+    if(profiledata[24]){if(!Number(profiledata[24].toString().charAt(1)))User.MaxHP=User.MaxHP+profiledata[21]};
+    if(profiledata[28]){if(!Number(profiledata[28].toString().charAt(1)))User.MaxHP=User.MaxHP+profiledata[25]};
+    if(profiledata[32]){if(!Number(profiledata[32].toString().charAt(1)))User.MaxHP=User.MaxHP+profiledata[29]};
         }
             const commandname = newmsg.shift();const arg = newmsg.join(" ");var samp=User;
             if(User.name!=message.author.username)User.name = message.author.username;
