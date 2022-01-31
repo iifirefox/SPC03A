@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
 const Account = require("../data/tree");
+const { MaxSkillenergy } = require('./act');
 module.exports.run = async (message, arg, User) => {
     const heroembed = new Discord.MessageEmbed();
     const monstercheatembed = new Discord.MessageEmbed();
@@ -183,6 +184,20 @@ module.exports.run = async (message, arg, User) => {
     var defeatimg="";
     var extraembedkey=false;
     var foeskillspecial = false;
+    var profile21=0;
+    var profile25=0;
+    var profile29=0;
+    if(profiledata[24])if(!Number(profiledata[24].toString().charAt(1)))profile21=profiledata[21];
+    if(profiledata[28])if(!Number(profiledata[28].toString().charAt(1)))profile25=profiledata[25];
+    if(profiledata[32])if(!Number(profiledata[32].toString().charAt(1)))profile29=profiledata[29];
+    var MaxHP=User.MaxHP+profile21+profile25+profile29;
+    var profile21a=0;
+    var profile25a=0;
+    var profile29a=0;
+    if(profiledataA[24])if(!Number(profiledataA[24].toString().charAt(1)))profile21a=profiledataA[21];
+    if(profiledataA[28])if(!Number(profiledataA[28].toString().charAt(1)))profile25a=profiledataA[25];
+    if(profiledataA[32])if(!Number(profiledataA[32].toString().charAt(1)))profile29a=profiledataA[29];
+    var MaxHPII=UserII.MaxHP+profile21a+profile25a+profile29a;
     // add monster effect
     if(temdatanumbers[10]>0.0){
         var monstercheatype = Number(temdatanumbers[10].toString().substring(2));
@@ -564,7 +579,7 @@ module.exports.run = async (message, arg, User) => {
         else if(arg=="avoid"&!arg.includes("potion")){
             if(User.Skillenergy>0){
                 User.Skillenergy--;
-                if(User.Skillenergy>User.Maxskillenergy) User.Skillenergy=User.Maxskillenergy;
+                if(User.Skillenergy>MaxSkillenergy) User.Skillenergy=MaxSkillenergy;
                 if(herospkey>foespdkey){
                 foeatkey = false;
                 herotxt="You avoid the attack";
@@ -730,7 +745,7 @@ module.exports.run = async (message, arg, User) => {
         module.exports.foeskillspecial = foeskillspecial;
         module.exports.skillsetdata = skillsetdata;
         module.exports.HeroHP = User.HP;
-        module.exports.HeroMaxHP = User.MaxHP;
+        module.exports.HeroMaxHP = MaxHP;
         module.exports.username= User.name;
         module.exports.heroatkcrit=heroatkcrit;
         module.exports.heroatkcrit0=heroatkcrit[0];
@@ -969,8 +984,8 @@ module.exports.run = async (message, arg, User) => {
                      if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
                      if(alla==true)temdatanumbers[32]-= attack;
                  User.Skillenergy++;
-                 if(User.Skillenergy>User.Maxskillenergy){
-                     User.Skillenergy=User.Maxskillenergy;
+                 if(User.Skillenergy>MaxSkillenergy){
+                     User.Skillenergy=MaxSkillenergy;
                  }
              }
              else if(arg=="defend"){
@@ -979,15 +994,15 @@ module.exports.run = async (message, arg, User) => {
              }
              if(foeatkcrit>0){
                  User.Skillenergy++;
-             if(User.Skillenergy>User.Maxskillenergy){
-                 User.Skillenergy=User.Maxskillenergy;
+             if(User.Skillenergy>MaxSkillenergy){
+                 User.Skillenergy=MaxSkillenergy;
              }}
              }
              else if(arg.includes("potion")&potioneffect!=0){
                  if(herotxt.includes("HP")||herotxt.includes("Fairy")){
                      User.HP+= potioneffect;
-                     if(User.HP>User.MaxHP){
-                         User.HP=User.MaxHP;
+                     if(User.HP>MaxHP){
+                         User.HP=MaxHP;
                      }
                  }
                  else if(!herotxt.includes("Pure")){
@@ -1040,7 +1055,7 @@ module.exports.run = async (message, arg, User) => {
                  UserII.CombatMode=0;
              }
              if(profiledata[15]==1){
-                 var poisoneffect = User.MaxHP*0.08;
+                 var poisoneffect = MaxHP*0.08;
                  poisoneffect = Math.round(poisoneffect);
                  User.HP-=poisoneffect;
                  if(User.HP<0) User.HP=0;
@@ -1048,7 +1063,7 @@ module.exports.run = async (message, arg, User) => {
                  effects="You are poisoned \n"+poisoneffect+" dmg";
              }
             else if(profiledata[15]==4){
-                 var poisoneffect = User.MaxHP*0.06;
+                 var poisoneffect = MaxHP*0.06;
                  poisoneffect = Math.round(poisoneffect);
                  User.HP-=poisoneffect;
                  if(User.HP<0) User.HP=0;
@@ -1292,10 +1307,10 @@ module.exports.run = async (message, arg, User) => {
         if(temdatanumbers[3]<1) temdatanumbers[3]+=0.07;
         if(temdatanumbersA[3]<1) temdatanumbersA[3]+=0.07;
     }
-    else if(monstercheatype==12&User.HP<(User.MaxHP*.3)&arg.includes("potion")||monstercheatype==12&arg.includes("potion")){
+    else if(monstercheatype==12&User.HP<(MaxHP*.3)&arg.includes("potion")||monstercheatype==12&arg.includes("potion")){
         if(User.Skillenergy<1){profiledata[15]=2;User.Ary_HH3ProfileData= profiledata.join("<:>");monstereffectembed.setColor("#FFFE00");
         monstereffectembed.setDescription(":zap: You have been Stunned!\nYou must use any act command to fight the stun");foeffect="";};
-        if(User.HP<(User.MaxHP*.3))User.Skillenergy=0;
+        if(User.HP<(MaxHP*.3))User.Skillenergy=0;
     }
     else if(monstercheatype==13&Math.random()<0.30){
         var bset = RandomMinMax(2,4);
@@ -1389,7 +1404,7 @@ var mdefeated = false;
      
              if (reaction.emoji.name === '⚡') {
                 User.energy -25;
-                User.HP = Math.round(User.MaxHP/2);
+                User.HP = Math.round(MaxHP/2);
                 User.Fightagain=0;
                 if(temdatanumbers[0]<0&temdatanumbers[32]<0){temdatanumbers[0]=1;User.TemdataNumbers = temdatanumbers.join("<:>");};
                  message.edit(herodefeatembed.setDescription(":hearts: recovered half your HP"));
@@ -1434,7 +1449,7 @@ var mdefeated = false;
      
              if (reaction.emoji.name === '⚡') {
                 User.energy -25;
-                UserII.HP = Math.round(User.MaxHP/2);
+                UserII.HP = Math.round(MaxHP/2);
                 UserII.Fightagain=0;
                 if(temdatanumbersA[0]<0&temdatanumbersA[32]<0){temdatanumbersA[0]=1;UserII.TemdataNumbers = temdatanumbersA.join("<:>");};
                  message.edit(herodefeatembedII.setDescription(":hearts: recovered half your HP"));
@@ -1464,7 +1479,7 @@ var mdefeated = false;
             User.TemdataNumbers = "";
             User.CombatMode=0;
             profiledata[15]=0;
-            User.HP = User.MaxHP;
+            User.HP = MaxHP;
             if(hh3funset1[15]>0){hh3funset1[15]=0;User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>");}
             if(hh3funset1[11]!=2||hh3funset1[11]==2&temdatanumbers[46]==1){
            var newfix = User.floor-1;
@@ -2310,11 +2325,11 @@ var mdefeated = false;
     else if(UserII.HP==0&temdatanumbersA[46]==1)temdatanumbersA[57]--;
     else if(UserII.HP==0&temdatanumbersA[46]==2)temdatanumbersA[58]--;
     if(User.HP==0&temdatanumbers[46]==1&temdatanumbersA[57]==0&temdatanumbers[57]>0||User.HP==0&temdatanumbers[46]==2&temdatanumbersA[58]==0&temdatanumbers[58]>0){
-        User.HP=Math.round(User.MaxHP/2);
+        User.HP=Math.round(MaxHP/2);
         heroembed.addField(":sparkling_heart: "+User.name+" have revive","recover 50% of their HP");
      }
     else if(UserII.HP==0&temdatanumbersA[46]==1&temdatanumbersA[57]==0||UserII.HP==0&temdatanumbersA[46]==2&temdatanumbersA[58]==0){
-         UserII.HP=Math.round(UserII.MaxHP/2);
+         UserII.HP=Math.round(MaxHPII);
         heroembed.addField(":sparkling_heart: "+UserII.name+" have revive","recover 50% of their HP");
         }
                 if(temdatanumbers[20]>0){

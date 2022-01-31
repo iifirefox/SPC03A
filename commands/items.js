@@ -7,6 +7,13 @@ module.exports.run = async (message, arg, User) => {
     for(var index=0; index<rawitembagdata.length;index++){
         itembagdata[index]= Number(rawitembagdata[index]);
     }
+    var profile21=0;
+    var profile25=0;
+    var profile29=0;
+    if(profiledata[24])if(!Number(profiledata[24].toString().charAt(1)))profile21=profiledata[21];
+    if(profiledata[28])if(!Number(profiledata[28].toString().charAt(1)))profile25=profiledata[25];
+    if(profiledata[32])if(!Number(profiledata[32].toString().charAt(1)))profile29=profiledata[29];
+    var MaxHP=User.MaxHP+profile21+profile25+profile29;
     const itemsembed = new Discord.MessageEmbed();
     itemsembed.setColor(User.colortheme);
     if(User.CombatMode==0){
@@ -23,7 +30,7 @@ module.exports.run = async (message, arg, User) => {
     else{
         message.channel.send(itemsembed.setDescription(":x: You do not have any items"));
     }
-        itemsembed.addField("HP",User.HP+"/"+User.MaxHP,true);
+        itemsembed.addField("HP",User.HP+"/"+MaxHP,true);
         itemsembed.addField("Energy",Math.round(User.energy)+"/"+Math.round(User.Maxenergy),true);
         var text = "To Heal using "+Gamedata.sys_item_names[0]+" Command: -items 1\nTo Heal using "+Gamedata.sys_item_names[1]+" Command: -items 2\nTo use "+Gamedata.sys_item_names[9]+" Command: -items 3"+
         "\nTo use "+Gamedata.sys_item_names[10]+" Command: -items 4"
@@ -89,13 +96,13 @@ module.exports.run = async (message, arg, User) => {
     else{
         if(num==1){
             if(itembagdata[0]>0){
-                if(User.HP<User.MaxHP){
+                if(User.HP<MaxHP){
                     itembagdata[0]--;
                     User.HP+=Gamedata.sys_Item_Effects[0];
-                    if(User.HP>User.MaxHP){User.HP=User.MaxHP};
+                    if(User.HP>MaxHP){User.HP=MaxHP};
                     User.Ary_itembagdata = itembagdata.join("<:>");
                     itemsembed.setDescription(":test_tube: "+User.name+" consumes 1 "+Gamedata.sys_item_names[0]+"\n recover +"+Gamedata.sys_Item_Effects[0]+" HP");
-                    message.channel.send(itemsembed.addField("HP",User.HP+"/"+User.MaxHP));
+                    message.channel.send(itemsembed.addField("HP",User.HP+"/"+MaxHP));
                 }
                 else{
                     message.channel.send(itemsembed.setDescription(":test_tube: "+User.name+"'s HP is Full \nThe Item was not consumed."));
@@ -106,13 +113,13 @@ module.exports.run = async (message, arg, User) => {
         }
        else if(num==2){
             if(itembagdata[1]>0){
-                if(User.HP<User.MaxHP){
+                if(User.HP<MaxHP){
                     itembagdata[1]--;
                     User.HP+=Gamedata.sys_Item_Effects[1];
-                    if(User.HP>User.MaxHP){User.HP=User.MaxHP};
+                    if(User.HP>MaxHP){User.HP=MaxHP};
                     User.Ary_itembagdata = itembagdata.join("<:>");
                     itemsembed.setDescription(":test_tube: "+User.name+" consumes 1 "+Gamedata.sys_item_names[1]+"\n recover +"+Gamedata.sys_Item_Effects[1]+" HP");
-                    message.channel.send(itemsembed.addField("HP",User.HP+"/"+User.MaxHP));
+                    message.channel.send(itemsembed.addField("HP",User.HP+"/"+MaxHP));
                 }
                 else{
                     message.channel.send(itemsembed.setDescription(":heart: "+User.name+"'s HP is Full \nThe Item was not consumed."));
@@ -140,12 +147,12 @@ module.exports.run = async (message, arg, User) => {
         }
         else if(num==4){
             if(itembagdata[10]>0){
-                if(User.HP<User.MaxHP){
+                if(User.HP<MaxHP){
                     itembagdata[10]--;
-                    User.HP = User.MaxHP;
+                    User.HP = MaxHP;
                     User.Ary_itembagdata = itembagdata.join("<:>");
                     itemsembed.setDescription(":test_tube: "+User.name+" consumes 1 "+Gamedata.sys_item_names[10]+"\n recover 100% HP");
-                    message.channel.send(itemsembed.addField("HP",User.HP+"/"+User.MaxHP));
+                    message.channel.send(itemsembed.addField("HP",User.HP+"/"+MaxHP));
                 }
                 else{
                     message.channel.send(itemsembed.setDescription(":heart: "+User.name+"'s HP is Full \nThe Item was not consumed."));

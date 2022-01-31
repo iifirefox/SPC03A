@@ -128,6 +128,16 @@ return arr.filter(function(ele){return ele != value;});
     var defeatxt="";
     extraembedkey=false;
     var foeskillef=0;
+    var profile21=0;
+    var profile25=0;
+    var profile29=0;
+    if(profiledata[24])if(!Number(profiledata[24].toString().charAt(1)))profile21=profiledata[21];
+    if(profiledata[28])if(!Number(profiledata[28].toString().charAt(1)))profile25=profiledata[25];
+    if(profiledata[32])if(!Number(profiledata[32].toString().charAt(1)))profile29=profiledata[29];
+    var MaxHP=User.MaxHP+profile21+profile25+profile29;
+    if(profiledata[24])if(profiledata[24].toString().charAt(1)==5)profilend=profiledata[21];
+    if(profiledata[32])if(profiledata[32].toString().charAt(1)==5)profilend2=profiledata[29];
+    var MaxSkillenergy=User.MaxSkillenergy+profilend+profilend2;
     if(profiledata[32]>0)alla=true
         if(User.HP>0){
     if(User.CombatMode==1){
@@ -482,7 +492,7 @@ return arr.filter(function(ele){return ele != value;});
         else if(arg=="avoid"&!arg.includes("potion")){
             if(User.Skillenergy>0){
                 User.Skillenergy--;
-                if(User.Skillenergy>User.Maxskillenergy) User.Skillenergy=User.Maxskillenergy;
+                if(User.Skillenergy>MaxSkillenergy) User.Skillenergy=MaxSkillenergy;
                 if(herospkey>foespdkey){
                 foeatkey = false;
                 herotxt="You avoid the attack";
@@ -602,7 +612,7 @@ return arr.filter(function(ele){return ele != value;});
                 module.exports.skillsetdata4 = skillsetdata[dtable4];
                 module.exports.skillsetdata5 = skillsetdata[dtable5];
                 module.exports.HeroHP = User.HP;
-                module.exports.HeroMaxHP = User.MaxHP;
+                module.exports.HeroMaxHP = MaxHP;
                 module.exports.username= User.name;
                 module.exports.heroatkcrit=heroatkcrit;
                 module.exports.heroatkcrit0=heroatkcrit[0];
@@ -628,7 +638,7 @@ return arr.filter(function(ele){return ele != value;});
                 module.exports.skillspecial = skillspecial;
                 module.exports.foeatkcrit = foeatkcrit;
                 module.exports.Skillenergy = User.Skillenergy;
-                module.exports.MaxSkillenergy = User.MaxSkillenergy;
+                module.exports.MaxSkillenergy = MaxSkillenergy;
             }
             if(skillspecial||foeskillspecial){
                 var skillpath =Gamedata.sys_skill_path+skillname;
@@ -731,8 +741,8 @@ return arr.filter(function(ele){return ele != value;});
                             if(alla==true)temdatanumbers[32]-= attack;
                         }
                         User.Skillenergy++;
-                        if(User.Skillenergy>User.Maxskillenergy){
-                            User.Skillenergy=User.Maxskillenergy;
+                        if(User.Skillenergy>MaxSkillenergy){
+                            User.Skillenergy=MaxSkillenergy;
                         }
                     }
                     else if(arg=="defend"){
@@ -741,15 +751,15 @@ return arr.filter(function(ele){return ele != value;});
                         }
                         if(foeatkcrit>0){
                             User.Skillenergy++;
-                        if(User.Skillenergy>User.Maxskillenergy){
-                            User.Skillenergy=User.Maxskillenergy;
+                        if(User.Skillenergy>MaxSkillenergy){
+                            User.Skillenergy=MaxSkillenergy;
                         }}
                     }
                     else if(arg.includes("potion")&potioneffect!=0){
                         if(herotxt.includes("HP")||herotxt.includes("Fairy")){
                             User.HP+= potioneffect;
-                            if(User.HP>User.MaxHP){
-                                User.HP=User.MaxHP;
+                            if(User.HP>MaxHP){
+                                User.HP=MaxHP;
                             }
                         }
                         else if(!herotxt.includes("Pure")){
@@ -781,7 +791,7 @@ return arr.filter(function(ele){return ele != value;});
                         User.CombatMode=0;
                     }
                     if(profiledata[15]==1){
-                        var poisoneffect = User.MaxHP*0.08;
+                        var poisoneffect = MaxHP*0.08;
                         poisoneffect = Math.round(poisoneffect);
                         User.HP-=poisoneffect;
                         if(User.HP<0) User.HP=0;
@@ -789,7 +799,7 @@ return arr.filter(function(ele){return ele != value;});
                         effects="You are poisoned \n"+poisoneffect+" dmg";
                     }
                    else if(profiledata[15]==4){
-                        var poisoneffect = User.MaxHP*0.06;
+                        var poisoneffect = MaxHP*0.06;
                         poisoneffect = Math.round(poisoneffect);
                         User.HP-=poisoneffect;
                         if(User.HP<0) User.HP=0;
@@ -993,8 +1003,8 @@ return arr.filter(function(ele){return ele != value;});
                                 if(alla==true)temdatanumbers[32]-= attack;
                             }
                             User.Skillenergy++;
-                            if(User.Skillenergy>User.Maxskillenergy){
-                                User.Skillenergy=User.Maxskillenergy;
+                            if(User.Skillenergy>MaxSkillenergy){
+                                User.Skillenergy=MaxSkillenergy;
                             }
                         }
                         else if(arg=="defend"){
@@ -1003,15 +1013,15 @@ return arr.filter(function(ele){return ele != value;});
                         }
                         if(foeatkcrit>0){
                             User.Skillenergy++;
-                        if(User.Skillenergy>User.Maxskillenergy){
-                            User.Skillenergy=User.Maxskillenergy;
+                        if(User.Skillenergy>MaxSkillenergy){
+                            User.Skillenergy=MaxSkillenergy;
                         }}
                         }
                         else if(arg.includes("potion")&potioneffect!=0){
                             if(herotxt.includes("HP")||herotxt.includes("Fairy")){
                                 User.HP+= potioneffect;
-                                if(User.HP>User.MaxHP){
-                                    User.HP=User.MaxHP;
+                                if(User.HP>MaxHP){
+                                    User.HP=MaxHP;
                                 }
                             }
                             else if(!herotxt.includes("Pure")){
@@ -1043,7 +1053,7 @@ return arr.filter(function(ele){return ele != value;});
                             User.CombatMode=0;
                         }
                         if(profiledata[15]==1){
-                            var poisoneffect = User.MaxHP*0.08;
+                            var poisoneffect = MaxHP*0.08;
                             poisoneffect = Math.round(poisoneffect);
                             User.HP-=poisoneffect;
                             if(User.HP<0) User.HP=0;
@@ -1051,7 +1061,7 @@ return arr.filter(function(ele){return ele != value;});
                             effects="You are poisoned \n"+poisoneffect+" dmg";
                         }
                        else if(profiledata[15]==4){
-                            var poisoneffect = User.MaxHP*0.06;
+                            var poisoneffect = MaxHP*0.06;
                             poisoneffect = Math.round(poisoneffect);
                             User.HP-=poisoneffect;
                             if(User.HP<0) User.HP=0;
@@ -1171,10 +1181,10 @@ return arr.filter(function(ele){return ele != value;});
                 else if(monstercheatype==11&foeatkcrit==0){
                    if(temdatanumbers[3]<1) temdatanumbers[3]+=0.07;
                 }
-                else if(monstercheatype==12&User.HP<(User.MaxHP*.3)&arg.includes("potion")||monstercheatype==12&arg.includes("potion")){
+                else if(monstercheatype==12&User.HP<(MaxHP*.3)&arg.includes("potion")||monstercheatype==12&arg.includes("potion")){
                     if(User.Skillenergy<1){profiledata[15]=2;User.Ary_HH3ProfileData= profiledata.join("<:>");monstereffectembed.setColor("#FFFE00");
                     monstereffectembed.setDescription(":zap: You have been Stunned!\nYou must use any act command to fight the stun");foeffect="";};
-                    if(User.HP<(User.MaxHP*.3))User.Skillenergy=0;
+                    if(User.HP<(MaxHP*.3))User.Skillenergy=0;
                 }
                 else if(monstercheatype==13&Math.random()<0.30){
                     var bset = RandomMinMax(2,4);
@@ -1280,7 +1290,7 @@ return arr.filter(function(ele){return ele != value;});
                         User.TemdataNumbers = "";
                         User.CombatMode=0;
                         User.Ary_HH3ProfileData = profiledata.join("<:>");
-                        User.HP = User.MaxHP;
+                        User.HP = MaxHP;
                         if(!temdatanames[0].includes("no.")){
                        var newfix = User.floor-1;
                        var stepamount = 0;
@@ -1371,7 +1381,7 @@ return arr.filter(function(ele){return ele != value;});
                             },async(err,User)=>{
                               if(err)console.log(err);
                             User.energy -25;
-                            User.HP = Math.round(User.MaxHP/2);
+                            User.HP = Math.round(MaxHP/2);
                             User.Fightagain=0;
                             if(temdatanumbers[0]<0){temdatanumbers[0]=1;User.TemdataNumbers = temdatanumbers.join("<:>");};
                             User.save().catch(err => console.log(err));

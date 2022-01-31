@@ -95,10 +95,6 @@ client.on('message', message => {
                var rpath = require.resolve(Gamedata.sys_register_path);delete require.cache[rpath];
             }
             if(User.Fightagain!=undefined){
-            if(User.Fightagain==0&Date.now()>User.fightagaincooldown){
-                User.Fightagain=1;
-                User.fightagaincooldown=Date.now()+Gamedata.sys_set_fightagaincd;
-            }
             if((User.turn==true||User.CombatMode>0)&&Date.now()> User.Lastupdated+Gamedata.sys_set_turnendcd){
                 User.turn = false;
                 if(User.CombatMode=1&!User.TemdataNames.includes("no.")){
@@ -153,13 +149,6 @@ client.on('message', message => {
                 User.CombatMode=0;
             }
             User.Lastupdated = Date.now();
-        }
-        if(User.Ary_Crystalnames){
-        var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
-    for(var index=0; index<rawprofiledata.length;index++){profiledata[index]= Number(rawprofiledata[index]);};
-    if(profiledata[24]){if(!Number(profiledata[24].toString().charAt(1)))User.MaxHP=User.MaxHP+profiledata[21]};
-    if(profiledata[28]){if(!Number(profiledata[28].toString().charAt(1)))User.MaxHP=User.MaxHP+profiledata[25]};
-    if(profiledata[32]){if(!Number(profiledata[32].toString().charAt(1)))User.MaxHP=User.MaxHP+profiledata[29]};
         }
             const commandname = newmsg.shift();const arg = newmsg.join(" ");var samp=User;
             if(User.name!=message.author.username)User.name = message.author.username;

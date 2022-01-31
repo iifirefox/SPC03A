@@ -16,6 +16,20 @@ module.exports.run = async (message, arg,User) => {
       for(var index=0; index<rawtemdatanumbers.length;index++){
         temdatanumbers[index]= Number(rawtemdatanumbers[index])
       }
+      var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
+    for(var index=0; index<rawprofiledata.length;index++){profiledata[index]= Number(rawprofiledata[index]);};
+    var profile21=0;
+    var profile25=0;
+    var profile29=0;
+    if(profiledata[24])if(!Number(profiledata[24].toString().charAt(1)))profile21=profiledata[21];
+    if(profiledata[28])if(!Number(profiledata[28].toString().charAt(1)))profile25=profiledata[25];
+    if(profiledata[32])if(!Number(profiledata[32].toString().charAt(1)))profile29=profiledata[29];
+    var MaxHP=User.MaxHP+profile21+profile25+profile29;
+    var profilend =0;
+    var profilend2 =0;
+    if(profiledata[24])if(profiledata[24].toString().charAt(1)==5)profilend=profiledata[21];
+    if(profiledata[32])if(profiledata[32].toString().charAt(1)==5)profilend2=profiledata[29];
+    var MaxSkillenergy=User.MaxSkillenergy+profilend+profilend2;
       if(User.energy!=undefined){
       var stepamount = 0;
       var halfloor =0;
@@ -59,6 +73,8 @@ module.exports.run = async (message, arg,User) => {
             var hpcolor ="#FF1919";
             if(lv.charAt(0)=="3"){checkembed.setDescription("Boss Lv"+newlv);
                 hpcolor ="#76009F"
+            }
+            if(lv.charAt(0)=="2"){checkembed.setDescription("Boss Lv"+User.level);
             }
             if(temdatanumbers[32]<1){
             const canvas = createCanvas(256,286);
@@ -180,11 +196,11 @@ module.exports.run = async (message, arg,User) => {
             {setfot="Boss Ability: Shadow\nThe boss can only be damaged by critical hits,\nand when you miss, The Boss's attack power increases(100% max).";}
             else if(monstercheatype==12)
             {setfot="Boss Ability: Perdiction\nWhenever you use a potion while on low on HP,\nyour Skill Energy is drained to 0.\nusing potions with no skill energy will stun you.";}
-            else if(monstercheatype==12)
+            else if(monstercheatype==13)
             {setfot="Boss Ability: Transformation\nThis boss will transform into Dragon, Angel or back to a crystal.\nCrystal:None\nDragon: Heavy Attack power\nAngel: Very Swift";}
             var summon = "";
             if(temdatanumbers[29]) summon="\n"+temdatanames[5]+":❤️ "+temdatanumbers[29];
-        if(User.CombatMode!=2)message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+User.MaxHP+" ⚡"+User.Skillenergy+"/"+User.Maxskillenergy+summon+"\n"+setfot));
+        if(User.CombatMode!=2)message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+MaxHP+" ⚡"+User.Skillenergy+"/"+MaxSkillenergy+summon+"\n"+setfot));
         else{ Account.findOne({
             id: User.multid
         },async(err,UserII)=>{
@@ -194,8 +210,20 @@ module.exports.run = async (message, arg,User) => {
           for(var index=0; index<rawtemdatanumbersA.length;index++){
             temdatanumbersA[index]= Number(rawtemdatanumbersA[index])
           }
+        var rawprofiledataA = UserII.Ary_HH3ProfileData.split("<:>");var profiledataA = [];
+    for(var index=0; index<rawprofiledataA.length;index++){profiledataA[index]= Number(rawprofiledataA[index]);};
+    var profile21a=0;
+    var profile25a=0;
+    var profile29a=0;
+    if(profiledataA[24])if(!Number(profiledataA[24].toString().charAt(1)))profile21a=profiledataA[21];
+    if(profiledataA[28])if(!Number(profiledataA[28].toString().charAt(1)))profile25a=profiledataA[25];
+    if(profiledataA[32])if(!Number(profiledataA[32].toString().charAt(1)))profile29a=profiledataA[29];
+    var MaxHPII=UserII.MaxHP+profile21a+profile25a+profile29a;
+    if(profiledataA[24])if(profiledataA[24].toString().charAt(1)==5)profilenda=profiledataA[21];
+    if(profiledataA[32])if(profiledataA[32].toString().charAt(1)==5)profilend2a=profiledataA[29];
+    var MaxSkillenergya=UserII.MaxSkillenergy+profilenda+profilend2a;
           if(temdatanumbersA[29]) summonA="\n"+temdatanamesA[5]+":❤️ "+temdatanumbersA[29];
-            message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+User.MaxHP+" ⚡"+User.Skillenergy+"/"+User.Maxskillenergy+"\n"+UserII.name+":❤️ "+UserII.HP+"/"+User.MaxHP+" ⚡"+UserII.Skillenergy+"/"+UserII.Maxskillenergy+summon+summonA+"\n"+setfot));});};
+            message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+MaxHP+" ⚡"+User.Skillenergy+"/"+MaxSkillenergy+"\n"+UserII.name+":❤️ "+UserII.HP+"/"+MaxHPII+" ⚡"+UserII.Skillenergy+"/"+MaxSkillenergya+summon+summonA+"\n"+setfot));});};
     }
     else if(User.CombatMode==3){
         Account.findOne({
@@ -234,7 +262,7 @@ module.exports.run = async (message, arg,User) => {
             ctx.closePath;
             ctx.clip();
             const attachment = new Discord.MessageAttachment(canvas.toBuffer(),"png.png");
-            checkembed.attachFiles(attachment);message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+User.MaxHP+" ⚡"+User.Skillenergy+"/"+User.Maxskillenergy));
+            checkembed.attachFiles(attachment);message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+MaxHP+" ⚡"+User.Skillenergy+"/"+MaxSkillenergy));
         });
     }
     else

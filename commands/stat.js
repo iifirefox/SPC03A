@@ -26,15 +26,25 @@ module.exports.run = async (message, arg, User) => {
     for(var index=0; index<rawprofiledata.length;index++){
         profiledata[index]= Number(rawprofiledata[index])
     }
-    if(User.HP<User.MaxHP&Date.now()>User.hpcooldown&User.CombatMode==0){
+    var profile21=0;
+    var profile25=0;
+    var profile29=0;
+    if(profiledata[24])if(!Number(profiledata[24].toString().charAt(1)))profile21=profiledata[21];
+    if(profiledata[28])if(!Number(profiledata[28].toString().charAt(1)))profile25=profiledata[25];
+    if(profiledata[32])if(!Number(profiledata[32].toString().charAt(1)))profile29=profiledata[29];
+    var MaxHP=User.MaxHP+profile21+profile25+profile29;
+    if(profiledata[24])if(profiledata[24].toString().charAt(1)==5)profilend=profiledata[21];
+    if(profiledata[32])if(profiledata[32].toString().charAt(1)==5)profilend2=profiledata[29];
+    var MaxSkillenergy=User.MaxSkillenergy+profilend+profilend2;
+    if(User.HP<MaxHP&Date.now()>User.hpcooldown&User.CombatMode==0){
         var times =Date.now();
         times =times-=User.hpcooldown;
         times = times/360000;
         times = Math.round(times);
-        if(times>User.MaxHP) times = User.MaxHP;
+        if(times>MaxHP) times = MaxHP;
        else if(times==0)times++;
         User.HP+=times;
-        if(User.HP>User.MaxHP) User.HP=User.MaxHP;
+        if(User.HP>MaxHP) User.HP=MaxHP;
         if(times>0)User.hpcooldown = Date.now()+360000;
     }
     if(User.energy!=undefined&&User.energy<User.Maxenergy&Date.now()>User.energycooldown){
@@ -51,7 +61,7 @@ module.exports.run = async (message, arg, User) => {
     }
     var hpvar =Date.now();
     var energyvar =Date.now()+3600000;
-    if(User.HP<User.MaxHP)hpvar=User.hpcooldown;
+    if(User.HP<MaxHP)hpvar=User.hpcooldown;
     if(User.energy<User.Maxenergy)energyvar=User.energycooldown;
     var now = new Date(Date.now()).getTime();
       var refresh = new Date(hpvar).getTime();
@@ -66,7 +76,7 @@ module.exports.run = async (message, arg, User) => {
   if(seconds<0)seconds=0;
   if(minutesB<0)minutes=0;
   if(secondsB<0)seconds=0;
-  if(User.HP>User.MaxHP)User.HP=User.MaxHP;
+  if(User.HP>MaxHP)User.HP=MaxHP;
   if(User.HP<0)User.HP=0;
   if(User.energy){
   if(User.energy>User.Maxenergy)User.energy=User.Maxenergy;
@@ -123,7 +133,7 @@ module.exports.run = async (message, arg, User) => {
   var sx= 230;
   var y = sy+35;
   var curve = sy+17.5;
-  var current = User.HP/User.MaxHP;
+  var current = User.HP/MaxHP;
   current = Math.round(current*100);
   var r = 20;
   if(current>100)current=100;
@@ -232,7 +242,7 @@ module.exports.run = async (message, arg, User) => {
   var sx= 500;
   var y = 460;
   var curve = sy+17.5;
-  var current = User.Skillenergy/User.Maxskillenergy;
+  var current = User.Skillenergy/MaxSkillenergy;
   current = Math.round(current*100);
   var r = 20;
   if(current>100)current=100;
@@ -262,7 +272,7 @@ module.exports.run = async (message, arg, User) => {
   ctx.fillText("Skill Energy",490,450);
   ctx.font="20px Sans";
   ctx.fillStyle="#000000";
-  ctx.fillText(User.Skillenergy+" / "+User.Maxskillenergy,620,450);
+  ctx.fillText(User.Skillenergy+" / "+MaxSkillenergy,620,450);
   if(User.energy!=undefined){
     ctx.font="23px Arial";
     ctx.fillStyle="#000000";
@@ -298,7 +308,7 @@ module.exports.run = async (message, arg, User) => {
   ctx.font="20px Sans";
   ctx.fillStyle="#000000";
   ctx.textAlign ="center"
-  ctx.fillText(User.HP+" / "+User.MaxHP,350,157)
+  ctx.fillText(User.HP+" / "+MaxHP,350,157)
   ctx.font="23px Arial";
   ctx.fillStyle="#000000";
   ctx.fillText("HP Recovery",515,155);

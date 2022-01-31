@@ -161,6 +161,10 @@ if(User.energy!=undefined&User.turn==false&!arg.includes("<@")&!arg.includes("ac
        else newemmbed.setDescription("To Continue the Game command: `roll`\nTo view game progress Command: `check`\nTo view items command: `items`\nTo Equipment command: `equip`\nTo Shop command: `shop`"+
        "\nTo send Multiplayer request command: `myturn < User tag >`\nTo accept request command: `myturn accept`");
         if(User.hh3dailycooldown<Date.now()){
+            if(User.Fightagain==0&Date.now()>User.fightagaincooldown){
+                User.Fightagain=1;
+                User.fightagaincooldown=Date.now()+Gamedata.sys_set_fightagaincd;
+            }
             var temname= [];
             var chestlinks = [];
             for(var wood=0; wood<3;wood++){
