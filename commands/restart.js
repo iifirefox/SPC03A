@@ -21,7 +21,7 @@ module.exports.run = async (message, arg, User) => {
     }
     const restartembed = new Discord.MessageEmbed();
     restartembed.setColor(User.colortheme);
-    if(!arg.includes("yes")&profiledata[8]==1){
+    if(!arg.includes("yes")&itembagdata[8]==1){
     restartembed.setAuthor("Restarting from the begining",User.Profileimg);
     restartembed.setTitle(":warning: Your Game will restart from the begining\n`You will lose all your progress you have made so far`");
     restartembed.setDescription("Your Level and upgrade status will maintained");

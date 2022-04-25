@@ -131,13 +131,45 @@ return arr.filter(function(ele){return ele != value;});
     var profile21=0;
     var profile25=0;
     var profile29=0;
+    var profilend =0;
+    var profilend2 =0;
     if(profiledata[24])if(!Number(profiledata[24].toString().charAt(1)))profile21=profiledata[21];
     if(profiledata[28])if(!Number(profiledata[28].toString().charAt(1)))profile25=profiledata[25];
     if(profiledata[32])if(!Number(profiledata[32].toString().charAt(1)))profile29=profiledata[29];
     var MaxHP=User.MaxHP+profile21+profile25+profile29;
     if(profiledata[24])if(profiledata[24].toString().charAt(1)==5)profilend=profiledata[21];
     if(profiledata[32])if(profiledata[32].toString().charAt(1)==5)profilend2=profiledata[29];
-    var MaxSkillenergy=User.MaxSkillenergy+profilend+profilend2;
+    var Maxskillenergy=User.Maxskillenergy+profilend+profilend2;
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==1||
+    Number(profiledata[24].toString().charAt(2))==1||Number(profiledata[24].toString().charAt(3))==1)profile21=profiledata[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==1||
+    Number(profiledata[28].toString().charAt(2))==1||Number(profiledata[28].toString().charAt(3))==1)profile25=profiledata[25];
+    if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==1||
+    Number(profiledata[32].toString().charAt(2))==1||Number(profiledata[32].toString().charAt(3))==1)profile29=profiledata[29];
+    var addefper = profile21+profile25+profile29;
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==2||
+    Number(profiledata[24].toString().charAt(2))==2||Number(profiledata[24].toString().charAt(3))==2)profile21=profiledata[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==2||
+    Number(profiledata[28].toString().charAt(2))==2||Number(profiledata[28].toString().charAt(3))==2)profile25=profiledata[25];
+    if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==2||
+    Number(profiledata[32].toString().charAt(2))==2||Number(profiledata[32].toString().charAt(3))==2)profile29=profiledata[29];
+    var addatkper = profile21+profile25+profile29;
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==4||
+    Number(profiledata[24].toString().charAt(2))==4||Number(profiledata[24].toString().charAt(3))==4)profile21=profiledata[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==4||
+    Number(profiledata[28].toString().charAt(2))==4||Number(profiledata[28].toString().charAt(3))==4)profile25=profiledata[25];
+    if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==4||
+    Number(profiledata[32].toString().charAt(2))==4||Number(profiledata[32].toString().charAt(3))==4)profile29=profiledata[29];
+    var addspd = profile21+profile25+profile29;
     if(profiledata[32]>0)alla=true
         if(User.HP>0){
     if(User.CombatMode==1){
@@ -161,7 +193,7 @@ return arr.filter(function(ele){return ele != value;});
                 extraembedkey=true;
             }
         }
-        herospd+=temdatanumbers[14];
+        herospd+=temdatanumbers[14]+addspd;
         herospd-=temdatanumbers[15];
         if(monstercheatype==1&profiledata[15]==5){
             herospd-=0.10
@@ -364,7 +396,8 @@ return arr.filter(function(ele){return ele != value;});
                 var addmg = heroatk[a]*profiledata[5];
                 var addmg2 = heroatk[a]*profiledata[19];
                var addmg3 =  heroatk[a]*temdatanumbers[12];
-                heroatk[a] = Math.round(heroatk[a]+addmg+addmg2+addmg3)+profiledata[16];
+               var addmg4 =  heroatk[a]*addatkper;
+                heroatk[a] = Math.round(heroatk[a]+addmg+addmg2+addmg3+addmg4)+profiledata[16];
                 var o = heroatk[a]/2;
                 var oa = 52 - o; o = oa/100;
                 oa = o * heroatk[a]; o = heroatk[a]-oa;
@@ -492,7 +525,7 @@ return arr.filter(function(ele){return ele != value;});
         else if(arg=="avoid"&!arg.includes("potion")){
             if(User.Skillenergy>0){
                 User.Skillenergy--;
-                if(User.Skillenergy>MaxSkillenergy) User.Skillenergy=MaxSkillenergy;
+                if(User.Skillenergy>Maxskillenergy) User.Skillenergy=Maxskillenergy;
                 if(herospkey>foespdkey){
                 foeatkey = false;
                 herotxt="You avoid the attack";
@@ -558,23 +591,24 @@ return arr.filter(function(ele){return ele != value;});
                 }
             }
             if(User.CombatMode==1& temdatanumbers[0]>0){
-                var netatk = Math.round(foephyatk-(profiledata[8]+profiledata[17]));
-                var profiledef = profiledata[9];
+                var profiledef = Math.round(profiledata[8]+(profiledata[8]*profiledata[9]))+profiledata[17];
                 var lowdef = profiledef*temdatanumbers[16];
-                profiledef = Math.round(profiledef-lowdef);
+                var hidef = profiledef*addefper;
+                profiledef = Math.round(profiledef+hidef-lowdef);
                 if(monstercheatype==7){
-                    defeffected= profiledata[9]*.30;
+                    defeffected= profiledef*.30;
                     profiledef = profiledef-= defeffected;
                  }
                 if(profiledata[15]==3){
-                   defeffected= profiledata[9]*.50;
+                   defeffected= profiledef*.50;
                    profiledef = profiledef-= defeffected;
                 }
+                if(temdatanumbers[17]){
+                    defeffected= profiledef*temdatanumbers[17];
+                    profiledef = profiledef-= defeffected;
+                 }
                 if(profiledef<0)profiledef*-1;
-                var netatkn = netatk*temdatanumbers[17];
-                netatk = Math.round(netatk-=netatkn);
-               var netatk2 = profiledef*netatk;
-               netatk = netatk-=netatk2;
+                var netatk = Math.round(foephyatk-profiledef);
                foeattack = netatk;
                if(foeattack<0)foeattack=0;
                if(temdatanumbers[19]>0){
@@ -638,7 +672,7 @@ return arr.filter(function(ele){return ele != value;});
                 module.exports.skillspecial = skillspecial;
                 module.exports.foeatkcrit = foeatkcrit;
                 module.exports.Skillenergy = User.Skillenergy;
-                module.exports.MaxSkillenergy = MaxSkillenergy;
+                module.exports.Maxskillenergy = Maxskillenergy;
             }
             if(skillspecial||foeskillspecial){
                 var skillpath =Gamedata.sys_skill_path+skillname;
@@ -741,8 +775,8 @@ return arr.filter(function(ele){return ele != value;});
                             if(alla==true)temdatanumbers[32]-= attack;
                         }
                         User.Skillenergy++;
-                        if(User.Skillenergy>MaxSkillenergy){
-                            User.Skillenergy=MaxSkillenergy;
+                        if(User.Skillenergy>Maxskillenergy){
+                            User.Skillenergy=Maxskillenergy;
                         }
                     }
                     else if(arg=="defend"){
@@ -751,8 +785,8 @@ return arr.filter(function(ele){return ele != value;});
                         }
                         if(foeatkcrit>0){
                             User.Skillenergy++;
-                        if(User.Skillenergy>MaxSkillenergy){
-                            User.Skillenergy=MaxSkillenergy;
+                        if(User.Skillenergy>Maxskillenergy){
+                            User.Skillenergy=Maxskillenergy;
                         }}
                     }
                     else if(arg.includes("potion")&potioneffect!=0){
@@ -876,6 +910,19 @@ return arr.filter(function(ele){return ele != value;});
                                 User.Metadata = mdata.join("<:>");
                             }
                     heroembed.setDescription("*"+foetxt+"*");
+                }
+                profile21=0;
+                profile29=0;
+                if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==5||
+                Number(profiledata[24].toString().charAt(2))==5||Number(profiledata[24].toString().charAt(3))==5)profile21=profiledata[21];
+                if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==5||
+                Number(profiledata[32].toString().charAt(2))==5||Number(profiledata[32].toString().charAt(3))==5)profile29=profiledata[29];
+                var addhealchance = profile21+profile25+profile29;
+                if(!profiledata[15]&Math.random()<addhealchance){
+                    var regen= MaxHP-(MaxHP*0.05);
+                    User.HP+regen;
+                    if(User.HP>MaxHP)User.HP=MaxHP;
+                    effects+"\n:sparkling_heart: regenerate +"+regen+" HP from Healing Gem"
                 }
                 heroembed.setFooter(effects);
                 message.channel.send(heroembed);
@@ -1003,8 +1050,8 @@ return arr.filter(function(ele){return ele != value;});
                                 if(alla==true)temdatanumbers[32]-= attack;
                             }
                             User.Skillenergy++;
-                            if(User.Skillenergy>MaxSkillenergy){
-                                User.Skillenergy=MaxSkillenergy;
+                            if(User.Skillenergy>Maxskillenergy){
+                                User.Skillenergy=Maxskillenergy;
                             }
                         }
                         else if(arg=="defend"){
@@ -1013,8 +1060,8 @@ return arr.filter(function(ele){return ele != value;});
                         }
                         if(foeatkcrit>0){
                             User.Skillenergy++;
-                        if(User.Skillenergy>MaxSkillenergy){
-                            User.Skillenergy=MaxSkillenergy;
+                        if(User.Skillenergy>Maxskillenergy){
+                            User.Skillenergy=Maxskillenergy;
                         }}
                         }
                         else if(arg.includes("potion")&potioneffect!=0){
@@ -1186,7 +1233,7 @@ return arr.filter(function(ele){return ele != value;});
                     monstereffectembed.setDescription(":zap: You have been Stunned!\nYou must use any act command to fight the stun");foeffect="";};
                     if(User.HP<(MaxHP*.3))User.Skillenergy=0;
                 }
-                else if(monstercheatype==13&Math.random()<0.30){
+                else if(monstercheatype==13&Math.random()<0.24){
                     var bset = RandomMinMax(2,4);
                     var bdataset = 11*bset;
                     var bmaxhp = 1+ bdataset;
@@ -1217,6 +1264,8 @@ return arr.filter(function(ele){return ele != value;});
                     temdatanumbers[9] = Gamedata.sys_monsterbossA_state[bdropkey];
                     temdatanumbers[10] = Gamedata.sys_monsterbossA_state[beffectkey];
                     Imgset[1] = Gamedata.sys_monsterpic_bossA[bset];
+                    User.Ary_Imgset = Imgset.join("<:>");
+                    monstercheatembed.setImage(Imgset[1]);
                     monstereffectembed.setColor("#FF0000");
                     monstereffectembed.setDescription("The Core has Transformed!\nStats has Changed.");foeffect="";
                 }
@@ -1542,13 +1591,15 @@ return arr.filter(function(ele){return ele != value;});
                         itemdropnames = Gamedata.sys_monsterbossdrop_tier13;
                         itemdropnums = Gamedata.sys_monsterbossdrop_tier13rate;
                     }
+                    var collected =0;
                         for(var item = 0; item < 3; item++){
                             var items = RandomMax(itemdropnames.length);
                             if(Math.random()<itemdropnums[items]){
                                 if(itemdropnames[items].includes("x")){
                                     var splititem = itemdropnames[items].split("x");
                                     itemdropnames[items]=splititem[0].trimEnd();
-                                   var amount=Number(splititem[1].trimStart());
+                                   var amount=Number(splititem[1].trim());
+                                   if(isNaN(amount)) amount = 1;
                                 }
                                 if(Gamedata.sys_material_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
                                     var getname = Gamedata.sys_material_names.find(a=>IgnoringCase(a,itemdropnames[items]));
@@ -1559,6 +1610,7 @@ return arr.filter(function(ele){return ele != value;});
                                     itembagnames[getcort] = getname;}
                                     itembagdata[getcort] += amount;
                                     monsterdefeatembed.addField(":moneybag: "+getname," "+amount);
+                                    collected++;
                                 }
                                 else if(Gamedata.sys_item_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
                                     var getname = Gamedata.sys_item_names.find(a=>IgnoringCase(a,itemdropnames[items]));
@@ -1568,6 +1620,7 @@ return arr.filter(function(ele){return ele != value;});
                                     itembagnames[getcort] = getname;}
                                     itembagdata[getcort] += amount;
                                     monsterdefeatembed.addField(":test_tube: "+getname," "+amount);
+                                    collected++;
                                 }
                                 else if(Gamedata.sys_crystal_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
                                     var getname = Gamedata.sys_crystal_names.find(a=>IgnoringCase(a,itemdropnames[items]));
@@ -1586,13 +1639,17 @@ return arr.filter(function(ele){return ele != value;});
                                         var bagdur = 3+bagtable;
                                         var bagdurdmg = 4+bagtable;
                                         crystalnames[checkresult]= getname;
-                                        if(Gamedata.sys_crystalset_dataset[table]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[table]);crystaldata[bagphy]= getrandom;};
-                                        if(Gamedata.sys_crystalset_dataset[num]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num]);crystaldata[bagphy]= getrandom;};
-                                        if(Gamedata.sys_crystalset_dataset[num2]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num2]);crystaldata[bagper]= getrandom;};
-                                        crystaldata[bagdur]= Gamedata.sys_crystalset_dataset[num3]
+                                        if(Gamedata.sys_crystalset_dataset[table]!=0)if(Gamedata.sys_crystalset_dataset[table]>1){getmini=Math.round(Gamedata.sys_crystalset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[table]);crystaldata[bagtable]=getrandom;}
+                                        else {getmini=Gamedata.sys_crystalset_dataset[table]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_crystalset_dataset[table]*100))/100;crystaldata[bagtable]=getrandom;}
+                                        if(Gamedata.sys_crystalset_dataset[num]!=0)if(Gamedata.sys_crystalset_dataset[num]>1){getmini=Math.round(Gamedata.sys_crystalset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num]);crystaldata[bagphy]= getrandom;}
+                                        else {getmini=Gamedata.sys_crystalset_dataset[num]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_crystalset_dataset[num]*100))/100;crystaldata[bagphy]= getrandom;}
+                                        if(Gamedata.sys_crystalset_dataset[num2]!=0)if(Gamedata.sys_crystalset_dataset[num2]>1){getmini=Math.round(Gamedata.sys_crystalset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num2]);cystaldata[bagphy]= getrandom;}
+                                        else {getmini=Gamedata.sys_crystalset_dataset[num2]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_crystalset_dataset[num2]*100))/100;crystaldata[bagper]= getrandom;};
+                                        crystaldata[bagdur]= Gamedata.sys_crystalset_dataset[num3];
                                         User.Ary_Crystalnames = crystalnames.join("<:>");
                                         User.Ary_Crystaldata = crystaldata.join("<:>");
                                         monsterdefeatembed.addField(":gem: "+getname,"1");
+                                        collected++;
                                     }
                                     else{
                                         monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore crystals","To make more room, equip a crystal or gem")
@@ -1614,13 +1671,17 @@ return arr.filter(function(ele){return ele != value;});
                                         var bagper = 2+bagtable;
                                         var bagdur = 3+bagtable;
                                         crystalnames[checkresult]= getname;
-                                        if(Gamedata.sys_gemset_dataset[table]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[table]);crystaldata[bagtable]=getrandom;};
-                                        if(Gamedata.sys_gemset_dataset[num]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num]);crystaldata[bagphy]= getrandom;};
-                                        if(Gamedata.sys_gemset_dataset[num2]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num2]);crystaldata[bagper]= getrandom;};
+                                        if(Gamedata.sys_gemset_dataset[table]!=0)if(Gamedata.sys_gemset_dataset[table]>1){getmini=Math.round(Gamedata.sys_gemset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[table]);crystaldata[bagtable]=getrandom;}
+                                        else {getmini=Gamedata.sys_gemset_dataset[table]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_gemset_dataset[table]*100))/100;crystaldata[bagtable]=getrandom;}
+                                        if(Gamedata.sys_gemset_dataset[num]!=0)if(Gamedata.sys_gemset_dataset[num]>1){getmini=Math.round(Gamedata.sys_gemset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num]);crystaldata[bagphy]= getrandom;}
+                                        else {getmini=Gamedata.sys_gemset_dataset[num]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_gemset_dataset[num]*100))/100;crystaldata[bagphy]= getrandom;}
+                                        if(Gamedata.sys_gemset_dataset[num2]!=0)if(Gamedata.sys_gemset_dataset[num2]>1){getmini=Math.round(Gamedata.sys_gemset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num2]);cystaldata[bagphy]= getrandom;}
+                                        else {getmini=Gamedata.sys_gemset_dataset[num2]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_gemset_dataset[num2]*100))/100;crystaldata[bagper]= getrandom;};
                                         crystaldata[bagdur]= Gamedata.sys_gemset_dataset[num3];
                                         User.Ary_Crystalnames = crystalnames.join("<:>");
                                         User.Ary_Crystaldata = crystaldata.join("<:>");
                                         monsterdefeatembed.addField(":gem: "+getname,"1");
+                                        collected++;
                                     }
                                     else{
                                         monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore crystals","To make more room, equip a crystal or gem")
@@ -1650,6 +1711,7 @@ return arr.filter(function(ele){return ele != value;});
                                         var displaydrop = Gamedata.sys_sword_dataset[percent]*100;
                                         displaydrop = Math.round(displaydrop);
                                         monsterdefeatembed.addField(":dagger: "+getname,"Atk:"+Gamedata.sys_sword_dataset[tablecort]+" AddAtk:"+displaydrop+"\nDurability"+equipmentdata[bagdur]);
+                                        collected++;
                                     }
                                     else{
                                         monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore equipment","To make more room, command: -sell, -discard, -equip <number>")
@@ -1679,6 +1741,7 @@ return arr.filter(function(ele){return ele != value;});
                                         var displaydrop = Gamedata.sys_wand_dataset[percent]*100;
                                         displaydrop = Math.round(displaydrop);
                                         monsterdefeatembed.addField(":magic_wand: "+getname,"Atk:"+Gamedata.sys_wand_dataset[tablecort]+" AddAtk:"+displaydrop+"\nDurability"+equipmentdata[bagdur]);
+                                        collected++;
                                     }
                                     else{
                                         monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore equipment","To make more room, command: -sell, -discard, -equip <number>")
@@ -1708,6 +1771,7 @@ return arr.filter(function(ele){return ele != value;});
                                         var displaydrop = Gamedata.sys_bow_dataset[percent]*100;
                                         displaydrop = Math.round(displaydrop);
                                         monsterdefeatembed.addField(":bow_and_arrow: "+getname,"Atk:"+Gamedata.sys_bow_dataset[tablecort]+" AddAtk:"+displaydrop+"\nDurability"+equipmentdata[bagdur]);
+                                        collected++;
                                     }
                                     else{
                                         monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore equipment","To make more room, command: -sell, -discard, -equip <number>")
@@ -1737,6 +1801,7 @@ return arr.filter(function(ele){return ele != value;});
                                         var displaydrop = Gamedata.sys_armor_dataset[percent]*100;
                                         displaydrop = Math.round(displaydrop);
                                         monsterdefeatembed.addField(":coat: "+getname,"Def:"+Gamedata.sys_armor_dataset[tablecort]+" AddDef:"+displaydrop+"\nDurability"+equipmentdata[bagdur]);
+                                        collected++;
                                     }
                                     else{
                                         monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore equipment","To make more room, command: -sell, -discard, -equip <number>")
@@ -1748,6 +1813,7 @@ return arr.filter(function(ele){return ele != value;});
                         }
                         itemdropnames = arrayRemove(itemdropnames,itemdropnames[items]);
                         itemdropnums = arrayRemove(itemdropnums,itemdropnums[items]);
+                        if(item==2&collected<3&Math.random()<Gamedata.sys_monsterdrop_rerollchance)item=0;
                     }
                     var checkmonster = Number(temdatanumbers[9].toString().charAt(0));
                     if(checkmonster>19){
@@ -1766,8 +1832,8 @@ return arr.filter(function(ele){return ele != value;});
                         monsterdefeatembed.addField(":ledger: You have Learned `"+theskill+"`!","command: `skill tree` for full decription");
                     }
                     }
-                    if(kepname==Gamedata.sys_monsternames_boss[9]){itembagdata[8]=1; itembagnames[8]="Master Key"; monsterdefeatembed.addField("Master Key",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten part I of the game!\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nGo to the Basement to continue Part II")}
-                   else if(kepname==Gamedata.sys_monsternames_bossA[2]){monsterdefeatembed.setFooter("Congratulations\nYou have beaten part II of the game!\nNew Side Stories coming soon!\n`stories`\nThanks for playing!").setFooter("`Restart` `Floor <number>`")};
+                    if(kepname==Gamedata.sys_monsternames_boss[9]){itembagdata[8]=1; itembagnames[8]="Master Key";profiledata[2]=1; monsterdefeatembed.addField("Master Key",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten part I of the game!\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nGo to the Basement to continue Part II")}
+                   else if(kepname==Gamedata.sys_monsternames_bossA[2]){profiledata[2]=2;monsterdefeatembed.setFooter("Congratulations\nYou have beaten part II of the game!\nNew Side Stories coming soon!\n`stories`\nThanks for playing!\n`Restart` `Floor <number>`")};
                     if(monstertype==3){hh3funset1[9]++;User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>")};
                     if(hh3funset1[16]>0)User.Skillenergy=0;
                     User.Ary_HH3ProfileNames= profilenames.join("<:>");

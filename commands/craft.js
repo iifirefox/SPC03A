@@ -134,7 +134,7 @@ else{
                     User.Ary_Equipmentdata = equipmentdata.join("<:>");
                     User.save().catch(err => console.log(err));}))
         }
-         if(equipindex!= undefined&equipindex!=-1&equipindex<7){
+         if(equipindex!= undefined&equipindex!=-1){
              if(equipindex<4){
             var craftort = 3*equipindex;
             var supplie2 = 1+craftort;

@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const Gamedata = require('../data/hh3data.json');
 const Account = require("../data/tree");
-const { MaxSkillenergy } = require('./act');
 module.exports.run = async (message, arg, User) => {
     const heroembed = new Discord.MessageEmbed();
     const monstercheatembed = new Discord.MessageEmbed();
@@ -187,10 +186,15 @@ module.exports.run = async (message, arg, User) => {
     var profile21=0;
     var profile25=0;
     var profile29=0;
+    var profilend =0;
+    var profilend2 =0;
     if(profiledata[24])if(!Number(profiledata[24].toString().charAt(1)))profile21=profiledata[21];
     if(profiledata[28])if(!Number(profiledata[28].toString().charAt(1)))profile25=profiledata[25];
     if(profiledata[32])if(!Number(profiledata[32].toString().charAt(1)))profile29=profiledata[29];
     var MaxHP=User.MaxHP+profile21+profile25+profile29;
+    if(profiledata[24])if(profiledata[24].toString().charAt(1)==5)profilend=profiledata[21];
+    if(profiledata[32])if(profiledata[32].toString().charAt(1)==5)profilend2=profiledata[29];
+    var Maxskillenergy=User.Maxskillenergy+profilend+profilend2;
     var profile21a=0;
     var profile25a=0;
     var profile29a=0;
@@ -198,6 +202,46 @@ module.exports.run = async (message, arg, User) => {
     if(profiledataA[28])if(!Number(profiledataA[28].toString().charAt(1)))profile25a=profiledataA[25];
     if(profiledataA[32])if(!Number(profiledataA[32].toString().charAt(1)))profile29a=profiledataA[29];
     var MaxHPII=UserII.MaxHP+profile21a+profile25a+profile29a;
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==1||
+    Number(profiledata[24].toString().charAt(2))==1||Number(profiledata[24].toString().charAt(3))==1)profile21=profiledata[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==1||
+    Number(profiledata[28].toString().charAt(2))==1||Number(profiledata[28].toString().charAt(3))==1)profile25=profiledata[25];
+    if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==1||
+    Number(profiledata[32].toString().charAt(2))==1||Number(profiledata[32].toString().charAt(3))==1)profile29=profiledata[29];
+    var addefper = profile21+profile25+profile29;
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==2||
+    Number(profiledata[24].toString().charAt(2))==2||Number(profiledata[24].toString().charAt(3))==2)profile21=profiledata[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==2||
+    Number(profiledata[28].toString().charAt(2))==2||Number(profiledata[28].toString().charAt(3))==2)profile25=profiledata[25];
+    if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==2||
+    Number(profiledata[32].toString().charAt(2))==2||Number(profiledata[32].toString().charAt(3))==2)profile29=profiledata[29];
+    var addatkper = profile21+profile25+profile29;
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==4||
+    Number(profiledata[24].toString().charAt(2))==4||Number(profiledata[24].toString().charAt(3))==4)profile21=profiledata[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==4||
+    Number(profiledata[28].toString().charAt(2))==4||Number(profiledata[28].toString().charAt(3))==4)profile25=profiledata[25];
+    if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==4||
+    Number(profiledata[32].toString().charAt(2))==4||Number(profiledata[32].toString().charAt(3))==4)profile29=profiledata[29];
+    var addspd = profile21+profile25+profile29;
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledataA[24])if(Number(profiledataA[24].toString().charAt(1))==4||
+    Number(profiledataA[24].toString().charAt(2))==4||Number(profiledataA[24].toString().charAt(3))==4)profile21=profiledataA[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==4||
+    Number(profiledataA[28].toString().charAt(2))==4||Number(profiledataA[28].toString().charAt(3))==4)profile25=profiledataA[25];
+    if(profiledataA[32])if(Number(profiledataA[32].toString().charAt(1))==4||
+    Number(profiledataA[32].toString().charAt(2))==4||Number(profiledataA[32].toString().charAt(3))==4)profile29=profiledataA[29];
+    var addspdA = profile21+profile25+profile29;
     // add monster effect
     if(temdatanumbers[10]>0.0){
         var monstercheatype = Number(temdatanumbers[10].toString().substring(2));
@@ -454,7 +498,8 @@ module.exports.run = async (message, arg, User) => {
                 var addmg = heroatk[a]*profiledata[5];
                 var addmg2 = heroatk[a]*profiledata[19];
                var addmg3 =  heroatk[a]*temdatanumbers[12];
-                heroatk[a] = Math.round(heroatk[a]+addmg+addmg2+addmg3)+profiledata[16];
+               var addmg4 =  heroatk[a]*addatkper;
+                heroatk[a] = Math.round(heroatk[a]+addmg+addmg2+addmg3+addmg4)+profiledata[16];
                 var o = heroatk[a]/2;
                 var oa = 52 - o; o = oa/100;
                 oa = o * heroatk[a]; o = heroatk[a]-oa;
@@ -579,7 +624,7 @@ module.exports.run = async (message, arg, User) => {
         else if(arg=="avoid"&!arg.includes("potion")){
             if(User.Skillenergy>0){
                 User.Skillenergy--;
-                if(User.Skillenergy>MaxSkillenergy) User.Skillenergy=MaxSkillenergy;
+                if(User.Skillenergy>Maxskillenergy) User.Skillenergy=Maxskillenergy;
                 if(herospkey>foespdkey){
                 foeatkey = false;
                 herotxt="You avoid the attack";
@@ -651,26 +696,26 @@ module.exports.run = async (message, arg, User) => {
         }
     }
     if(temdatanumbers[0]>0){
-        var profiledef = profiledata[9];
+        var profiledef = Math.round(profiledata[8]+(profiledata[8]*profiledata[9]))+profiledata[17];
         var lowdef = profiledef*temdatanumbers[16];
-        profiledef = Math.round(profiledef-lowdef);
+        var hidef = profiledef*addefper;
+        profiledef = Math.round(profiledef+hidef-lowdef);
         if(monstercheatype==7){
-            defeffected= profiledata[9]*.30;
+            defeffected= profiledef*.30;
             profiledef = profiledef-= defeffected;
-        }
+         }
         if(profiledata[15]==3){
-            defeffected= profiledata[9]*.50;
+           defeffected= profiledef*.50;
+           profiledef = profiledef-= defeffected;
+        }
+        if(temdatanumbers[17]){
+            defeffected= profiledef*temdatanumbers[17];
             profiledef = profiledef-= defeffected;
          }
         if(profiledef<0)profiledef*-1;
-        var netatk = foephyatk*temdatanumbers[17];
-        netatk = foephyatk-=netatk;
-        netatk= Math.round(netatk);
-       var netatk2 = profiledef*netatk;
-       netatk = netatk-=netatk2;
-       netatk=Math.round(netatk-(profiledata[8]+profiledata[17]));
+        var netatk = Math.round(foephyatk-profiledef);
+       netatk = netatk;
        foeattack = netatk;
-       if(foeattack<0)foeattack=0;
        if(temdatanumbers[19]>0){
            temdatanumbers[19]--;
            var admore = Gamedata.sys_potion_effect[2]* foeattack;
@@ -701,23 +746,24 @@ module.exports.run = async (message, arg, User) => {
     }
     if(temdatanumbers[52]>0){foetxt="";foeatkey=false;}
     if(temdatanumbers[53]<1&temdatanumbers[32]>0){
-        var profiledef = profiledata[9];
+        var profiledef = Math.round(profiledata[8]+(profiledata[8]*profiledata[9]))+profiledata[17];
         var lowdef = profiledef*temdatanumbers[16];
-        profiledef = Math.round(profiledef-lowdef);
+        var hidef = profiledef*addefper;
+        profiledef = Math.round(profiledef+hidef-lowdef);
         if(monstercheatype==7){
-           defeffected= profiledata[9]*.30;
+           defeffected= profiledef*.30;
            profiledef = profiledef-= defeffected;
          }
         if(profiledata[15]==3){
-           defeffected= profiledata[9]*.50;
+           defeffected= profiledef*.50;
            profiledef = profiledef-= defeffected;
          }
+         if(temdatanumbers[17]){
+            defeffected= profiledef*temdatanumbers[17];
+            profiledef = profiledef-= defeffected;
+         }
         if(profiledef<0)profiledef*-1;
-        var netatk = foephyatkII*temdatanumbers[17];
-        netatk = Math.round(foephyatkII-=netatk);
-       var netatk2 = profiledef*netatk;
-       netatk = netatk-=netatk2;
-       netatk=Math.round(netatk-(profiledata[8]+profiledata[17]));
+        var netatk = Math.round(foephyatkII-profiledef);
        foeattackII = netatk;
        if(foeattackII<0)foeattackII=0;
        if(temdatanumbers[19]>0){
@@ -984,8 +1030,8 @@ module.exports.run = async (message, arg, User) => {
                      if(temdatanumbers[33]>0){temdatanumbers[32]-= attack};
                      if(alla==true)temdatanumbers[32]-= attack;
                  User.Skillenergy++;
-                 if(User.Skillenergy>MaxSkillenergy){
-                     User.Skillenergy=MaxSkillenergy;
+                 if(User.Skillenergy>Maxskillenergy){
+                     User.Skillenergy=Maxskillenergy;
                  }
              }
              else if(arg=="defend"){
@@ -994,8 +1040,8 @@ module.exports.run = async (message, arg, User) => {
              }
              if(foeatkcrit>0){
                  User.Skillenergy++;
-             if(User.Skillenergy>MaxSkillenergy){
-                 User.Skillenergy=MaxSkillenergy;
+             if(User.Skillenergy>Maxskillenergy){
+                 User.Skillenergy=Maxskillenergy;
              }}
              }
              else if(arg.includes("potion")&potioneffect!=0){
@@ -1207,6 +1253,19 @@ module.exports.run = async (message, arg, User) => {
          }
          if(multia==true) foetxt = foetxtA+"\n"+foetxt;
      }}
+     profile21=0;
+     profile29=0;
+     if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==5||
+     Number(profiledata[24].toString().charAt(2))==5||Number(profiledata[24].toString().charAt(3))==5)profile21=profiledata[21];
+     if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==5||
+     Number(profiledata[32].toString().charAt(2))==5||Number(profiledata[32].toString().charAt(3))==5)profile29=profiledata[29];
+     var addhealchance = profile21+profile25+profile29;
+     if(!profiledata[15]&Math.random()<addhealchance){
+         var regen= MaxHP-(MaxHP*0.05);
+         User.HP+regen;
+         if(User.HP>MaxHP)User.HP=MaxHP;
+         effects+"\n:sparkling_heart: regenerate +"+regen+" HP from Healing Gem"
+     }
      if(herospkey<foespdkey||herospkey<foespdkeyII){heroembed.setTitle(foetxt).setDescription(herotxt).setFooter(effects);} else{heroembed.setTitle(herotxt).setDescription(foetxt).setFooter(effects);}
      }
      if(monstercheatype==1&foeatkcrit>1&temdatanumbers[0]>0){
@@ -1823,7 +1882,8 @@ var mdefeated = false;
                             splititem[0].trimEnd();
                             splititem[1].trimStart();
                             itemdropnames[items]=splititem[0];
-                           var amount=Number(splititem[1]);
+                            var amount=Number(splititem[1].trim());
+                            if(isNaN(amount)) amount = 1;
                         }
                          if(Gamedata.sys_material_names.some(a=>IgnoringCase(a,itemdropnames[items]))){
                              var getname = Gamedata.sys_material_names.find(a=>IgnoringCase(a,itemdropnames[items]));
@@ -2042,7 +2102,8 @@ var mdefeated = false;
                             splititem[0].trimEnd();
                             splititem[1].trimStart();
                             itemdropnamesII[items]=splititem[0];
-                           var amount=Number(splititem[1]);
+                           var amount=Number(splititem[1].trim());
+                           if(isNaN(amount)) amount = 1;
                         }
                          if(Gamedata.sys_material_names.some(a=>IgnoringCase(a,itemdropnamesII[items]))){
                              var getname = Gamedata.sys_material_names.find(a=>IgnoringCase(a,itemdropnamesII[items]));
@@ -2072,25 +2133,25 @@ var mdefeated = false;
                             var num3=table+3;
                             var getrandom=0;
                             var getmini;
-                            var checkresult = crystalnamesA.indexOf("");
+                            var checkresult = crystalnames.indexOf("");
                             if(checkresult!=-1){
                                 var bagtable = 4*checkresult;
                                 var bagphy = 1+bagtable;
                                 var bagper = 2+bagtable;
                                 var bagdur = 3+bagtable;
                                 var bagdurdmg = 4+bagtable;
-                                crystalnamesA[checkresult]= getname;
-                                if(Gamedata.sys_crystalset_dataset[table]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[table])};
-                                crystaldataA[bagtable]= getrandom;
-                                if(Gamedata.sys_crystalset_dataset[num]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num])};
-                                crystaldataA[bagphy]= getrandom;
-                                if(Gamedata.sys_crystalset_dataset[num2]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num2])};
-                                crystaldataA[bagper]= getrandom;
-                                if(Gamedata.sys_crystalset_dataset[num3]!=0){getmini=Math.round(Gamedata.sys_crystalset_dataset[num3]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num3])}
-                                crystaldataA[bagdur]= getrandom;
-                                UserII.Ary_Crystalnames = crystalnames.join("<:>");
-                                UserII.Ary_Crystaldata = crystaldataA.join("<:>");
+                                crystalnames[checkresult]= getname;
+                                if(Gamedata.sys_crystalset_dataset[table]!=0)if(Gamedata.sys_crystalset_dataset[table]>1){getmini=Math.round(Gamedata.sys_crystalset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[table]);crystaldata[bagtable]=getrandom;}
+                                else {getmini=Gamedata.sys_crystalset_dataset[table]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_crystalset_dataset[table]*100))/100;crystaldata[bagtable]=getrandom;}
+                                if(Gamedata.sys_crystalset_dataset[num]!=0)if(Gamedata.sys_crystalset_dataset[num]>1){getmini=Math.round(Gamedata.sys_crystalset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num]);crystaldata[bagphy]= getrandom;}
+                                else {getmini=Gamedata.sys_crystalset_dataset[num]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_crystalset_dataset[num]*100))/100;crystaldata[bagphy]= getrandom;}
+                                if(Gamedata.sys_crystalset_dataset[num2]!=0)if(Gamedata.sys_crystalset_dataset[num2]>1){getmini=Math.round(Gamedata.sys_crystalset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_crystalset_dataset[num2]);cystaldata[bagphy]= getrandom;}
+                                else {getmini=Gamedata.sys_crystalset_dataset[num2]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_crystalset_dataset[num2]*100))/100;crystaldata[bagper]= getrandom;};
+                                crystaldata[bagdur]= Gamedata.sys_crystalset_dataset[num3];
+                                User.Ary_Crystalnames = crystalnames.join("<:>");
+                                User.Ary_Crystaldata = crystaldata.join("<:>");
                                 monsterdefeatembed.addField(":gem: "+getname,"1");
+                                collected++;
                             }
                             else{
                                 monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore crystals","To make more room, equip a crystal or gem")
@@ -2105,25 +2166,24 @@ var mdefeated = false;
                             var num3=table+3;
                             var getrandom=0;
                             var getmini;
-                            var checkresult = crystalnamesA.indexOf("");
+                            var checkresult = crystalnames.indexOf("");
                             if(checkresult!=-1){
                                 var bagtable = 4*checkresult;
                                 var bagphy = 1+bagtable;
                                 var bagper = 2+bagtable;
                                 var bagdur = 3+bagtable;
-                                var bagdurdmg = 4+bagtable;
-                                crystalnamesA[checkresult]= getname;
-                                if(Gamedata.sys_gemset_dataset[table]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[table])};
-                                crystaldataA[bagtable]= getrandom;
-                                if(Gamedata.sys_gemset_dataset[num]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num])};
-                                crystaldataA[bagphy]= getrandom;
-                                if(Gamedata.sys_gemset_dataset[num2]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num2])};
-                                crystaldataA[bagper]= getrandom;
-                                if(Gamedata.sys_gemset_dataset[num3]!=0){getmini=Math.round(Gamedata.sys_gemset_dataset[num3]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num3])}
-                                crystaldataA[bagdur]= getrandom;
-                                UserII.Ary_Crystalnames = crystalnamesA.join("<:>");
-                                UserII.Ary_Crystaldata = crystaldataA.join("<:>");
+                                crystalnames[checkresult]= getname;
+                                if(Gamedata.sys_gemset_dataset[table]!=0)if(Gamedata.sys_gemset_dataset[table]>1){getmini=Math.round(Gamedata.sys_gemset_dataset[table]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[table]);crystaldata[bagtable]=getrandom;}
+                                else {getmini=Gamedata.sys_gemset_dataset[table]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_gemset_dataset[table]*100))/100;crystaldata[bagtable]=getrandom;}
+                                if(Gamedata.sys_gemset_dataset[num]!=0)if(Gamedata.sys_gemset_dataset[num]>1){getmini=Math.round(Gamedata.sys_gemset_dataset[num]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num]);crystaldata[bagphy]= getrandom;}
+                                else {getmini=Gamedata.sys_gemset_dataset[num]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_gemset_dataset[num]*100))/100;crystaldata[bagphy]= getrandom;}
+                                if(Gamedata.sys_gemset_dataset[num2]!=0)if(Gamedata.sys_gemset_dataset[num2]>1){getmini=Math.round(Gamedata.sys_gemset_dataset[num2]*0.50);getrandom=RandomMinMax(getmini,Gamedata.sys_gemset_dataset[num2]);cystaldata[bagphy]= getrandom;}
+                                else {getmini=Gamedata.sys_gemset_dataset[num2]*0.50;getrandom=RandomMinMax(Math.round(getmini*100),Math.round(Gamedata.sys_gemset_dataset[num2]*100))/100;crystaldata[bagper]= getrandom;};
+                                crystaldata[bagdur]= Gamedata.sys_gemset_dataset[num3];
+                                User.Ary_Crystalnames = crystalnames.join("<:>");
+                                User.Ary_Crystaldata = crystaldata.join("<:>");
                                 monsterdefeatembed.addField(":gem: "+getname,"1");
+                                collected++;
                             }
                             else{
                                 monsterdefeatembed.addField(":x: You do not have enough bag space to obtain anymore crystals","To make more room, equip a crystal or gem")
@@ -2275,11 +2335,11 @@ var mdefeated = false;
                 }
                 }
              if(kepname==Gamedata.sys_monsternames_boss[9]&temdatanumbers[46]==1){
-            profiledata[8]=1; profilenames[8]="Master Key"; monsterdefeatembed.addField("Master Key ("+User.name+")",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten part I of the game!\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nGo to the Basement to continue Part II")}
+            profiledata[8]=1; profilenames[8]="Master Key";profiledata[2]=1; monsterdefeatembed.addField("Master Key ("+User.name+")",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten part I of the game!\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nGo to the Basement to continue Part II")}
             else if(kepname==Gamedata.sys_monsternames_boss[9]&temdatanumbersA[46]==1){
-            profiledataA[8]=1; profilenamesA[8]="Master Key"; monsterdefeatembed.addField("Master Key ("+UserII.name+")",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten part I of the game!\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nGo to the Basement to continue Part II")}
-            else if(kepname==Gamedata.sys_monsternames_bossA[2]&temdatanumbers[46]==1){monsterdefeatembed.setFooter("Congratulations\nYou have beaten part II of the game!\nNew Side Stories coming soon!\n`stories`\nThanks for playing!").setFooter("`Restart` `Floor <number>`")}
-            else if(kepname==Gamedata.sys_monsternames_bossA[2]&temdatanumbersA[46]==1){monsterdefeatembed.setFooter("Congratulations\nYou have beaten part II of the game!\nNew Side Stories coming soon!\n`stories`\nThanks for playing!").setFooter("`Restart` `Floor <number>`")};
+            profiledataA[8]=1; profilenamesA[8]="Master Key";profiledataA[2]=1; monsterdefeatembed.addField("Master Key ("+UserII.name+")",1);monsterdefeatembed.setFooter("Congratulations\nYou have beaten part I of the game!\nYou can now use the Master Key to go on any floor.\nCommand: -floor < number >\nTo replay from the start again\nCommand: -restart\nGo to the Basement to continue Part II")}
+            else if(kepname==Gamedata.sys_monsternames_bossA[2]&temdatanumbers[46]==1){profiledata[2]=2;monsterdefeatembed.setFooter("Congratulations\nYou have beaten part II of the game!\nNew Side Stories coming soon!\n`stories`\nThanks for playing!").setFooter("`Restart` `Floor <number>`")}
+            else if(kepname==Gamedata.sys_monsternames_bossA[2]&temdatanumbersA[46]==1){profiledataA[2]=2;monsterdefeatembed.setFooter("Congratulations\nYou have beaten part II of the game!\nNew Side Stories coming soon!\n`stories`\nThanks for playing!").setFooter("`Restart` `Floor <number>`")};
              if(monstertype==3&temdatanumbers[46]==1){hh3funset1[9]++;User.Ary_HH3FunctionSet1 = hh3funset1.join("<:>")}
              else if(monstertype==3&temdatanumbersA[46]==1){hh3funset1A[9]++;UserII.Ary_HH3FunctionSet1 = hh3funset1A.join("<:>")};
              User.Ary_HH3ProfileNames= profilenames.join("<:>");
@@ -2350,9 +2410,9 @@ var mdefeated = false;
                                     extraembedkey=true;
                                 }
                             }
-                            herospd+=temdatanumbers[14];
+                            herospd+=temdatanumbers[14]+addspd;
                             herospd-=temdatanumbers[15];
-                            herospd+=temdatanumbersA[14];
+                            herospd+=temdatanumbersA[14]+addspdA;
                             herospd-=temdatanumbersA[15];
                             if(monstercheatype==1&profiledata[15]==5){
                                 herospd-=0.10

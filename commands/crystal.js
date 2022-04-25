@@ -17,7 +17,8 @@ module.exports.run = async (message, arg, User) => {
         var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
     for(var index=0; index<rawprofiledata.length;index++){
         profiledata[index]= Number(rawprofiledata[index]);
-    }}
+    }if(profiledata.length<30){profiledata[26]=0;profiledata[27]=0;profiledata[28]=0;profiledata[29]=0,profiledata[30]=0;profiledata[31]=0;
+      profiledata[32]=0;User.Ary_HH3ProfileData = profiledata.join(Gamedata.key);};}
     else return message.channel.send(crystalembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     if(User.TemdataNumbers||User.TemdataNumbers==""){
         var rawtemdatanumbers= User.TemdataNumbers.split("<:>");
@@ -77,9 +78,15 @@ module.exports.run = async (message, arg, User) => {
             var gettype =crystaldata[d].toString().charAt(1);
             var gettype2 =crystaldata[d].toString().charAt(2);
             var gettype3 =crystaldata[d].toString().charAt(3);
-           addtxt=Gamedata.sys_crystal_getype[gettype]+": "+crystaldata[a];
-           if(crystaldata[b])addtxt+="\n"+Gamedata.sys_gem_getype[gettype2]+": "+crystaldata[b];
-           if(crystaldata[c])addtxt+="\n"+Gamedata.sys_gem_getype[gettype3]+": "+crystaldata[c];
+            var gemdis=crystaldata[a];
+            var gemdis2=crystaldata[b];
+            var gemdis3=crystaldata[c];
+            if(gemdis<1)gemdis=Math.round(gemdis*100);
+            if(gemdis2<1)gemdis2=Math.round(gemdis2*100);
+            if(gemdis3<1)gemdis3=Math.round(gemdis3*100);
+           addtxt=Gamedata.sys_crystal_getype[gettype]+": "+gemdis;
+           if(crystaldata[b])addtxt+="\n"+Gamedata.sys_crystal_getype[gettype2]+": "+gemdis2;
+           if(crystaldata[c])addtxt+="\n"+Gamedata.sys_crystal_getype[gettype3]+": "+gemdis3;
            crystalembed.addField(list+" "+crystalnames[x],addtxt);
            amount++;
         }
@@ -121,9 +128,15 @@ const canvas = createCanvas(w,h);
          ctx.fillText(profilenames[10],22,205);
          ctx.font="15px Karla-Bold";
          ctx.fillStyle="#ffffff";
-         var addtxt =" +"+profiledata[a+(0*4)]+" "+Gamedata.sys_crystal_getype[gettype1];
-         if(profiledata[a+1]) addtxt+="\n +"+profiledata[a+(0*4)+1]+" "+Gamedata.sys_crystal_getype[gettype2];
-         if(profiledata[a+2]) addtxt+="\n +"+profiledata[a+(0*4)+2]+" "+Gamedata.sys_crystal_getype[gettype3];
+         var gemdis=profiledata[a+(0*4)];
+         var gemdis2=profiledata[a+(0*4)];
+         var gemdis3=profiledata[a+(0*4)];
+         if(gemdis<1)gemdis=gemdis*100;
+         if(gemdis2<1)gemdis2=gemdis2*100;
+         if(gemdis3<1)gemdis3=gemdis3*100;
+         var addtxt =" +"+gemdis+" "+Gamedata.sys_crystal_getype[gettype1];
+         if(profiledata[a+1]) addtxt+="\n +"+gemdis2+" "+Gamedata.sys_crystal_getype[gettype2];
+         if(profiledata[a+2]) addtxt+="\n +"+gemdis3+" "+Gamedata.sys_crystal_getype[gettype3];
          ctx.fillText(addtxt,25,230);
       }
       if(profilenames[11].includes("Crystal")||profilenames[11].includes("Gem")){
@@ -152,9 +165,15 @@ const canvas = createCanvas(w,h);
          ctx.fillText(profilenames[11],118,130);
          ctx.font="15px Karla-Bold";
          ctx.fillStyle="#ffffff";
-         var addtxt =" +"+profiledata[a+(1*4)]+" "+Gamedata.sys_crystal_getype[gettype1];
-         if(profiledata[a+1]) addtxt+="\n +"+profiledata[a+(1*4)+1]+" "+Gamedata.sys_crystal_getype[gettype2];
-         if(profiledata[a+2]) addtxt+="\n +"+profiledata[a+(1*4)+2]+" "+Gamedata.sys_crystal_getype[gettype3];
+         var gemdis=profiledata[a+(1*4)];
+         var gemdis2=profiledata[a+(1*4)];
+         var gemdis3=profiledata[a+(1*4)];
+         if(gemdis<1)gemdis=gemdis*100;
+         if(gemdis2<1)gemdis2=gemdis2*100;
+         if(gemdis3<1)gemdis3=gemdis3*100;
+         var addtxt =" +"+gemdis+" "+Gamedata.sys_crystal_getype[gettype1];
+         if(profiledata[a+1]) addtxt+="\n +"+gemdis2+" "+Gamedata.sys_crystal_getype[gettype2];
+         if(profiledata[a+2]) addtxt+="\n +"+gemdis3+" "+Gamedata.sys_crystal_getype[gettype3];
          ctx.fillText(addtxt,138,160);
       }
       if(profilenames[12].includes("Crystal")||profilenames[12].includes("Gem")){
@@ -180,12 +199,18 @@ const canvas = createCanvas(w,h);
          ctx.drawImage(gem3,220,68,135,135);
          ctx.font="15px Karla-Bold";
          ctx.fillStyle="#ffffff";
-         ctx.fillText(profilenames[12],255,205);
+         ctx.fillText(profilenames[12],230,205);
          ctx.font="15px Karla-Bold";
          ctx.fillStyle="#ffffff";
-         var addtxt =" +"+profiledata[a+(2*4)]+" "+Gamedata.sys_crystal_getype[gettype1];
-         if(profiledata[a+1]) addtxt+="\n +"+profiledata[a+(2*4)+1]+" "+Gamedata.sys_crystal_getype[gettype2];
-         if(profiledata[a+2]) addtxt+="\n +"+profiledata[a+(2*4)+2]+" "+Gamedata.sys_crystal_getype[gettype3];
+         var gemdis=profiledata[a+(2*4)];
+         var gemdis2=profiledata[a+(2*4)];
+         var gemdis3=profiledata[a+(2*4)];
+         if(gemdis<1)gemdis=gemdis*100;
+         if(gemdis2<1)gemdis2=gemdis2*100;
+         if(gemdis3<1)gemdis3=gemdis3*100;
+         var addtxt =" +"+gemdis+" "+Gamedata.sys_crystal_getype[gettype1];
+         if(profiledata[a+1]) addtxt+="\n +"+gemdis2+" "+Gamedata.sys_crystal_getype[gettype2];
+         if(profiledata[a+2]) addtxt+="\n +"+gemdis3+" "+Gamedata.sys_crystal_getype[gettype3];
          ctx.fillText(addtxt,255,230);
       }
       ctx.closePath;
@@ -208,48 +233,19 @@ else if(!arg.includes("yes")){
         var a=newarg0*4;var b=a+1;var c=b+1;var d =c+1;
         var ap=(newarg1*4)+21;var bp=ap+1;var cp=bp+1;var dp =cp+1;
           profilenames[newarg1+10] = crystalnames[newarg0];
-          profiledata[ap] = crystaldata[a];
           var tem = crystalnames[newarg0];
           crystalnames[newarg0] ="";
+          profiledata[ap] = crystaldata[a];
           crystaldata[a]=0;
+
           if(crystalnames[newarg0]==Gamedata.sys_gem_names[6]){
             profiledata[bp] = crystaldata[b];
             profiledata[cp] = crystaldata[c];
             crystaldata[b]=0;
             crystaldata[c]=0;
           }
-          var taketype=[];
-          taketype[0] =profiledata[dp].toString().charAt(1);
-          taketype[1] =profiledata[dp].toString().charAt(2);
-          taketype[2] =profiledata[dp].toString().charAt(3);
-          for(var i=0;a<3;i++){
-            var q=0;
-            if(i==0)q=ap;
-            if(i==1)q=bp;
-            if(i==2)q=cp;
-            if(gettype==0)User.MaxHP+=crystaldata[a];
-            else if(taketype[i]==1) profiledata[17]-=profiledata[q];
-            else if(taketype[i]==2) profiledata[16]-=profiledata[q];
-            else if(taketype[i]==3) profiledata[20]-=profiledata[q];
-            else if(taketype[i]==4) profiledata[19]-=profiledata[q];
-            else if(taketype[i]==5) User.Maxskillenergy-=profiledata[q];
-            else if(taketype[i]==6) profiledata[12]-=profiledata[q];
-            else if(taketype[i]==7) hh3funset1[12]-=profiledata[q];}
           profiledata[dp] = crystaldata[d];
-          var gettype=[];
-           gettype[0] =crystaldata[d].toString().charAt(1);
-           gettype[1] =crystaldata[d].toString().charAt(2);
-           gettype[2] =crystaldata[d].toString().charAt(3);
-           for(var i=0;a<3;i++){
-          if(gettype==0)User.MaxHP+=crystaldata[a];
-          else if(gettype[i]==1) profiledata[17]+=crystaldata[a];
-          else if(gettype[i]==2) profiledata[16]+=crystaldata[a];
-          else if(gettype[i]==3) profiledata[20]+=crystaldata[a];
-          else if(gettype[i]==4) profiledata[19]+=crystaldata[a];
-          else if(gettype[i]==5) User.Maxskillenergy+=crystaldata[a];
-          else if(gettype[i]==6) profiledata[12]+=crystaldata[a];
-          else if(gettype[i]==7) hh3funset1[12]+=crystaldata[a];}
-          User.Ary_HH3FunctionSet1 = hh3funset1.join(Gamedata.key)
+          crystaldata[d]=0;
           User.Ary_HH3ProfileNames = profilenames.join(Gamedata.key);
           User.Ary_HH3ProfileData = profiledata.join(Gamedata.key);
           User.Ary_Crystalnames = crystalnames.join(Gamedata.key);
@@ -258,37 +254,36 @@ else if(!arg.includes("yes")){
        }
        else{
         temdatanumbers[0] = newarg0; temdatanumbers[1] = newarg1; temdatanumbers[3]=1; User.TemdataNumbers = temdatanumbers.join("<:>");
+        hh3funset1[6]=5; User.Ary_HH3FunctionSet1 = hh3funset1.join(Gamedata.key);
            crystalembed.setDescription(":warning: You have a crystal/gem in that slot!\n`Changing this item will only replace it and won't recover`");
            crystalembed.setFooter("To confirm: -crystal yes");
        }
    }
    else crystalembed.setDescription(":x: That item does not exist.")
-} else if(arg.includes("yes")&temdatanumbers[3]==1){
+} else if(arg.includes("yes")&temdatanumbers[3]==1&hh3funset1[6]==5){
     var a=temdatanumbers[0]*4;var b=a+1;var c=b+1;var d =c+1;
     var ap=(temdatanumbers[1]*4)+21;var bp=ap+1;var cp=bp+1;var dp =cp+1;
-        if(crystalnames[temdatanumbers[0]].includes("Gem"))statindex = Gamedata.sys_gem_names.indexOf(crystalnames[temdatanumbers[0]]);
+        if(crystalnames[temdatanumbers[0]].includes("Gem"));
           profilenames[temdatanumbers[1]+10] = crystalnames[temdatanumbers[0]];
+         var tem = crystalnames[temdatanumbers[0]];
+         crystalnames[temdatanumbers[0]] ="";
           profiledata[ap] = crystaldata[a];
-          var gettype=[];
-           gettype[0] =crystaldata[d].toString().charAt(1);
-           gettype[1] =crystaldata[d].toString().charAt(2);
-           gettype[2] =crystaldata[d].toString().charAt(3);
-           for(var a=0;a<3;a++){
-          if(gettype==0)User.MaxHP+=crystaldata[a];
-          else if(gettype[a]==1) profiledata[17]+=crystaldata[a];
-          else if(gettype[a]==2) profiledata[16]+=crystaldata[a];
-          else if(gettype[a]==3) profiledata[20]+=crystaldata[a];
-          else if(gettype[a]==4) profiledata[19]+=crystaldata[a];
-          else if(gettype[a]==5) User.Maxskillenergy+=crystaldata[a];
-          else if(gettype[a]==6) profiledata[12]+=crystaldata[a];
-          else if(gettype[a]==7) hh3funset1[12]+=crystaldata[a];}
-          User.Ary_HH3FunctionSet1 = hh3funset1.join(Gamedata.key)
+          crystaldata[a]=0;
+
+          if(crystalnames[newarg0]==Gamedata.sys_gem_names[6]){
+            profiledata[bp] = crystaldata[b];
+            profiledata[cp] = crystaldata[c];
+            crystaldata[b]=0;
+            crystaldata[c]=0;
+          }
+          profiledata[dp] = crystaldata[d];
+          crystaldata[d]=0;
           User.Ary_HH3ProfileNames = profilenames.join(Gamedata.key);
           User.Ary_HH3ProfileData = profiledata.join(Gamedata.key);
           User.Ary_Crystalnames = crystalnames.join(Gamedata.key);
           User.Ary_Crystaldata = crystaldata.join(Gamedata.key);
           crystalembed.setDescription("You are now bound to `"+tem+"`!");
-}
+} else return message.channel.send(crystalembed.setTitle("").setDescription(":x: that action does not exist anymore."))
 }else crystalembed.setDescription(":x: You are in a battle.")
          message.channel.send( crystalembed );
 }

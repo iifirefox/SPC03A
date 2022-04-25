@@ -198,6 +198,12 @@ module.exports.run = async (message, arg, User, client) => {
                             Imgset[0]=Gamedata.top;
                             User.Ary_Imgset = Imgset.join("<:>");
                         }
+                        else if(User.floor<-2&User.step>=470){
+                            newsembed.setDescription("You reached the dark void of the Hunted House");
+                            newsembed.setFooter("command: floor to select a floor\ncommand: restart to restart game");
+                            Imgset[0]=Gamedata.top;
+                            User.Ary_Imgset = Imgset.join("<:>");
+                        }
                         else{
                             var floor = User.floor; if(floor==-1)floor="Basement"; else if(floor==-2)floor="Hidden Library"; else if(floor==-3)floor="Crystal Cave";
                         newsembed.setTitle("You are now on floor " + User.floor + "\n -check for info");
@@ -261,6 +267,7 @@ module.exports.run = async (message, arg, User, client) => {
                             halfloor=30;
                             }
                          floormax =stepamount*newfix;
+                         if(floormax<0)floormax=floormax*-1;
                         halfloor = floormax-halfloor;}
                         message.channel.send(newsembed);
                     }
@@ -302,6 +309,32 @@ module.exports.run = async (message, arg, User, client) => {
                                 message.channel.send(embed);
                         }
                         else if(User.floor>=-6&User.floor<=10&User.floor!=1){
+                            if(User.floor<0)newfix= (User.floor*-1)-1;
+                            else newfix = User.floor-1;
+                              var stepamount = 0;
+                              var halfloor =0;
+                              if(User.floor>3&User.floor<=9){
+                               stepamount=125;
+                               halfloor=63;
+                               }
+                           else if(User.floor==3){
+                               stepamount=65;
+                               halfloor=33;
+                               }
+                           else if(User.floor==10){
+                               stepamount = 140;
+                               halfloor=70;
+                               }
+                               else if(User.floor<0&User.floor>-4){
+                                   stepamount = 230;
+                                   halfloor=115;
+                                   }
+                           else {
+                               stepamount = 60;
+                               halfloor=30;
+                               }
+                              var floormax =stepamount*newfix;
+                              if(floormax<0)floormax= floormax*-1;
                             if(User.step>=floormax-7&hh3funset1[9]==0){
                                 var bossname = Gamedata.sys_monsternames_boss;
                             var bossskills = Gamedata.sys_monsterboss_skillname;

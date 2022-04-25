@@ -29,7 +29,7 @@ module.exports.run = async (message, arg,User) => {
     var profilend2 =0;
     if(profiledata[24])if(profiledata[24].toString().charAt(1)==5)profilend=profiledata[21];
     if(profiledata[32])if(profiledata[32].toString().charAt(1)==5)profilend2=profiledata[29];
-    var MaxSkillenergy=User.MaxSkillenergy+profilend+profilend2;
+    var Maxskillenergy=User.Maxskillenergy+profilend+profilend2;
       if(User.energy!=undefined){
       var stepamount = 0;
       var halfloor =0;
@@ -68,7 +68,7 @@ module.exports.run = async (message, arg,User) => {
             if(User.CombatMode==2&temdatanumbers[41]&temdatanumbers[9])var lvII = temdatanumbers[9].toString().substring(1);
             if(lv.charAt(0)!="3") add="a ";
             if(temdatanumbers[32]==0)checkembed.setTitle("You are in battle with "+add +temdatanames[0]+"\nLv: "+newlv);
-            else if(temdatanumbers[32])checkembed.setTitle("You are in battle with "+
+            else if(temdatanames[7])checkembed.setTitle("You are in battle with "+
             add +temdatanames[0]+"Lv."+newlv+" and a "+temdatanames[7]+" Lv."+lvII);
             var hpcolor ="#FF1919";
             if(lv.charAt(0)=="3"){checkembed.setDescription("Boss Lv"+newlv);
@@ -76,13 +76,17 @@ module.exports.run = async (message, arg,User) => {
             }
             if(lv.charAt(0)=="2"){checkembed.setDescription("Boss Lv"+User.level);
             }
-            if(temdatanumbers[32]<1){
             const canvas = createCanvas(256,286);
-            const ctx = canvas.getContext("2d");
+            const largecanvas = createCanvas(516,286);
             const background = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
+            const pic = await loadImage(Imgset[1]);
+            const background0 = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
+            const pic0 = await loadImage(Imgset[1]);
+            if(hh3funset1[11]==2) var pic2 = await loadImage(Imgset[2]);
+            if(temdatanumbers[32]<1){
+            const ctx = canvas.getContext("2d");
             ctx.drawImage(background,0,0, canvas.width, canvas.height);
             ctx.beginPath();
-            const pic = await loadImage(Imgset[1]);
             ctx.drawImage(pic,0,33, canvas.width, 256);
             ctx.lineWidth = 2;
             ctx.strokeStyle="#FFA600";
@@ -109,16 +113,13 @@ module.exports.run = async (message, arg,User) => {
             ctx.closePath;
             ctx.clip();
             const attachment = new Discord.MessageAttachment(canvas.toBuffer(),"png.png");
-            checkembed.attachFiles(attachment);}
+            checkembed.attachFiles(attachment);
+        }
             else if(hh3funset1[11]==2){
-                const canvas = createCanvas(516,286);
-            const ctx = canvas.getContext("2d");
-            const background = await loadImage("https://i.ibb.co/cFVyjpQ/newoverly.png");
-            ctx.drawImage(background,0,0, canvas.width, canvas.height);
+            const ctx = largecanvas.getContext("2d");
+            ctx.drawImage(background0,0,0, largecanvas.width, largecanvas.height);
             ctx.beginPath();
-            const pic = await loadImage(Imgset[1]);
-            ctx.drawImage(pic,0,33, 256, 256);
-            const pic2 = await loadImage(Imgset[2]);
+            ctx.drawImage(pic0,0,33, 256, 256);
             ctx.drawImage(pic2,260,33, 256, 256);
             ctx.lineWidth = 2;
             ctx.strokeStyle="#FFA600";
@@ -166,10 +167,10 @@ module.exports.run = async (message, arg,User) => {
             ctx.fillText(temdatanumbers[32],380,15);
             ctx.closePath;
             ctx.clip();
-            const attachment = new Discord.MessageAttachment(canvas.toBuffer(),"png.png");
+            const attachment = new Discord.MessageAttachment(largecanvas.toBuffer(),"png.png");
             checkembed.attachFiles(attachment);
-            }
-            checkembed.setImage("attachment://png.png");
+        }
+        checkembed.setImage("attachment://png.png");
             if(temdatanumbers[10]>0.0){
                 var monstercheatype = Number(temdatanumbers[10].toString().substring(2));
             }
@@ -200,7 +201,47 @@ module.exports.run = async (message, arg,User) => {
             {setfot="Boss Ability: Transformation\nThis boss will transform into Dragon, Angel or back to a crystal.\nCrystal:None\nDragon: Heavy Attack power\nAngel: Very Swift";}
             var summon = "";
             if(temdatanumbers[29]) summon="\n"+temdatanames[5]+":❤️ "+temdatanumbers[29];
-        if(User.CombatMode!=2)message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+MaxHP+" ⚡"+User.Skillenergy+"/"+MaxSkillenergy+summon+"\n"+setfot));
+        if(User.CombatMode!=2){message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+MaxHP+" ⚡"+User.Skillenergy+"/"+Maxskillenergy+summon+"\n"+setfot)).then((message)=>{message.react('📜')
+     function sample(){
+        const filter = (reaction,user) => {
+            return ['📜','🖼️'].includes(reaction.emoji.name) && user.id === User.id
+        };
+        message.awaitReactions(filter, { max: 1})
+     .then(collected => {
+         const reaction = collected.first();
+         if (reaction.emoji.name === '📜'){
+             checkembed.setTitle(temdatanames[0]+"'s stats")
+             var dis1 = Math.round(temdatanumbers[3]*100);
+             var dis2 = Math.round(temdatanumbers[5]*100);
+             var dis3 = Math.round(temdatanumbers[6]*100);
+             var dis4 = Math.round(temdatanumbers[7]*100);
+             var dis5 = Math.round(temdatanumbers[8]*100);
+            checkembed.setDescription("Attack: "+temdatanumbers[2]+"\nAttack%: "+dis1+"\nDefense: "+temdatanumbers[4]+"\nDefense%: "+dis2+"\nSpeed: "+dis3+"%\nCritical Rate: "+dis4+"%\nAccuracy: "+dis5+"%")
+            .setImage();
+            message.edit(checkembed).then(message=>{message.reactions.cache.get('📜').remove(),message.react('🖼️');});
+            sample();
+        }
+    else if (reaction.emoji.name === '🖼️'){
+        var add ="";
+            var lv = temdatanumbers[9]+"";var newlv = lv.substring(1);
+            if(User.CombatMode==2&temdatanumbers[41]&temdatanumbers[9])var lvII = temdatanumbers[9].toString().substring(1);
+            if(lv.charAt(0)!="3") add="a ";
+            if(temdatanumbers[32]==0)checkembed.setTitle("You are in battle with "+add +temdatanames[0]+"\nLv: "+newlv);
+            else if(temdatanumbers[32])checkembed.setTitle("You are in battle with "+
+            add +temdatanames[0]+"Lv."+newlv+" and a "+temdatanames[7]+" Lv."+lvII);
+        if(lv.charAt(0)=="3"){checkembed.setDescription("Boss Lv"+newlv);
+        hpcolor ="#76009F"
+        }
+        else{checkembed.setDescription("Boss Lv"+User.level);
+        }
+        checkembed.setImage("attachment://png.png");
+        message.edit(checkembed).then(message=>{message.reactions.cache.get('🖼️').remove(),message.react('📜');});
+        sample();
+    }
+})}
+    sample();
+    });
+    }
         else{ Account.findOne({
             id: User.multid
         },async(err,UserII)=>{
@@ -221,10 +262,48 @@ module.exports.run = async (message, arg,User) => {
     var MaxHPII=UserII.MaxHP+profile21a+profile25a+profile29a;
     if(profiledataA[24])if(profiledataA[24].toString().charAt(1)==5)profilenda=profiledataA[21];
     if(profiledataA[32])if(profiledataA[32].toString().charAt(1)==5)profilend2a=profiledataA[29];
-    var MaxSkillenergya=UserII.MaxSkillenergy+profilenda+profilend2a;
+    var Maxskillenergya=UserII.Maxskillenergy+profilenda+profilend2a;
           if(temdatanumbersA[29]) summonA="\n"+temdatanamesA[5]+":❤️ "+temdatanumbersA[29];
-            message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+MaxHP+" ⚡"+User.Skillenergy+"/"+MaxSkillenergy+"\n"+UserII.name+":❤️ "+UserII.HP+"/"+MaxHPII+" ⚡"+UserII.Skillenergy+"/"+MaxSkillenergya+summon+summonA+"\n"+setfot));});};
-    }
+            message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+MaxHP+" ⚡"+User.Skillenergy+"/"+Maxskillenergy+"\n"+UserII.name+":❤️ "+UserII.HP+"/"+MaxHPII+" ⚡"+UserII.Skillenergy+"/"+Maxskillenergya+summon+summonA+"\n"+setfot));
+            if (User.CombatMode > 0&User.CombatMode !=3) message.channel.send(checkembed).then((message)=>{message.react('📜')
+         function sample(){
+            const filter = (reaction,user) => {
+                return ['📜','🖼️'].includes(reaction.emoji.name) && user.id === User.id
+            };
+            message.awaitReactions(filter, { max: 1})
+         .then(collected => {
+             const reaction = collected.first();
+             if (reaction.emoji.name === '📜'){
+                var dis1 = Math.round(temdatanumbers[3]*100);
+                var dis2 = Math.round(temdatanumbers[5]*100);
+                var dis3 = Math.round(temdatanumbers[6]*100);
+                var dis4 = Math.round(temdatanumbers[7]*100);
+                var dis5 = Math.round(temdatanumbers[8]*100);
+                var dis1a = Math.round(temdatanumbers[35]*100);
+                var dis2a = Math.round(temdatanumbers[37]*100);
+                var dis3a = Math.round(temdatanumbers[38]*100);
+                var dis4a = Math.round(temdatanumbers[39]*100);
+                var dis5a = Math.round(temdatanumbers[40]*100);
+               checkembed.setDescription("**"+temdatanames[0]+"'s stat**\nAttack: "+temdatanumbers[2]+"\nAttack%: "+dis1+"\nDefense: "+temdatanumbers[4]+"\nDefense%: "+dis2+"\nSpeed: "+dis3+"%\nCritical Rate: "+dis4+"%\nAccuracy: "+dis5+
+               "%\n**"+temdatanames[7]+"'s stat**\nAttack: "+temdatanumbers[2]+"\nAttack%: "+dis1a+"\nDefense: "+temdatanumbers[4]+"\nDefense%: "+dis2a+"\nSpeed: "+dis3a+"%\nCritical Rate: "+dis4a+"%\nAccuracy: "+dis5a+"%")
+               .setImage();
+               message.edit(checkembed).then(message=>{message.reactions.cache.get('📜').remove(),message.react('🖼️');});
+               sample();
+           }
+       else if (reaction.emoji.name === '🖼️'){
+           if(lv.charAt(0)=="3"){checkembed.setDescription("Boss Lv"+newlv);
+           hpcolor ="#76009F"
+           }
+           else{checkembed.setDescription("Boss Lv"+User.level);
+           }
+           checkembed.setImage("attachment://png.png");
+           message.edit(checkembed).then(message=>{message.reactions.cache.get('🖼️').remove(),message.react('📜');});
+           sample();
+       }
+    })}
+        sample();
+        });
+    });};}
     else if(User.CombatMode==3){
         Account.findOne({
             id: User.multid
@@ -262,7 +341,7 @@ module.exports.run = async (message, arg,User) => {
             ctx.closePath;
             ctx.clip();
             const attachment = new Discord.MessageAttachment(canvas.toBuffer(),"png.png");
-            checkembed.attachFiles(attachment);message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+MaxHP+" ⚡"+User.Skillenergy+"/"+MaxSkillenergy));
+            checkembed.attachFiles(attachment);message.channel.send(checkembed.setImage("attachment://png.png").setFooter(User.name+":❤️ "+User.HP+"/"+MaxHP+" ⚡"+User.Skillenergy+"/"+Maxskillenergy));
         });
     }
     else
@@ -293,10 +372,11 @@ module.exports.run = async (message, arg,User) => {
         else if (User.floor == 0) {checkembed.setTitle("Your Outside the House"); checkembed.setDescription("you have walked " + User.step + " steps.");  checkembed.setImage(Imgset[0]); }
         else if (User.floor == 1) { checkembed.setTitle("Your on floor " + User.floor); checkembed.setDescription("you have walked " + User.step + " steps."); checkembed.setImage(Imgset[0]); }
         else if (User.floor <=9&User.floor>=2) { checkembed.setTitle("Your on floor " + User.floor+ " - `Reach floor 10`"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
-        else if (User.floor ==10) { checkembed.setTitle("Your on floor " + User.floor); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until Top floor"); checkembed.setImage(Imgset[0]); }
-        else if (User.floor == -1) { checkembed.setTitle("Your in the Basement"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
-        else if (User.floor == -2) { checkembed.setTitle("Your in the Hidden Library"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
-        else if (User.floor == -3) { checkembed.setTitle("Your in the Crystal Cave"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
+        else if (User.floor ==10) { checkembed.setTitle("Your on floor " + User.floor+ " - `Use floor command to reach the Basement`"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until Top floor"); checkembed.setImage(Imgset[0]); }
+        else if (User.floor == -1) { checkembed.setTitle("Your in the Basement f-1 - `Reach f-3`"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
+        else if (User.floor == -2) { checkembed.setTitle("Your in the Hidden Library f-2"); checkembed.setDescription("you have walked " + User.step + " steps.\n"+floormax+" more steps Until next floor"); checkembed.setImage(Imgset[0]); }
+        else if (User.floor == -3) { checkembed.setTitle("Your in the Crystal Cave f-3 - `Reach the end of the floor`"); checkembed.setDescription("you have walked " + User.step); checkembed.setImage(Imgset[0]); }
+        else if (User.floor == -4) { checkembed.setTitle("Your Floating in space f-999 - `Use floor command to select a floor or restart game use restart command`\nThank you for playing"); checkembed.setDescription("you have walked " + User.step); checkembed.setImage(Imgset[0]); }
         message.channel.send(checkembed);
 }
 }

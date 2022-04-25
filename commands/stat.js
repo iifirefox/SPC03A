@@ -29,13 +29,15 @@ module.exports.run = async (message, arg, User) => {
     var profile21=0;
     var profile25=0;
     var profile29=0;
+    var profilend=0;
+    var profilend2=0;
     if(profiledata[24])if(!Number(profiledata[24].toString().charAt(1)))profile21=profiledata[21];
     if(profiledata[28])if(!Number(profiledata[28].toString().charAt(1)))profile25=profiledata[25];
     if(profiledata[32])if(!Number(profiledata[32].toString().charAt(1)))profile29=profiledata[29];
     var MaxHP=User.MaxHP+profile21+profile25+profile29;
     if(profiledata[24])if(profiledata[24].toString().charAt(1)==5)profilend=profiledata[21];
     if(profiledata[32])if(profiledata[32].toString().charAt(1)==5)profilend2=profiledata[29];
-    var MaxSkillenergy=User.MaxSkillenergy+profilend+profilend2;
+    var Maxskillenergy=User.Maxskillenergy+profilend+profilend2;
     if(User.HP<MaxHP&Date.now()>User.hpcooldown&User.CombatMode==0){
         var times =Date.now();
         times =times-=User.hpcooldown;
@@ -242,7 +244,7 @@ module.exports.run = async (message, arg, User) => {
   var sx= 500;
   var y = 460;
   var curve = sy+17.5;
-  var current = User.Skillenergy/MaxSkillenergy;
+  var current = User.Skillenergy/Maxskillenergy;
   current = Math.round(current*100);
   var r = 20;
   if(current>100)current=100;
@@ -272,12 +274,23 @@ module.exports.run = async (message, arg, User) => {
   ctx.fillText("Skill Energy",490,450);
   ctx.font="20px Sans";
   ctx.fillStyle="#000000";
-  ctx.fillText(User.Skillenergy+" / "+MaxSkillenergy,620,450);
+  ctx.fillText(User.Skillenergy+" / "+Maxskillenergy,620,450);
   if(User.energy!=undefined){
     ctx.font="23px Arial";
     ctx.fillStyle="#000000";
     var disp = Math.round(profiledata[12]*100);
-    ctx.fillText("Speed: "+disp+"%",75,460);
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==4||
+    Number(profiledata[24].toString().charAt(2))==4||Number(profiledata[24].toString().charAt(3))==4)profile21=profiledata[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==4||
+    Number(profiledata[28].toString().charAt(2))==4||Number(profiledata[28].toString().charAt(3))==4)profile25=profiledata[25];
+    if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==4||
+    Number(profiledata[32].toString().charAt(2))==4||Number(profiledata[32].toString().charAt(3))==4)profile29=profiledata[29];
+    var addspd = Math.round(profile21+profile25+profile29*100);
+    if(profile21||profile25||profile29) ctx.fillText("Speed: "+disp+"% (+"+addspd+")",75,460);
+   else ctx.fillText("Speed: "+disp+"%",75,460);
   ctx.font="18px Arial";
   ctx.fillStyle="#000000";
   ctx.fillText("Energy Recovery",500,380);
@@ -325,11 +338,23 @@ module.exports.run = async (message, arg, User) => {
   if(profilenames[1]!=""){
     ctx.font="20px Arial";
     ctx.fillStyle="#000000";
-    ctx.fillText("Atk: "+(profiledata[4]+profiledata[16]),110,370);
+   if(profiledata[16]) ctx.fillText("Atk: "+profiledata[4]+"(+"+profiledata[16]+")",110,370);
+   else ctx.fillText("Atk: "+profiledata[4],110,370);
     ctx.font="20px Arial";
     ctx.fillStyle="#000000";
     var display = Math.round(profiledata[5]*100);
-    ctx.fillText("Atk%: "+display+"%",130,400);
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==2||
+    Number(profiledata[24].toString().charAt(2))==2||Number(profiledata[24].toString().charAt(3))==2)profile21=profiledata[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==2||
+    Number(profiledata[28].toString().charAt(2))==2||Number(profiledata[28].toString().charAt(3))==2)profile25=profiledata[25];
+    if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==2||
+    Number(profiledata[32].toString().charAt(2))==2||Number(profiledata[32].toString().charAt(3))==2)profile29=profiledata[29];
+    var addatkper = Math.round(profile21+profile25+profile29*100);
+    if(profile21||profile25||profile29)ctx.fillText("Atk%: "+display+"%(+"+addatkper+")",130,400);
+    else ctx.fillText("Atk%: "+display+"%",130,400);
     ctx.font="20px Arial";
     ctx.fillStyle="#000000";
     ctx.fillText("Durability: "+profiledata[6].toFixed()+"%",142,430);
@@ -347,11 +372,23 @@ module.exports.run = async (message, arg, User) => {
   if(profilenames[2]!=""){
     ctx.font="20px Arial";
     ctx.fillStyle="#000000";
-    ctx.fillText("Def: "+profiledata[8],345,370);
+   if(profiledata[17]) ctx.fillText("Def: "+profiledata[8]+"(+"+profiledata[17]+")",345,370);
+   else ctx.fillText("Def: "+profiledata[8],345,370);
     ctx.font="20px Arial";
     ctx.fillStyle="#000000";
     var display = Math.round(profiledata[9]*100);
-    ctx.fillText("Def%: "+display+"%",360,400);
+    profile21=0;
+    profile25=0;
+    profile29=0;
+    if(profiledata[24])if(Number(profiledata[24].toString().charAt(1))==1||
+    Number(profiledata[24].toString().charAt(2))==1||Number(profiledata[24].toString().charAt(3))==1)profile21=profiledata[21];
+    if(profiledata[28])if(Number(profiledata[28].toString().charAt(1))==1||
+    Number(profiledata[28].toString().charAt(2))==1||Number(profiledata[28].toString().charAt(3))==1)profile25=profiledata[25];
+    if(profiledata[32])if(Number(profiledata[32].toString().charAt(1))==1||
+    Number(profiledata[32].toString().charAt(2))==1||Number(profiledata[32].toString().charAt(3))==1)profile29=profiledata[29];
+    var addefper = Math.round(profile21+profile25+profile29*100);
+    if(profile21||profile25||profile29) ctx.fillText("Def%: "+display+"% (+"+addefper+")",360,400);
+   else ctx.fillText("Def%: "+display+"%",360,400);
     ctx.font="20px Arial";
     ctx.fillStyle="#000000";
     ctx.fillText("Durability: "+profiledata[10].toFixed()+"%",370,430);

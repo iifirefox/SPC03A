@@ -1,6 +1,6 @@
 {
   "name": "spc03",
-  "version": "9.8.9",
+  "version": "9.9.5.7",
   "description": "SPC03",
   "main": "app.js",
   "author": {
@@ -14,7 +14,7 @@
     "mongoose": "^5.13.5",
     "opusscript": "0.0.8",
     "youtube-sr": "^1.0.7",
-    "ytdl-core": "^4.9.2",
+    "ytdl-core": "^4.11.0",
     "ytpl": "^2.2.3"
   }
 }

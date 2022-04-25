@@ -21,16 +21,16 @@ client.once('ready', () => {
     console.log("connected as " + client.user.tag);
     const Guilds = client.guilds.cache.map(guild => guild.name);
     console.log("connected to"+Guilds)
-    client.user.setActivity("Command: -help");
+    client.user.setActivity("Ping Me");
 })
 client.on('message', message => {
-    if(message.content.includes("<:>"))return message.channel.send(":x: prohibited symbol");
+    if(message.content.includes("<:>"))return message.channel.send("Master won't be happy about that. :smiley:");
     const newmsg = message.content.substring(prefix.length).split(" ");
     Account.findOne({
         id:message.author.id
     },(err,updateuser)=>{
         if(err)console.log(err);
-        if(updateuser){
+        if(updateuser&message.author.id != client.id){
             if(Date.now()>updateuser.expcooldown){
             updateuser.exp++;
             if(updateuser.name!=message.author.username)updateuser.name = message.author.username;
@@ -42,7 +42,17 @@ client.on('message', message => {
         }
         }
     })
-    if (message.content.startsWith(prefix) & message.author.id != client.id &!message.content.includes("<:>") ) {
+    function getUserFromMention(mention) {
+        if (!mention) return;
+      if (mention.includes('<@') && mention.includes('>')) {
+          mention = mention.slice(2, -1);
+          if (mention.startsWith('!')) {
+            mention = mention.slice(1);
+          }
+          return mention.replace("@","");
+        }
+      }
+    if (message.content.startsWith(prefix) & message.author.id != client.user.id||getUserFromMention(message.content.trim())=== client.user.id) {
         Account.find({server:message.guild.name},(err,serverusers)=>{
             if(err)console.log(err);
             if(serverusers){
@@ -80,6 +90,13 @@ client.on('message', message => {
                         if(hasmodified==true){
                         theuser.Lastupdated = Date.now();
                         theuser.save().catch(err => console.log(err));}
+                        if(theuser.accountver!=Gamedata.accountupdate){
+                            module.exports.theuser = theuser;
+                            module.exports.message = message;
+                            var upaccount = require(Gamedata.sys_upaccount_path);
+                            theuser = upaccount.theuser;
+                            var rpath = require.resolve(Gamedata.sys_upaccount_path);delete require.cache[rpath];
+                        }
                     }
                 })
             }
@@ -153,6 +170,7 @@ client.on('message', message => {
             const commandname = newmsg.shift();const arg = newmsg.join(" ");var samp=User;
             if(User.name!=message.author.username)User.name = message.author.username;
             if(User.server!=message.guild.name)User.server = message.guild.name;
+            if(getUserFromMention(message.content)===client.user.id)client.commands.get('help').run(client, message, arg);
             switch (commandname) {
                 case "name":
                     client.commands.get('name').run(message,arg, User);
@@ -163,19 +181,34 @@ client.on('message', message => {
                 case "play":
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
+                    case "p":
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                    break;
                 case "stop":
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
                 case "skip":
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
-                case "vol":
+                case ("vol"):
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
-                case "playing":
+                    case ("volume"):
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                    break;
+                case ("playing"||"song"):
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg,commandname ,User,client);
                     break;
-                case "playlist":
+                    case "playing":
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg,commandname ,User,client);
+                    break;
+                    case "song":
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg,commandname ,User,client);
+                    break;
+                case ("playlist"):
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                    break;
+                    case ("list"):
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
                 case "pause":
@@ -190,16 +223,37 @@ client.on('message', message => {
                 case "disconnect":
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
-                    case "p":
+                    case "leave":
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
-                    case ("fav"||"favorite"):
+                    case ("last"):
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                    break;
+                    case ("l"):
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                    break;
+                    case "fav":
+                    client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
+                    break;
+                    case "favorite":
                     client.commands.get('music(play,stop,skip,volume,pause)').run(message, arg, commandname ,User,client);
                     break;
                 case "stat":
                     client.commands.get('stat').run( message, arg, User);
                     break;
-                case "color":
+                    case "status":
+                    client.commands.get('stat').run( message, arg, User);
+                    break;
+                    case "char":
+                    client.commands.get('stat').run( message, arg, User);
+                    break;
+                    case "avatar":
+                    client.commands.get('stat').run( message, arg, User);
+                    break;
+                case ("color"):
+                    client.commands.get('color').run(message, arg, User);
+                    break;
+                    case ("theme"):
                     client.commands.get('color').run(message, arg, User);
                     break;
                 case "dice":
@@ -214,7 +268,16 @@ client.on('message', message => {
                     case "myturn":
                     client.commands.get('myturn').run(message, arg, User);
                     break;
+                    case "turn":
+                    client.commands.get('myturn').run(message, arg, User);
+                    break;
+                    case "begin":
+                    client.commands.get('myturn').run(message, arg, User);
+                    break;
                     case "roll":
+                    client.commands.get('roll').run(message, arg, User, client);
+                    break;
+                    case "r":
                     client.commands.get('roll').run(message, arg, User, client);
                     break;
                     case "check":
@@ -255,6 +318,11 @@ client.on('message', message => {
                     case 3:client.commands.get('act_pvp').run(message, arg, User);break;
                     default: client.commands.get('act').run(message, arg, User);break; };
                     break;
+                    case prefix:
+                    switch(User.CombatMode){case true,2:client.commands.get('act_multi').run(message, arg, User);break;
+                    case 3:client.commands.get('act_pvp').run(message, arg, User);break;
+                    default: client.commands.get('act').run(message, arg, User);break; };
+                    break;
                     case "open":
                     client.commands.get('open').run(message, arg, User);
                     break;
@@ -264,7 +332,10 @@ client.on('message', message => {
                     case "skill":
                     client.commands.get('skill').run(message, arg, User);
                     break;
-                    case "statistic":
+                    case ("statistic"):
+                    client.commands.get('statistic').run(message, arg, User);
+                    break;
+                    case ("static"):
                     client.commands.get('statistic').run(message, arg, User);
                     break;
                     case "floor":
@@ -273,9 +344,9 @@ client.on('message', message => {
                     case "restart":
                     client.commands.get('restart').run(message, arg, User);
                     break;
-                    case "daily":
-                    client.commands.get('daily').run(message, arg, User);
-                    break;
+                    case "reset":
+                        client.commands.get('restart').run(message, arg, User);
+                        break;
                     case "give":
                     client.commands.get('give').run(message, arg, User);
                     break;
@@ -291,7 +362,7 @@ client.on('message', message => {
                     case "spc":
                     client.commands.get('spc').run(message, arg, User,client);
                     break;
-                    case "fighthelp":
+                    case ("fighthelp"):
                     client.commands.get('fighthelp').run(message, arg, User);
                     break;
                     case "spawn":

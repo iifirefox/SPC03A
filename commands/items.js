@@ -7,6 +7,12 @@ module.exports.run = async (message, arg, User) => {
     for(var index=0; index<rawitembagdata.length;index++){
         itembagdata[index]= Number(rawitembagdata[index]);
     }
+    if(User.Ary_HH3ProfileData){
+        var rawprofiledata = User.Ary_HH3ProfileData.split("<:>");var profiledata = [];
+    for(var index=0; index<rawprofiledata.length;index++){
+        profiledata[index]= Number(rawprofiledata[index]);
+    }}
+    else return message.channel.send(crystalembed.setDescription(":x: Error: User missing infomation to use this command\nMaybe this is the wrong command?"));
     var profile21=0;
     var profile25=0;
     var profile29=0;

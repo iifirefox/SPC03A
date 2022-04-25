@@ -76,7 +76,7 @@ module.exports.run = async (message, arg, User) => {
         if(profilenames[2]!=""){getdatanames[vindex]=profilenames[2]; var dataset = vindex*2; var dataset1= 1+dataset; getdatanum[dataset] =0;getdatanum[dataset1]= profiledata[10]; vindex++};
         var plusloop = vindex+1;
         var equipnamedex = 0;
-        for(var newdex = vindex; newdex<plusloop;newdex++){
+        for(var newdex = vindex; newdex<plusloop&plusloop<=equipnames.length;newdex++){
             if (equipnames[equipnamedex] !== "")
             {
                 var dargcounter = 5 * equipnamedex;
@@ -169,9 +169,7 @@ module.exports.run = async (message, arg, User) => {
             repairembed.setDescription(":x: That item doesn't exist.");
         }
     }}
-    else{
-        repairembed.setDescription(":x: Repair has not been unlock yet. \nYou need to reach the 3rd floor.");
-    }}
+    else repairembed.setDescription(":x: Repair has not been unlock yet. \nYou need to reach the 3rd floor.");}
     else{
         repairembed.setDescription(":x: You  cannot enter the shop because you are in a battle.\nTo leave the battle, command: `-act flee`");
     }
